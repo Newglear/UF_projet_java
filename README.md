@@ -2,6 +2,8 @@
 
 UF "Conception et Programmation avancées" de 4ème année INSA 
 
+Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
+
   - UML et patrons de conception 
 	- TDs_UML : contient les premiers TDs de "prise en main" de l'UML
   - Programmation avancée en Java 
