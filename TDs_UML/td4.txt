@@ -1,0 +1,81 @@
+@startuml
+
+title "TD4 : Usecase Diagram" 
+
+skinparam actorStyle awesome
+
+
+
+actor "brake pedal sensor" as B
+actor "wheels actuators" as W 
+
+
+package ABS {
+    usecase "receive force and position" as F
+    usecase "send pressure to the brakes" as P 
+    usecase "calculate pressure" as C 
+    F-->C:<<include>> 
+    C --> P:<<include>>
+} 
+
+
+B --> F  
+P --> W 
+
+
+@enduml
+
+
+
+@startuml
+title TD4 : Class Diagram 
+
+class BrakePedal {
+    Natural Force;
+    Natural Position; 
+    getForceAndPosition(); 
+}
+
+
+class WheelActuator {
+    Natural Pressure; 
+    setPressure(newPressure); 
+}
+
+
+class ABS_ECU {
+   calculatePressure(ForceAndPosition);
+}
+
+class ABS_HU {}
+
+ABS_ECU o-- ABS_HU 
+
+ABS_ECU -- BrakePedal 
+ABS_HU "1"--"4" WheelActuator
+
+@enduml
+
+
+
+@startuml
+
+title TD4 : Sequence Diagram 
+
+actor User 
+
+participant brake 
+participant ":ABS_HU"
+participant ":ABS_ECU"
+participant wheelsActuators
+
+User --> brake : hit the brake 
+brake --> ":ABS_ECU" : force and position 
+note over ":ABS_ECU" 
+Pressure = f(force, position) 
+end note 
+":ABS_ECU" --> ":ABS_HU" : pressure 
+
+":ABS_HU" --> wheelsActuators : pressure 
+
+@enduml

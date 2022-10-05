@@ -1,0 +1,60 @@
+@startuml
+
+class Speaker {
+    Natural Volume; 
+    play();
+    IncreaseVolume();
+    DecreaseVolume(); 
+}
+
+
+class Owner {
+    PutPhoneInWater(Phone);
+    PutPhoneInRice(Phone);  
+}
+
+class Instructions {
+    Natural TotalPageNumber; 
+    readPage(pageNumber); 
+}
+
+class Display {
+    Natural Brightness; 
+    IncreaseBrightness();
+    DecreaseBrightness(); 
+    Display(); 
+}
+
+class Warranty {
+    Natural Duration; 
+    UseWarranty();
+}
+
+
+class Charger {
+    Natural Power; 
+    Bool IsBroken; 
+    Broke(); 
+    RepairWithTape(); 
+}
+
+
+class Microphone {
+    StartAcquisition(); 
+    StopAcquisition(); 
+} 
+
+Owner -- Speaker
+Owner -- Instructions 
+Owner -- Microphone
+Owner -- Warranty 
+Owner -- Charger 
+Owner -- Display 
+
+
+
+
+
+
+
+@enduml

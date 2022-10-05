@@ -1,0 +1,24 @@
+@startuml
+class Controller{
+    void reduceSpeed(deltaSpeed)
+    int targetSpeed; 
+}
+
+class Engine{
+    Natural currentSpeed; 
+    Natural reduceSpeed() 
+}
+
+class Display{
+    Natural targetSpeed; 
+    Natural currentSpeed; 
+    Natural speed; 
+    Integer deltaSpeed; 
+
+}
+
+Controller-- Display
+
+Controller -- Engine
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+participant "sensor" as S 
+participant "main station" as MS 
+participant "bell" as B 
+actor "user" as U 
+
+
+S-->MS: alarm
+
+alt personal code 
+    U-->MS: enter personal code 
+
+else standby 
+    U-->MS: standby
+
+else timeout 15s
+    MS-->B: ring
+
+end 
+
+@enduml

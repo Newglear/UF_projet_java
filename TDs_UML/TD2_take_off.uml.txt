@@ -1,0 +1,28 @@
+@startuml
+actor "pilot" as P
+actor "control tower" as CT 
+actor "ground" as sol 
+box Engine
+participant "starter" as S 
+participant "glow plugs" as GP
+participant "engine" as E 
+end box
+participant "tanks" as T 
+
+
+
+P-->T:check gas level
+T-->P:gas level 
+alt gas level > threshold  
+P-->S:warm up order
+P-->CT:take off request 
+S-->sol:check ground temperature
+S-->GP:warm up for Xs
+GP-->E:warmed up
+E-->P:ready 
+P-->E:start
+P-->CT:checklist procedure
+CT-->P:take off allowed 
+
+end 
+@enduml
