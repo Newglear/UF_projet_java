@@ -4,13 +4,13 @@ import java.awt.Toolkit;
 /**
  * Schedule a task that executes once every second.
  */
-public class AnnoyingBeep {
+public class BetterAnnoyingBeep {
     Toolkit toolkit;
     Timer timer;
-    public AnnoyingBeep() {
+    public BetterAnnoyingBeep() {
         toolkit = Toolkit.getDefaultToolkit();
         timer = new Timer();
-        timer.schedule(new RemindTask(), 0, 5*1000);
+        timer.scheduleAtFixedRate(new RemindTask(), 0, 5*1000);
     }
     class RemindTask extends TimerTask {
         int numWarningBeeps = 3;
