@@ -15,16 +15,24 @@ public class BetterAnnoyingBeep {
     class RemindTask extends TimerTask {
         int numWarningBeeps = 3;
         public void run() {
-            if (numWarningBeeps > 0) {
-                toolkit.beep();
-                System.out.println("Beep!");
-                numWarningBeeps--;
-            } else {
-                toolkit.beep();
-                System.out.println("Time's up!");
-//timer.cancel(); //Not necessary because we call System.exit
-                System.exit(0); //Stops the AWT thread (and everything else)
+            long Debut = System.currentTimeMillis();
+            if((scheduledExecutionTime() - Debut) < 5000){
+                System.out.println(timer.toString());
+                if (numWarningBeeps > 0) {
+                    toolkit.beep();
+                    System.out.println("Beep!");
+                    numWarningBeeps--;
+                } else {
+                    toolkit.beep();
+                    System.out.println("Time's up!");
+                    //timer.cancel(); //Not necessary because we call System.exit
+                    System.exit(0); //Stops the AWT thread (and everything else)
+                }
+            }else{
+                System.out.println("Too late!");
+                System.exit(0);
             }
+
         }
     }
     public static void main(String args[]) {
