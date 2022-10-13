@@ -14,7 +14,7 @@ class Serveur {
 
         // creating a ServerSocket instance
         ServerSocket serverCalcetin = new ServerSocket(port);
-
+        
         // waiting for prospective clients (blocking)
         Socket calcetin = serverCalcetin.accept();
 
