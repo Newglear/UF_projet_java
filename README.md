@@ -1,6 +1,4 @@
-# UF_projet_java
-
-UF "Conception et Programmation avancées" de 4ème année INSA 
+# UF "Conception et Programmation avancées" de 4ème année INSA 
 
 Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 
