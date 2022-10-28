@@ -1,0 +1,27 @@
+@startuml
+actor "U1 : Utilisateur" as U 
+actor "U2 : Utilisateur" as U2 
+
+package Système {
+ usecase "Choisir ou changer Pseudo" as CP 
+ usecase "Se déconnecter du système" as Dec
+ usecase "Voir les autres utilisateurs" as V 
+ usecase "Clavarder" as C 
+ usecase "Ouvrir une session de clavardage" as O   
+ usecase "Mettre fin à la session" as M 
+ O -> M  : <<extends>> 
+ O -> C : <<extends>> 
+
+
+}
+
+U -> CP 
+U -> Dec 
+U -> V 
+U -> C 
+U -> O 
+U -> M 
+U2 -> C 
+U2 -> M 
+
+@enduml
