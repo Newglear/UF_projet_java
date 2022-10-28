@@ -13,5 +13,5 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 
 ## Le Projet 
 
-  - Notes sur la présentation du projet 
+  - [Notes sur la présentation du projet](./Projet/notes_présentation.md)  
   - Diagrammes UML de spécification 
