@@ -1,0 +1,45 @@
+@startuml
+
+
+
+
+class "Agent" as A {
+ 
+
+
+
+
+
+}
+
+
+
+class "Clavardage" as C {
+
+
+
+}
+
+
+
+class "Message" as M {
+
+
+
+
+}
+
+
+class "Memoire" as Mem {
+
+
+
+}
+
+A *--"0..*" C : crée
+
+C *--"0..*" M : appartient
+C "0..*"--"1" Mem : récupère historique 
+A "1"--"0..*" M : envoie 
+
+@enduml

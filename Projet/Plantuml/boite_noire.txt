@@ -1,0 +1,27 @@
+@startuml
+
+actor Utilisateur as U 
+participant Système as S 
+
+U --> S : pseudo 
+S --> U : listes des utilisateurs 
+U --> S : ouvrir session avec X 
+
+group While Session ouverte 
+S --> U : message de X 
+U --> S : message pour X 
+end 
+alt Utilisateur ferme session 
+U --> S : fermer session 
+else 
+S --> U : session fermée par X 
+end 
+
+U --> S : réduire l'application 
+U --> S : passer l'application en plein écran 
+
+U --> S : deconnexion 
+
+S --> U : deconnexion effectuée 
+
+@enduml

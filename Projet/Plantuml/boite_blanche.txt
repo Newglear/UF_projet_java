@@ -1,0 +1,56 @@
+@startuml
+actor Utilisateur as U 
+participant "Agent Local:Agent" as A 
+participant "X:Agent" as X 
+participant "Y:Agent" as Y 
+note over A : PseudoValide = False
+loop not PseudoValide
+U --> A : Pseudo 
+A --> Y : vérifier Pseudo 
+A --> X : vérifier Pseudo
+alt Pseudo disponible
+Y --> A : Pseudo valide
+X --> A : Pseudo valide
+note over A : PseudoValide = True 
+else Pseudo non valide
+Y --> A : Pseudo valide
+X --> A : Pseudo non valide : déjà utilisé 
+end
+end
+
+A --> U : Liste utilisateurs = {X,Y}
+U --> A : ouvrir clavardage avec X
+A --> X : ouverture de session clavardage 
+X --> A : clavardage OK 
+A --> U : session ouverte 
+
+loop Session Ouverte 
+U --> A : Message 
+A --> X : Message 
+X --> A : Message 
+A --> U : Message 
+
+alt Utilisateur ferme session 
+U --> A : fermer session
+A --> X : fermeture 
+X --> A : fermeture OK 
+A --> U : session fermée avec succès 
+else X ferme session 
+X --> A : fermeture 
+A --> X : fermeture OK 
+A --> U : session fermée par X 
+end 
+
+end 
+
+
+Y --> A : deconnexion de Y 
+A --> U : Liste utilisateurs = {X}
+
+U --> A : deconnexion 
+A --> X : deconnexion de Pseudo 
+A --> Y : deconnexion de Pseudo 
+
+
+
+@enduml
