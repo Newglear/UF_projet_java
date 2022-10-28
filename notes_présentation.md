@@ -1,4 +1,5 @@
-Système de chat décentralisé : 
+# Système de chat décentralisé : 
+
 noeud/agent/utilisateur = ronds sur le diagramme 
 trucs volontairement ambigus sur le cahier des charges 
 	=> lire plusieurs fois et avec attention les documents pour limiter la perte de temps 
@@ -13,7 +14,7 @@ connexion d'un nouveau noeud :
 
 login (avec IP+port) pas nominatif : n'importe qui peut reprendre ton login une fois que tu es parti, on ne peut juste PAS AVOIR deux logins identiques en même temps 
 
-ID non modifiable
+ID (~IP + port) non modifiable
 
 serveur de base de données pour les messages
 
