@@ -1,0 +1,5 @@
+td6 : 
+observer
+singleton 
+proxy
+adapter 
