@@ -1,0 +1,23 @@
+@startuml
+actor "Utilisateur" as U 
+participant "Agent Local:Agent" as A1
+participant "Agent X:Agent" as A2
+participant "Mémoire" as Me
+U-->A1: connexion (cf diagramme connexion) 
+A1 --> Me : demande récupération historique
+Me --> A1 : récupération historique
+U --> A1 : demande ouverture session clavardage avec X
+A1 --> A2 : demande ouverture session clavardage
+A2 --> A1 : ouverture clavardage OK
+loop Session Ouverte 
+U --> A1 : envoi message à X 
+A1 --> A2 : envoi du message
+A1 --> Me : sauvegarde du message
+A2 --> A1 : bonne réception
+A2 --> A1 : réception d'un message de X 
+A1 --> A2 : bonne réception
+A1 --> Me : sauvegarde du message
+A1 --> U : Affichage message
+end
+
+@enduml

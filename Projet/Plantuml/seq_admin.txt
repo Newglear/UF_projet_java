@@ -1,0 +1,16 @@
+@startuml
+actor Admin 
+participant "Machine Locale : Poste de travail" as M 
+participant Agent 
+
+Admin --> M : installer Agent 
+M --> Agent : allocation de ressources 
+Agent --> Admin : installation réussie 
+Admin --> Agent : configuration 
+
+Admin --> M : désinstallation 
+M --> Agent : suppression des données 
+M --> Admin : désinstallation réussie 
+
+
+@enduml

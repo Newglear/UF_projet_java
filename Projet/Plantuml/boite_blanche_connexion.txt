@@ -1,0 +1,22 @@
+@startuml
+actor Utilisateur as U 
+participant "Agent Local:Agent" as A 
+participant "X:Agent" as X 
+participant "Y:Agent" as Y 
+note over A : PseudoValide = False
+loop not PseudoValide
+U --> A : Pseudo 
+A --> Y : vérifier Pseudo 
+A --> X : vérifier Pseudo
+alt Pseudo disponible
+Y --> A : Pseudo valide
+X --> A : Pseudo valide
+note over A : PseudoValide = True 
+else Pseudo non valide
+Y --> A : Pseudo valide
+X --> A : Pseudo non valide : déjà utilisé 
+end
+end
+
+A --> U : Liste utilisateurs = {X,Y}
+@enduml

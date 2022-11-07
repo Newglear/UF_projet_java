@@ -1,0 +1,14 @@
+@startuml
+actor Admin 
+package Système {
+ usecase "Déployer le système" as D
+ usecase "Retirer le système" as R 
+ usecase "Configurer le système" as C 
+ D --> R : <<extends>> 
+ D --> C : <<extends>> 
+}
+
+Admin --> C 
+Admin --> D 
+Admin --> R 
+@enduml
