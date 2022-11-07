@@ -1,4 +1,4 @@
-## si ça marche pas - impossible de lancer le serveur: 
+## si ça marche pas - impossible de lancer le serveur : 
 - supprimer le serveur et la config tomcat (Windows -> Preferences -> Servers -> Runtime Environment)
 - redémarrer eclipse-jee (pas java!)
 - remettre la config et refaire un serveur 
@@ -18,4 +18,4 @@
 - ne pas oublier d'avoir des backups des fichiers 
 - Attention, cette étape est réalisé par des professionnels. Ne reproduisez pas ça chez vous !
 
-Bonne chance jeune padawan 
+*Bonne chance jeune padawan* 
