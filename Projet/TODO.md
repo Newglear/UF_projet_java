@@ -3,7 +3,7 @@
 - messages en boîte blanche 
 
 ## Diagramme de classes 
-- RVC  : Controller, Model, Views 
+- MVC  : Controller, Model, Views 
 
 ### Views  
 interfaces, typiquement avec Swing 
