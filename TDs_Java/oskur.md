@@ -18,4 +18,8 @@
 - ne pas oublier d'avoir des backups des fichiers 
 - Attention, cette étape est réalisé par des professionnels. Ne reproduisez pas ça chez vous !
 
+## Trouver le path de la JDK : 
+- ouvrir eclipse
+- window --> preferences --> onglet java --> installed JREs 
+  
 *Bonne chance jeune padawan* 
