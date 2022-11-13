@@ -1,1 +1,41 @@
-<mxfile host="app.diagrams.net" modified="2022-11-13T16:12:34.967Z" agent="5.0 (Windows)" version="20.5.3" etag="uvx-GIyz0IjJ7kCUgszQ" type="github"><diagram id="oLp3McyHBTVur9SQaZkK">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-11-13T16:20:09.444Z" agent="5.0 (Windows)" etag="-HtYtsjZo88PblDd7XH9" version="20.5.3" type="github">
+  <diagram id="oLp3McyHBTVur9SQaZkK" name="Página-1">
+    <mxGraphModel dx="782" dy="392" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="u8E2FWptmw1ERIgbATou-3" value="conversation:Conversation" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="340" width="160" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-4" value="Database" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="530" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-5" value="DatabaseManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="670" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-6" value=":ControlMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="820" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-8" value="NetworkManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1180" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-9" value="ThreadManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="210" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-10" value="applicationDistante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1000" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-11" value="user: User" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="80" width="110" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="u8E2FWptmw1ERIgbATou-12" value="ouvrirConversation(userDistant)" style="html=1;verticalAlign=bottom;startArrow=oval;startFill=1;endArrow=block;startSize=8;rounded=0;" edge="1" parent="u8E2FWptmw1ERIgbATou-11">
+          <mxGeometry width="60" relative="1" as="geometry">
+            <mxPoint x="-10" y="70" as="sourcePoint" />
+            <mxPoint x="50" y="70" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
