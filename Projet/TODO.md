@@ -1,6 +1,12 @@
 # TODO 
-## Diagramme de Séquence 
-- messages en boîte blanche 
+## Diagramme de Séquence : refaire avec draw.io + tenir en compte diag de classes
+- clavardage (envoi et réception usermessage) OK
+- ouverture conversation OK
+- fermeture session clavardage OK
+- connexion d'un nouvel utilisateur sur le réseau OK 
+- déconnexion d'un utilisateur OK
+- réduire l'application OK
+- admin OK
 
 ## Diagramme de classes 
 - MVC  : Controller, Model, Views 
