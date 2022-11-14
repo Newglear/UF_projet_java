@@ -18,3 +18,17 @@ ID (~IP + port) non modifiable
 
 serveur de base de données pour les messages
 
+## Rendu conception UML : structure attendue à la fin du semestre 
+
+- I. Acteurs 
+	1. Acteurs primaires
+	2. Acteurs secondaires
+- II. Diag. Usecase
+- III. Diag. de classes 
+	1. Schéma
+	2. Description et typologie (héritages, cardinalités, choix conceptuels) 
+- IV. Diag. de séquence importants
+- V. Diag. de structure composite
+- VI. Diag. de déploiement : très simple (application + serveur DB) 
+- VII. Schéma de la BD 
+- VIII. Maquette GUI 

@@ -1,0 +1,33 @@
+<mxfile host="app.diagrams.net" modified="2022-11-14T09:34:18.440Z" agent="5.0 (X11)" etag="IY_vsUFa87jPCv2ddOut" version="20.5.3" type="github">
+  <diagram id="tWSCRparI_eyfr4BWFSb" name="Page-1">
+    <mxGraphModel dx="1422" dy="737" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-1" value="&lt;b&gt;Application&lt;/b&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="280" width="290" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-2" value="&lt;b&gt;Serveur Database&lt;/b&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="490" y="280" width="290" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-4" value="MySQL Database" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="560" y="335" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-5" value="DatabaseManager" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="110" y="325" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-6" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;entryX=0.076;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="CN4mKpQYpGoXJpsEqqMO-5" target="CN4mKpQYpGoXJpsEqqMO-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="270" y="362.4097744360902" as="sourcePoint" />
+            <mxPoint x="462.9200000000001" y="365" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CN4mKpQYpGoXJpsEqqMO-7" value="TCP/IP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="CN4mKpQYpGoXJpsEqqMO-6">
+          <mxGeometry x="-0.0954" y="-5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
