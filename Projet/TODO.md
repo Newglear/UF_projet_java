@@ -22,3 +22,8 @@ interactions avec les autres agents :
 - network manager (driver réseau)
 - database manager : connexion à la DB + chargement des classes du model 
 - thread manager : gestion du pool de threads qui maintiennent les conversations en cours 
+
+### Structure composite
+- ajouter Grande categorie Conversation
+- ajouter thread destructor
+- ajouter nouveau type de message fin de connexion
