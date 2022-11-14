@@ -24,6 +24,6 @@ interactions avec les autres agents :
 - thread manager : gestion du pool de threads qui maintiennent les conversations en cours 
 
 ### Structure composite
-- ajouter Grande categorie Conversation
-- ajouter thread destructor
-- ajouter nouveau type de message fin de connexion
+- ajouter Grande categorie Conversation OK
+- ajouter thread destructor OK
+- ajouter nouveau type de message fin de connexion OK
