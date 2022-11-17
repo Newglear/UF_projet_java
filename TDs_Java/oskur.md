@@ -1,3 +1,11 @@
+## utiliser IntelliJ 
+- ouvrir les projets en cliquant sur le pom.xml -> open as project
+- si problème type il reconnait pas les classes java (ya pas le petit c à côté du nom du fichier)
+	- fermer le projet
+	- supprimer le .idea
+	- réouvrir
+- si souci en exécutant le projet à l'insa, changer la version de java dans le pom.xml 
+
 ## si ça marche pas - impossible de lancer le serveur : 
 - supprimer le serveur et la config tomcat (Windows -> Preferences -> Servers -> Runtime Environment)
 - redémarrer eclipse-jee (pas java!)
