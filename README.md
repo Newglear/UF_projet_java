@@ -11,7 +11,8 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
   - Conduite de projet 
   - [PDLA](https://moodle.insa-toulouse.fr/course/view.php?id=1758)
 
-## Le [Projet](./Projet) 
+## Le Projet
 
-  - [Notes sur la présentation du projet](./Projet/notes_présentation.md)  
-  - [Diagrammes UML de spécification](./Projet/UML/)  
+  - [Notes sur la présentation du projet](./notes_présentation.md)  
+  - [Diagrammes UML de spécification](./UML/)  
+  - [Notre projet](./Projet/)
