@@ -1,4 +1,4 @@
-public class UDPMessage {
+public abstract class UDPMessage implements Message {
 
 
     int destinataireId;
@@ -12,6 +12,8 @@ public class UDPMessage {
                     this.destinataireId = destinataireId;
         }
     }
+
+
 
 
 

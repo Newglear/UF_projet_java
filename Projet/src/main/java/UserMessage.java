@@ -4,4 +4,9 @@ public class UserMessage extends TCPMessage {
         super(destinataireId);
 
     }
+
+    @Override
+    public byte[] toBytes() {
+        return new byte[0];
+    }
 }
