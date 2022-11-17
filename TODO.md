@@ -1,4 +1,12 @@
 # TODO 
+
+## Code
+- connexion 
+- conversation 
+faire des tests automatisés 
+
+NB : garder la branche main (ou master) à jour et stable 
+
 ## Diagramme de Séquence : refaire avec draw.io + tenir en compte diag de classes
 - clavardage (envoi et réception usermessage) OK
 - ouverture conversation OK
