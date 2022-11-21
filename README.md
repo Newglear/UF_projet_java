@@ -8,7 +8,7 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 	- [TDs de "prise en main" de l'UML](./TD/TDs_UML) 
   - [Programmation avancée en Java](https://moodle.insa-toulouse.fr/course/view.php?id=1228) 
 	- [TDs de "prise en main" de programmation avancée en Java](./TD/TDs_Java)
-  - Conduite de projet 
+  - [Conduite de projet](https://moodle.insa-toulouse.fr/course/view.php?id=1759) 
   - [PDLA](https://moodle.insa-toulouse.fr/course/view.php?id=1758)
 
 ## Le Projet
