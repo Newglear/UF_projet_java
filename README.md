@@ -5,9 +5,9 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 ## Les matières de l'UF 
 
   - [UML et patrons de conception](https://moodle.insa-toulouse.fr/course/view.php?id=1283)
-	- [TDs_UML](./TD/TDs_UML) : contient les premiers TDs de "prise en main" de l'UML
+	- [TDs de "prise en main" de l'UML](./TD/TDs_UML) 
   - [Programmation avancée en Java](https://moodle.insa-toulouse.fr/course/view.php?id=1228) 
-	- [TDs_Java](./TD/TDs_Java) : contient les TDs de "prise en main" de programmation avancée en Java
+	- [TDs de "prise en main" de programmation avancée en Java](./TD/TDs_Java)
   - Conduite de projet 
   - [PDLA](https://moodle.insa-toulouse.fr/course/view.php?id=1758)
 
