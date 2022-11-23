@@ -1,14 +1,10 @@
 
 public class TCPControlMessage extends TCPMessage {
 
-    private ControlType controlType;
 
-    public TCPControlMessage(int destinataireId, ControlType controlType) {
+    public TCPControlMessage(int destinataireId) {
+
         super(destinataireId);
-        this.controlType=controlType;
-
-
-        // TODO  : envoyer avec networkManager.TCPSend.envoyer()
     }
 
     @Override

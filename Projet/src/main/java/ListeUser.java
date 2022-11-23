@@ -11,8 +11,13 @@ public class ListeUser{
         tabItems.add(new UserItem(id, pseudo, address));
     }
 
-    public void modifyUser(int id, String oldPseudo, String newPseudo, InetAddress address){
-        tabItems.set(tabItems.indexOf(new UserItem(id, oldPseudo, address)), new UserItem(id, newPseudo, address));
+    public void modifyUser(int id, String oldPseudo, String newPseudo, InetAddress address) throws EmptyUserListException{
+        if (tabItems.isEmpty()) {
+            throw new EmptyUserListException();
+        } else {
+            tabItems.set(tabItems.indexOf(new UserItem(id, oldPseudo, address)), new UserItem(id, newPseudo, address));
+
+        }
     }
 
     public UserItem getUserById(String pseudo) throws UserNotFoundException{
