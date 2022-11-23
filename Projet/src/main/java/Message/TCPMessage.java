@@ -2,12 +2,16 @@ package Message;
 
 public class TCPMessage{
 
-    int destinataireId;
+    private int destinataireId;
 
     public TCPMessage(int destinataireId){
 
         this.destinataireId=destinataireId;
 
+    }
+
+    public int getDestinataireId(){
+        return this.destinataireId;
     }
 
 }

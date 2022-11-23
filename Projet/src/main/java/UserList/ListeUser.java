@@ -2,6 +2,7 @@ package UserList;
 
 import java.util.ArrayList;
 import java.net.InetAddress;
+import java.util.Iterator;
 
 public class ListeUser{
 
@@ -29,5 +30,15 @@ public class ListeUser{
         }
     }
 
+    // TODO  : coder ça mieux si possible
+    public int getUserId(String pseudo) throws UserNotFoundException {
+        Iterator<UserItem> iter = tabItems.iterator();
+        for (int i = 0; i<tabItems.size(); i++){
+            if (tabItems.get(i).getPseudo().equals(pseudo)){
+                return i;
+            }
+        }
+        throw new UserNotFoundException();
+    }
 
 }

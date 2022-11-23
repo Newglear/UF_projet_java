@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import Messages.TCPMessage;
+import Message.TCPMessage;
 
 public class TestTcpReceive extends Thread {
     ObjectInputStream in;
@@ -18,7 +18,7 @@ public class TestTcpReceive extends Thread {
             sleep(2000);
             System.out.println("Test Reception :");
             TCPMessage test = TcpReceiveData.ReceiveData(in);
-            System.out.println(test.destinataireId);
+            System.out.println(test.getDestinataireId());
         }catch (Exception e){}
 
     }
