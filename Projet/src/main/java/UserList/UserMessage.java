@@ -1,3 +1,7 @@
+package UserList;
+
+import Message.TCPMessage;
+
 public class UserMessage extends TCPMessage {
 
     public UserMessage(int destinataireId) {
@@ -7,8 +11,4 @@ public class UserMessage extends TCPMessage {
 
     }
 
-    @Override
-    public byte[] toBytes() {
-        return new byte[0];
-    }
 }

@@ -1,4 +1,6 @@
-public abstract class TCPMessage implements Message {
+package Message;
+
+public class TCPMessage{
 
     int destinataireId;
 
