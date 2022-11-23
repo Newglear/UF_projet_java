@@ -1,17 +1,18 @@
 package NetworkManager;
+import javax.xml.crypto.Data;
 import java.net.*;
 
 public class UdpSend {
     private InetAddress broadcastAddress = InetAddress.getByName("127.0.0.1");
-    private DatagramSocket socketSend;
+    private static DatagramSocket socketSend;
     private DatagramPacket sendPacket;
 
     public UdpSend() throws Exception{
-        DatagramSocket socketSend = new DatagramSocket();
+        socketSend = new DatagramSocket();
         socketSend.setBroadcast(true);
     }
 
-    public void envoyerBroadcast(byte[] message) throws Exception{   //TODO modifier paramètre String en type Message
+    public void envoyerBroadcast(byte[] message) throws Exception{
         sendPacket = new DatagramPacket(message, message.length);
         sendPacket.setAddress(broadcastAddress);
         sendPacket.setPort(UdpReceive.receivePort);

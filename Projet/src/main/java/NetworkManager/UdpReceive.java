@@ -2,14 +2,15 @@ package NetworkManager;
 
 import java.net.*;
 
-public class UdpReceive {
-    public final static int receivePort = 6751;
-    private static InetAddress clientAddress;
-    private static int clientPort;
-    public static boolean isFinished = false;
-    public static void main(String arg[]) throws Exception{
+public class UdpReceive extends Thread{
+    public static final int receivePort = 6751;
+    private InetAddress clientAddress;
+    private int clientPort;
+    private final int tailleMax = 250; //TODO : modifier taille max message
+    public boolean isFinished = false;
+    public void run(String arg[]) throws Exception{
         DatagramSocket receiveSocket = new DatagramSocket();
-        byte[] buffer = new byte[250];
+        byte[] buffer = new byte[tailleMax];
         DatagramPacket incomingPacket = new DatagramPacket(buffer,buffer.length);
 
         while(!isFinished){
