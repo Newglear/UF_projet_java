@@ -2,7 +2,6 @@ import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
