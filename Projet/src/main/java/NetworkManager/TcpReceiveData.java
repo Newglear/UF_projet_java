@@ -2,7 +2,7 @@ package NetworkManager;
 
 import java.io.ObjectInputStream;
 
-import Messages.TCPMessage;
+import Message.TCPMessage;
 
 public class TcpReceiveData {
 

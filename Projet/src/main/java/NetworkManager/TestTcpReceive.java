@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import Messages.TCPMessage;
+import Message.TCPMessage;
 
 public class TestTcpReceive extends Thread {
     ObjectInputStream in;
