@@ -5,7 +5,7 @@ import java.net.*;
 
 import Message.TCPMessage;
 public class TcpSend {
-    public static void EnvoyerMessage(ObjectOutputStream out, TCPMessage message) throws IOException { //TODO Voir après implémentation Messages.TCPMessage
+    public static void EnvoyerMessage(ObjectOutputStream out, TCPMessage message) throws IOException { //TODO Voir après implémentation Message.TCPMessage
         out.writeObject(message);
     }
 
