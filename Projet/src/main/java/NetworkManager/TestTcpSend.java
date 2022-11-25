@@ -1,5 +1,7 @@
 package NetworkManager;
 
+import Message.TCPControlMessage;
+import Message.TCPControlType;
 import Message.TCPMessage;
 
 import java.net.*;
@@ -10,7 +12,7 @@ public class TestTcpSend extends Thread{
 
     TCPMessage test;
     public TestTcpSend(){
-        test = new TCPMessage(3);
+        test = new TCPControlMessage(3, TCPControlType.OuvertureSession);
     }
 
     public void run(){
@@ -18,7 +20,7 @@ public class TestTcpSend extends Thread{
             sleep(2000);
             System.out.println("Test Envoi TCP");
 
-            Socket sockTest = TcpSend.TcpConnect(InetAddress.getLocalHost());
+            Socket sockTest = TcpSend.TcpConnect(InetAddress.getByName("insa-10224.insa-toulouse.fr"));
             System.out.println("Connexion dans TestTcpSend");
             OutputStream outputStream = sockTest.getOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(outputStream);
