@@ -2,12 +2,12 @@ package NetworkManager;
 
 import java.io.ObjectInputStream;
 
-import Message.TCPMessage;
+import Message.TCPControlMessage;
 
 public class TcpReceiveData {
 
-    public static TCPMessage ReceiveData(ObjectInputStream in) throws  Exception{ //TODO : A tester avec Messages.TCPMessage implémenté
-        TCPMessage messageRecu = (TCPMessage) in.readObject();
+    public static TCPControlMessage ReceiveData(ObjectInputStream in) throws  Exception{ //TODO : A tester avec Messages.TCPMessage implémenté
+        TCPControlMessage messageRecu = (TCPControlMessage) in.readObject();
         return messageRecu;
     }
 }

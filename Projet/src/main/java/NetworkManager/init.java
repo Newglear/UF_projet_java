@@ -12,7 +12,7 @@ public class init {
             System.out.println("Server TCP Start");
             //UdpReceive threadUdp = new UdpReceive();
             //threadUdp.start();
-            System.out.println("Serve Udp start");
+            //System.out.println("Serve Udp start");
             TestTcpSend testTcp = new TestTcpSend();
             testTcp.start();
             //TestUdp testUdp = new TestUdp();

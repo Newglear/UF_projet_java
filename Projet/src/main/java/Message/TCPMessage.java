@@ -1,6 +1,8 @@
 package Message;
 
-public class TCPMessage{
+import java.io.Serializable;
+
+public class TCPMessage implements Serializable {
 
     private int destinataireId;
 

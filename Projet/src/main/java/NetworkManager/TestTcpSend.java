@@ -19,10 +19,11 @@ public class TestTcpSend extends Thread{
             System.out.println("Test Envoi TCP");
 
             Socket sockTest = TcpSend.TcpConnect(InetAddress.getLocalHost());
-            System.out.println("Connexion dans TestTcpSend");
+            System.out.println("Connexion établie");
             OutputStream outputStream = sockTest.getOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(outputStream);
             TcpSend.EnvoyerMessage(out,test);
+            System.out.println("Message envoyé");
             sockTest.close();
         }catch (Exception e){e.printStackTrace();}
 
