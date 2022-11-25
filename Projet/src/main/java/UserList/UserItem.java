@@ -7,11 +7,13 @@ public class UserItem {
 
     private String pseudo;
     private InetAddress address;
+    private int id;
 
 
-    public UserItem(String pseudo, InetAddress address){
+    public UserItem(String pseudo, InetAddress address, int id){
         this.pseudo=pseudo;
         this.address=address;
+        this.id=id;
     }
 
     public String getPseudo(){
@@ -22,4 +24,11 @@ public class UserItem {
         return this.address;
     }
 
+    public int getId(){
+        return this.id;
+    }
+
+    public void setPseudo(String newPseudo){
+        this.pseudo=newPseudo;
+    }
 }
