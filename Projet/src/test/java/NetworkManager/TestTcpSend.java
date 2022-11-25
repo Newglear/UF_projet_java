@@ -18,7 +18,7 @@ public class TestTcpSend extends Thread{
             sleep(2000);
             System.out.println("Test Envoi TCP");
 
-            Socket sockTest = TcpSend.TcpConnect(InetAddress.getLocalHost());
+            Socket sockTest = TcpSend.TcpConnect(InetAddress.getByName("insa-10223.insa-toulouse.fr"));
             System.out.println("Connexion établie");
             OutputStream outputStream = sockTest.getOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(outputStream);

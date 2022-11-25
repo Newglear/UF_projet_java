@@ -10,7 +10,7 @@ public class TcpSend {
     }
 
     public static Socket TcpConnect(InetAddress address) throws Exception{
-        Socket link =new Socket(address,TcpReceiveConnection.portTcpReceive);
+        Socket link =new Socket(address, ThreadTcpReceiveConnection.portTcpReceive);
         return link;
     }
 }

@@ -1,12 +1,11 @@
 package NetworkManager;
 
 public class InitReceiveTest {
-        public static void main(String args[]) {
+        public static void main(String[] args) {
             try {
-                TcpReceiveConnection threadTcp = new TcpReceiveConnection();
-                threadTcp.start();
+                ThreadTcpReceiveConnection threadTcp = new ThreadTcpReceiveConnection();
                 System.out.println("Server TCP Started");
-                UdpReceive threadUdp = new UdpReceive();
+                ThreadUdpReceive threadUdp = new ThreadUdpReceive();
                 threadUdp.start();
                 System.out.println("Server UDP Started");
             }catch (Exception e){}
