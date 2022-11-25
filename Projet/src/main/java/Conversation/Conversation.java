@@ -2,19 +2,14 @@ package Conversation;
 
 import Message.TCPMessage;
 import Message.TCPType;
-import NetworkManager.TcpSend;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Conversation {
 
     int destinataireId;
     Socket socket;
-    ObjectOutputStream out;
 
     public Conversation(Socket socket, TCPMessage controlMessage) throws OpenConversationException {
         this.socket = socket;
@@ -22,31 +17,30 @@ public class Conversation {
             throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
         }
         this.destinataireId=controlMessage.getDestinataireId();
-        // création objet pour envoyer les messages
-        AtomicReference<OutputStream> outputStream = null; // intelliJ a fait ces trucs chelous tout seul mais si ça marche c'est cool
-        try {
-            outputStream.set(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.out = new ObjectOutputStream(outputStream.get());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // TODO  : demander au ThreadManager un thread
 
-
-
+        // TODO  : demander au ThreadManager un thread pour la réception et un pour l'envoi
+        // TODO : récupérer les messages de la conversation dans la database
+        // TODO : créer méthode thread pour la réception
 
     }
 
 
-    public void sendMessage(String data) throws IOException {
-        TCPMessage message = new TCPMessage(this.destinataireId, data);
-        TcpSend.EnvoyerMessage(this.out, message);
+    public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {         // TODO
+        switch (message.type){
+            case UserData: System.out.println(message.getData()); break; // TODO faire des trucs avec la DB
+            case OuvertureSession: throw new OpenConversationException("vous avez fait n'importe quoi avec les types de message");
+            case FermetureSession: this.fermerConversation(); break;
+        }
     }
 
-
+    public void fermerConversation(){
+        // TODO  : fermer les thread avec le threadManager
+        try {
+            this.socket.close();
+        } catch (IOException e) {
+            System.out.println("Il y a eu un problème avec un socket, maintenant tu peux pleurer");
+            e.printStackTrace();
+        }
+    }
 
 }

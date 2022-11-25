@@ -26,4 +26,8 @@ public class TCPMessage implements Serializable {
         return this.destinataireId;
     }
 
+    public String getData(){
+        return this.data;
+    }
+
 }

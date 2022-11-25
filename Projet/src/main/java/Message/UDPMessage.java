@@ -15,6 +15,10 @@ public class UDPMessage implements Serializable {
         this.pseudo=pseudo;
     }
 
-
+    public byte[] getBytes(){
+        // TODO
+        // byteArrayInputStream
+        return new byte[0];
+    }
 
 }

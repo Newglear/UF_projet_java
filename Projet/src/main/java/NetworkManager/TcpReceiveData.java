@@ -6,8 +6,7 @@ import Message.TCPMessage;
 
 public class TcpReceiveData {
 
-    public static TCPMessage ReceiveData(ObjectInputStream in) throws  Exception{ //TODO : A tester avec Messages.TCPMessage implémenté
-        TCPMessage messageRecu = (TCPMessage) in.readObject();
-        return messageRecu;
+    public static TCPMessage receiveData(ObjectInputStream in) throws  Exception{ //TODO : A tester avec Messages.TCPMessage implémenté
+        return (TCPMessage) in.readObject();
     }
 }
