@@ -9,36 +9,44 @@ public class ListeUser{
     ArrayList<UserItem> tabItems = new ArrayList<>();
 
 
-    public void addUser(String pseudo, InetAddress address){
-        tabItems.add(new UserItem(pseudo, address));
+    public void addUser(int id, String pseudo, InetAddress address){
+        tabItems.add(new UserItem(pseudo, address, id));
     }
 
-    // l'id est l'index dans la liste des users
-    public void modifyUser(int id, String newPseudo, InetAddress address) throws EmptyUserListException{
+    public void modifyUserPseudo(int id, String newPseudo) throws EmptyUserListException{
        try{
-            tabItems.set(id, (new UserItem(newPseudo, address)));
-       } catch (IndexOutOfBoundsException e) {
+            tabItems.get(this.getIndex(id)).setPseudo(newPseudo);
+       } catch (IndexOutOfBoundsException | UserNotFoundException e) {
             throw new EmptyUserListException();
        }
     }
 
     public void removeUser(int id) throws UserNotFoundException {
         try {
-            tabItems.remove(id);
+            tabItems.remove(this.getIndex(id));
         } catch (IndexOutOfBoundsException e){
             throw new UserNotFoundException();
         }
     }
 
     // TODO  : coder ça mieux si possible
-    public int getUserId(String pseudo) throws UserNotFoundException {
-        Iterator<UserItem> iter = tabItems.iterator();
+    protected int getIndex(int id) throws UserNotFoundException {
         for (int i = 0; i<tabItems.size(); i++){
-            if (tabItems.get(i).getPseudo().equals(pseudo)){
+            if (tabItems.get(i).getId()==id){
                 return i;
             }
         }
         throw new UserNotFoundException();
     }
+
+    public UserItem getUser(int id) throws UserNotFoundException {
+        for (UserItem user : tabItems) {
+            if (user.getId() == id) {
+                return user;
+            }
+        }
+        throw new UserNotFoundException();
+    }
+
 
 }
