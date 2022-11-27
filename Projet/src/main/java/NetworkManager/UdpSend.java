@@ -2,30 +2,40 @@ package NetworkManager;
 import java.net.*;
 
 public class UdpSend {
-    private InetAddress broadcastAddress = InetAddress.getByName("127.0.0.1");
+    private static InetAddress broadcastAddress;
+
+    static {
+        try {
+            broadcastAddress = InetAddress.getByName("255.255.255.255");
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static DatagramSocket socketSend;
-    private DatagramPacket sendPacket;
+    private static DatagramPacket sendPacket;
 
-    public UdpSend() throws Exception{
-        socketSend = new DatagramSocket();
-        socketSend.setBroadcast(true);
+    public static void envoyerBroadcast(byte[] message){
+        try {
+            socketSend = new DatagramSocket();
+            socketSend.setBroadcast(true);
+            sendPacket = new DatagramPacket(message, message.length);
+            sendPacket.setAddress(broadcastAddress);
+            sendPacket.setPort(ThreadUdpReceive.receivePort);
+            socketSend.send(sendPacket);
+            socketSend.close();
+        }catch (Exception e){e.printStackTrace();}
     }
 
-    public void envoyerBroadcast(byte[] message) throws Exception{
-        sendPacket = new DatagramPacket(message, message.length);
-        sendPacket.setAddress(broadcastAddress);
-        sendPacket.setPort(ThreadUdpReceive.receivePort);
-        socketSend.send(sendPacket);
+    public static void envoyerUnicast(byte[] message, InetAddress receiverAddress){
+        try {
+            socketSend = new DatagramSocket();
+            sendPacket = new DatagramPacket(message,message.length);
+            sendPacket.setAddress(receiverAddress);
+            sendPacket.setPort(ThreadUdpReceive.receivePort);
+            socketSend.send(sendPacket);
+            socketSend.close();
+        }catch (Exception e){e.printStackTrace();}
     }
 
-    public void envoyerUnicast(byte[] message, InetAddress receiverAddress) throws Exception{
-        sendPacket = new DatagramPacket(message,message.length);
-        sendPacket.setAddress(receiverAddress);
-        sendPacket.setPort(ThreadUdpReceive.receivePort);
-        socketSend.send(sendPacket);
-    }
-
-    public void finApplication(){ //TODO rajouter une classe pour la fermeture app
-        socketSend.close();
-    }
 }

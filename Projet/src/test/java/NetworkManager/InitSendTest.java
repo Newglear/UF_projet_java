@@ -6,6 +6,7 @@ public class InitSendTest {
         try{
             TestTcpSend testTcp = new TestTcpSend();
             testTcp.start();
+            UdpSendTest testUdp = new UdpSendTest();
         }catch (Exception e){}
 
     }
