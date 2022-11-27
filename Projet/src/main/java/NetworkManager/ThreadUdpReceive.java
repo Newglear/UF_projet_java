@@ -6,7 +6,6 @@ import java.nio.Buffer;
 public class ThreadUdpReceive extends Thread{
     public static final int receivePort = 6751;
     private InetAddress clientAddress;
-    //private int clientPort;
     public final static int tailleMax = 250; //TODO : modifier taille max message
     public boolean isFinished = false;
 
@@ -25,7 +24,6 @@ public class ThreadUdpReceive extends Thread{
                 receiveSocket.receive(incomingPacket);
                 System.out.println("Packet Reçu");
                 clientAddress = incomingPacket.getAddress();
-                // clientPort = incomingPacket.getPort();
                 UdpReceiveTest test = new UdpReceiveTest(clientAddress, buffer);
                 //TODO User.traiterMessage(buffer,clientAddress);
             }

@@ -23,20 +23,31 @@ public class UdpSendTest extends Thread{
     public void run(){
         try{
             System.out.println("Test Envoi en Unicast : LocalHost");
-            sleep(5000);
+            sleep(2000);
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(bstream);
             oo.writeObject(message);
             this.adresseClient = InetAddress.getLocalHost();
             byte[] sentMessage = bstream.toByteArray();
             UdpSend.envoyerUnicast(sentMessage,adresseClient);
+
+
+            /*
+            sleep(2000);
+            System.out.println("#################################");
             System.out.println("Envoi en Unicast : Hôte distant");
             sleep(2000);
-            //this.adresseClient = InetAddress.getByName();
-            //UdpSend.envoyerUnicast(sentMessage,adresseClient);
+            this.adresseClient = InitUdpSendTest.adresseClient;
+            UdpSend.envoyerUnicast(sentMessage,adresseClient);
+           */
+
+            sleep(2000);
+            System.out.println("#################################");
             System.out.println("Envoi en broadcast");
             sleep(2000);
             UdpSend.envoyerBroadcast(sentMessage);
+
+
         }catch (Exception e){e.printStackTrace();}
     }
 }
