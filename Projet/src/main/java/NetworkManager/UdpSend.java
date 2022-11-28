@@ -1,5 +1,4 @@
 package NetworkManager;
-import javax.xml.crypto.Data;
 import java.net.*;
 
 public class UdpSend {
@@ -15,14 +14,14 @@ public class UdpSend {
     public void envoyerBroadcast(byte[] message) throws Exception{
         sendPacket = new DatagramPacket(message, message.length);
         sendPacket.setAddress(broadcastAddress);
-        sendPacket.setPort(UdpReceive.receivePort);
+        sendPacket.setPort(ThreadUdpReceive.receivePort);
         socketSend.send(sendPacket);
     }
 
     public void envoyerUnicast(byte[] message, InetAddress receiverAddress) throws Exception{
         sendPacket = new DatagramPacket(message,message.length);
         sendPacket.setAddress(receiverAddress);
-        sendPacket.setPort(UdpReceive.receivePort);
+        sendPacket.setPort(ThreadUdpReceive.receivePort);
         socketSend.send(sendPacket);
     }
 
