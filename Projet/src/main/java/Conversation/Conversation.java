@@ -1,16 +1,18 @@
 package Conversation;
 
 import Message.TCPMessage;
-import Message.TCPType;
+import NetworkManager.TcpSend;
+import UserList.ListeUser;
+import UserList.UserNotFoundException;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicReference;
+
 
 public class Conversation {
 
-    private int destinataireId;
-    private Socket socket;
+    private int destinataireId = 0;
+    private final Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -21,10 +23,19 @@ public class Conversation {
         OutputStream outputStream = socket.getOutputStream();
         this.out = new ObjectOutputStream(outputStream);
         ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
-        ThreadConversationSend threadSnd = new ThreadConversationSend(this);
 
     }
 
+
+    public Conversation(int destinataireId) throws Exception {
+        this.destinataireId= destinataireId;
+        this.socket= TcpSend.tcpConnect(ListeUser.getUser(destinataireId).getAddress());
+        InputStream input = socket.getInputStream();
+        this.in = new ObjectInputStream(input);
+        OutputStream outputStream = socket.getOutputStream();
+        this.out = new ObjectOutputStream(outputStream);
+        ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
+    }
 
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {         // TODO
         switch (message.type){
@@ -60,7 +71,10 @@ public class Conversation {
         return this.in;
     }
 
-    public ObjectOutputStream getOut(){
-        return this.out;
+    public void sendMessage(String data) throws IOException {
+        TCPMessage message = new TCPMessage(this.destinataireId, data);
+        TcpSend.envoyerMessage(this.out, message);
+        // TODO : faire des trucs avec la database
     }
+
 }

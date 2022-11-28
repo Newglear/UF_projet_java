@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class ListeUser{
 
-    ArrayList<UserItem> tabItems = new ArrayList<>();
+    static ArrayList<UserItem> tabItems = new ArrayList<>();
 
 
     public void addUser(int id, String pseudo, InetAddress address){
@@ -39,7 +39,7 @@ public class ListeUser{
         throw new UserNotFoundException();
     }
 
-    public UserItem getUser(int id) throws UserNotFoundException {
+    public static UserItem getUser(int id) throws UserNotFoundException {
         for (UserItem user : tabItems) {
             if (user.getId() == id) {
                 return user;
