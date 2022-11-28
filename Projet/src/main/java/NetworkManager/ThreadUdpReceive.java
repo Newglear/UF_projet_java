@@ -24,7 +24,7 @@ public class ThreadUdpReceive extends Thread{
                 receiveSocket.receive(incomingPacket);
                 System.out.println("Packet Reçu");
                 clientAddress = incomingPacket.getAddress();
-                UdpReceiveTest test = new UdpReceiveTest(clientAddress, buffer);
+                //UdpReceiveTest test = new UdpReceiveTest(clientAddress, buffer);
                 //TODO User.traiterMessage(buffer,clientAddress);
             }
             receiveSocket.close();

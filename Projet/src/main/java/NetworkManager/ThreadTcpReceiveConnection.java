@@ -1,4 +1,6 @@
 package NetworkManager;
+import Conversation.Conversation;
+
 import java.net.*;
 
 public class ThreadTcpReceiveConnection extends Thread{
@@ -14,6 +16,7 @@ public class ThreadTcpReceiveConnection extends Thread{
                 Socket connexion = portEcoute.accept();
                 //TcpReceiveTest test = new TcpReceiveTest(connexion);
                 //TODO Créer un nouveau Thread pour la conversation et lui fournir le socket
+                Conversation nouvelleConversation = new Conversation(connexion);
             }
         }catch (Exception e){e.printStackTrace();}
     }
