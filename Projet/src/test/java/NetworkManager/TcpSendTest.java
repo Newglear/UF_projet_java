@@ -11,7 +11,7 @@ public class TcpSendTest extends Thread{
     InetAddress adresseClien = InetAddress.getByName("insa-10223.insa-toulouse.fr");
     TCPMessage test;
     public TcpSendTest() throws UnknownHostException {
-        test = new TCPMessage(3);
+        test = new TCPMessage(3, "hola");
         start();
     }
 
@@ -20,12 +20,12 @@ public class TcpSendTest extends Thread{
 
             System.out.println("Test Envoi TCP: LocalHost");
             sleep(2000);
-            Socket sockTest = TcpSend.TcpConnect(InetAddress.getLocalHost());
+            Socket sockTest = TcpSend.tcpConnect(InetAddress.getLocalHost());
             System.out.println("Connexion établie");
             sleep(2000);
             OutputStream outputStream = sockTest.getOutputStream();
             ObjectOutputStream outLocal = new ObjectOutputStream(outputStream);
-            TcpSend.EnvoyerMessage(outLocal,test);
+            TcpSend.envoyerMessage(outLocal,test);
             System.out.println("Message envoyé");
             sockTest.close();
 
@@ -33,12 +33,12 @@ public class TcpSendTest extends Thread{
             System.out.println("####################################");
             System.out.println("Test Envoi TCP: Hôte distant");
             sleep(2000);
-            sockTest = TcpSend.TcpConnect(InitUdpSendTest.adresseClient);
+            sockTest = TcpSend.tcpConnect(InitUdpSendTest.adresseClient);
             System.out.println("Connexion établie");
             sleep(2000);
             outputStream = sockTest.getOutputStream();
             ObjectOutputStream out2 = new ObjectOutputStream(outputStream);
-            TcpSend.EnvoyerMessage(out2,test);
+            TcpSend.envoyerMessage(out2,test);
             System.out.println("Message envoyé");
             sockTest.close();
 

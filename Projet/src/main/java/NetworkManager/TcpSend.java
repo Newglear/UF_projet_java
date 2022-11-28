@@ -5,11 +5,11 @@ import java.net.*;
 
 import Message.TCPMessage;
 public class TcpSend {
-    public static void EnvoyerMessage(ObjectOutputStream out, TCPMessage message) throws IOException { //TODO Voir après implémentation Message.TCPMessage
+    public static void envoyerMessage(ObjectOutputStream out, TCPMessage message) throws IOException { //TODO Voir après implémentation Message.TCPMessage
         out.writeObject(message);
     }
 
-    public static Socket TcpConnect(InetAddress address) throws Exception{
+    public static Socket tcpConnect(InetAddress address) throws Exception{
         Socket link =new Socket(address, ThreadTcpReceiveConnection.portTcpReceive);
         return link;
     }

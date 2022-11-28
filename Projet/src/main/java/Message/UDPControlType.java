@@ -4,5 +4,6 @@ public enum UDPControlType {
     Connexion,
     Deconnexion,
     AckPseudoOk,
-    AckPseudoPasOK
+    AckPseudoPasOK,
+    AckNewUserSurReseau
 }

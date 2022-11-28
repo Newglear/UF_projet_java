@@ -14,7 +14,7 @@ public class ThreadTcpReceiveConnection extends Thread{
             ServerSocket portEcoute = new ServerSocket(portTcpReceive);
             while (true) {  //TODO Modifier
                 Socket connexion = portEcoute.accept();
-                //TcpReceiveTest test = new TcpReceiveTest(connexion);
+                Conversation conversation = new Conversation(connexion);
                 //TODO Créer un nouveau Thread pour la conversation et lui fournir le socket
                 Conversation nouvelleConversation = new Conversation(connexion);
             }

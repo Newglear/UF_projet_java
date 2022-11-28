@@ -3,24 +3,25 @@ package Conversation;
 import Message.TCPMessage;
 import Message.TCPType;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Conversation {
 
-    int destinataireId;
-    Socket socket;
+    private int destinataireId;
+    private Socket socket;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
-    public Conversation(Socket socket, TCPMessage controlMessage) throws OpenConversationException {
+    public Conversation(Socket socket) throws IOException {
         this.socket = socket;
-        if (controlMessage.type!= TCPType.OuvertureSession) {
-            throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
-        }
-        this.destinataireId=controlMessage.getDestinataireId();
-
-        // TODO : demander au ThreadManager un thread pour la réception et un pour l'envoi
-        // ThreadManager.ThreadManager.lancerConversation(this);
-        // TODO : récupérer les messages de la conversation dans la database
+        InputStream input = socket.getInputStream();
+        this.in = new ObjectInputStream(input);
+        OutputStream outputStream = socket.getOutputStream();
+        this.out = new ObjectOutputStream(outputStream);
+        ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
+        ThreadConversationSend threadSnd = new ThreadConversationSend(this);
 
     }
 
@@ -34,13 +35,32 @@ public class Conversation {
     }
 
     public void fermerConversation(){
-        // TODO  : fermer les thread avec le threadManager
         try {
             this.socket.close();
         } catch (IOException e) {
             System.out.println("Il y a eu un problème avec un socket, maintenant tu peux pleurer");
             e.printStackTrace();
         }
+        // TODO  : fermer les thread avec le threadManager
     }
 
+    public Socket getSocket(){
+        return this.socket;
+    }
+
+    public int getDestinataireId(){
+        return this.destinataireId;
+    }
+
+    public void setDestinataireId(int id){
+        this.destinataireId=id;
+    }
+
+    public ObjectInputStream getIn(){
+        return this.in;
+    }
+
+    public ObjectOutputStream getOut(){
+        return this.out;
+    }
 }

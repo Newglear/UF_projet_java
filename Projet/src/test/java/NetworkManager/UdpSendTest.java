@@ -7,6 +7,7 @@ import java.net.InetAddress;
 
 import Message.UDPControlType;
 import Message.UDPMessage;
+import UserList.UserItem;
 
 public class UdpSendTest extends Thread{
 
@@ -15,7 +16,7 @@ public class UdpSendTest extends Thread{
     InetAddress adresseClient;
     public UdpSendTest(){
         try {
-            this.message = new UDPMessage(UDPControlType.Connexion, "PseudoTest");
+            this.message = new UDPMessage(UDPControlType.Connexion, new UserItem("PseudoTest", InetAddress.getLocalHost(), 3));
         }catch (Exception e){e.printStackTrace();}
         start();
     }
