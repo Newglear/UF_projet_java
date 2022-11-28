@@ -18,9 +18,9 @@ public class Conversation {
         }
         this.destinataireId=controlMessage.getDestinataireId();
 
-        // TODO  : demander au ThreadManager un thread pour la réception et un pour l'envoi
+        // TODO : demander au ThreadManager un thread pour la réception et un pour l'envoi
+        // ThreadManager.ThreadManager.lancerConversation(this);
         // TODO : récupérer les messages de la conversation dans la database
-        // TODO : créer méthode thread pour la réception
 
     }
 
