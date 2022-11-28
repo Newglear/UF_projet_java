@@ -1,17 +1,19 @@
 package Message;
 
+import UserList.UserItem;
+
 import java.io.*;
 
 public class UDPMessage implements Serializable {
 
-    public String pseudo;
+    public UserItem user;
 
     public UDPControlType controlType;
 
 
-    public UDPMessage(UDPControlType controlType, String pseudo) {
+    public UDPMessage(UDPControlType controlType, UserItem user) {
         this.controlType=controlType;
-        this.pseudo=pseudo;
+        this.user=user;
     }
 
     public byte[] getBytes() throws UDPGetBytesException {

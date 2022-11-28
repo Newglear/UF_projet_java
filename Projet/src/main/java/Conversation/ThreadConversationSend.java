@@ -12,24 +12,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ThreadConversationSend extends Thread{
 
 
-    Conversation conversation;
-    ObjectOutputStream out;
+    private Conversation conversation;
 
 
     public ThreadConversationSend(Conversation conversation){
         this.conversation=conversation;
-        // création objet pour envoyer les messages
-        AtomicReference<OutputStream> outputStream = null; // intelliJ a fait ces trucs chelous tout seul mais si ça marche c'est cool
-        try {
-            outputStream.set(conversation.getSocket().getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.out = new ObjectOutputStream(outputStream.get());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         start();
     }
@@ -42,7 +30,7 @@ public class ThreadConversationSend extends Thread{
 
     public void sendMessage(String data) throws IOException {
         TCPMessage message = new TCPMessage(this.conversation.getDestinataireId(), data);
-        TcpSend.EnvoyerMessage(this.out, message);
+        TcpSend.envoyerMessage(this.conversation.getOut(), message);
         // TODO : faire des trucs avec la database
     }
 }

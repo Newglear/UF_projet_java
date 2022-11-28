@@ -7,7 +7,7 @@ public class UserItem {
 
     private String pseudo;
     private InetAddress address;
-    private int id;
+    private int id; // id connue des utilisateurs
 
 
     public UserItem(String pseudo, InetAddress address, int id){

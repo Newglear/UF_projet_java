@@ -21,7 +21,7 @@ public class UdpReceiveTest extends Thread{
         try {
             ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(this.message));
             UDPMessage mess = (UDPMessage) IStream.readObject();
-            System.out.println("Pseudo : " + mess.pseudo + " ControlType: " + mess.controlType);
+            // System.out.println("Pseudo : " + mess.pseudo + " ControlType: " + mess.controlType);
             System.out.println("Adresse du client : " + this.clientAddress);
         }catch (Exception e){
             e.printStackTrace();
