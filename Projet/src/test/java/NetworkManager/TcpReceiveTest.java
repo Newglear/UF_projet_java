@@ -16,7 +16,7 @@ public class TcpReceiveTest extends Thread {
     public void run(){
         try{
             System.out.println("Test Reception :");
-            TCPMessage test = TcpReceiveData.ReceiveData(in);
+            TCPMessage test = TcpReceiveData.receiveData(in);
             System.out.println("DestinataireId = " + test.getDestinataireId());
         }catch (Exception e){e.printStackTrace();}
 

@@ -11,7 +11,7 @@ public class TcpSendTest extends Thread{
     InetAddress adresseClien = InetAddress.getByName("insa-10223.insa-toulouse.fr");
     TCPMessage test;
     public TcpSendTest() throws UnknownHostException {
-        test = new TCPMessage(3);
+        test = new TCPMessage(3, "hola");
         start();
     }
 
