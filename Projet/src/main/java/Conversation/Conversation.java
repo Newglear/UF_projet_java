@@ -8,8 +8,8 @@ import java.net.Socket;
 
 public class Conversation {
 
-    int destinataireId;
-    Socket socket;
+    private int destinataireId;
+    private Socket socket;
 
     public Conversation(Socket socket, TCPMessage controlMessage) throws OpenConversationException {
         this.socket = socket;
@@ -34,13 +34,20 @@ public class Conversation {
     }
 
     public void fermerConversation(){
-        // TODO  : fermer les thread avec le threadManager
         try {
             this.socket.close();
         } catch (IOException e) {
             System.out.println("Il y a eu un problème avec un socket, maintenant tu peux pleurer");
             e.printStackTrace();
         }
+        // TODO  : fermer les thread avec le threadManager
     }
 
+    public Socket getSocket(){
+        return this.socket;
+    }
+
+    public int getDestinataireId(){
+        return this.destinataireId;
+    }
 }

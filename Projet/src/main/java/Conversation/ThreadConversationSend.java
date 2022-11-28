@@ -21,7 +21,7 @@ public class ThreadConversationSend extends Thread{
         // création objet pour envoyer les messages
         AtomicReference<OutputStream> outputStream = null; // intelliJ a fait ces trucs chelous tout seul mais si ça marche c'est cool
         try {
-            outputStream.set(conversation.socket.getOutputStream());
+            outputStream.set(conversation.getSocket().getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class ThreadConversationSend extends Thread{
 
 
     public void sendMessage(String data) throws IOException {
-        TCPMessage message = new TCPMessage(this.conversation.destinataireId, data);
+        TCPMessage message = new TCPMessage(this.conversation.getDestinataireId(), data);
         TcpSend.EnvoyerMessage(this.out, message);
         // TODO : faire des trucs avec la database
     }

@@ -1,10 +1,6 @@
 package Message;
 
-import Conversation.OpenConversationException;
-
 import java.io.*;
-import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
 
 public class UDPMessage implements Serializable {
 

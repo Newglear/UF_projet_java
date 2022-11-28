@@ -17,7 +17,7 @@ public class ThreadConversationReceive extends Thread{
         this.conversation=conversation;
         AtomicReference<InputStream> input = null;
         try {
-            input.set(conversation.socket.getInputStream());
+            input.set(conversation.getSocket().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
