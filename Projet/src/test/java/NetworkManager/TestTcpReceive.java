@@ -15,11 +15,10 @@ public class TestTcpReceive extends Thread {
     }
     public void run(){
         try{
-            sleep(2000);
             System.out.println("Test Reception :");
             TCPMessage test = TcpReceiveData.receiveData(in);
             System.out.println(test.getDestinataireId());
-        }catch (Exception e){}
+        }catch (Exception e){e.printStackTrace();}
 
     }
 }
