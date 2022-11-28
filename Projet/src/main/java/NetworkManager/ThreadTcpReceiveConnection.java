@@ -1,10 +1,11 @@
 package NetworkManager;
-import Conversation.Conversation;
+import Conversation.ConversationManager;
 
 import java.net.*;
 
 public class ThreadTcpReceiveConnection extends Thread{
     public final static int portTcpReceive = 4753;
+    public static boolean isFinished;
 
     public ThreadTcpReceiveConnection(){
         start();
@@ -12,10 +13,9 @@ public class ThreadTcpReceiveConnection extends Thread{
     public void run(){
         try {
             ServerSocket portEcoute = new ServerSocket(portTcpReceive);
-            while (true) {  //TODO Modifier
+            while (!isFinished) {
                 Socket connexion = portEcoute.accept();
-                Conversation conversation = new Conversation(connexion);
-                //TODO Créer un nouveau Thread pour la conversation et lui fournir le socket
+                ConversationManager.createConv(connexion);
             }
         }catch (Exception e){e.printStackTrace();}
     }

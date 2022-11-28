@@ -1,16 +1,15 @@
 package Conversation;
 
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ConversationManager {
-    // TODO
-    protected static ArrayList<Conversation> listeConversations = new ArrayList<Conversation>();
+    protected static HashMap<Integer, Conversation> mapConversations = new HashMap<>();
 
     public static Conversation createConv(int destinataireId){
         try {
             Conversation conversation = new Conversation(destinataireId);
-            listeConversations.add(conversation);
+            mapConversations.put(conversation.getDestinataireId(),conversation);
             return conversation;
         } catch (Exception e) {
             e.printStackTrace();
@@ -21,7 +20,7 @@ public class ConversationManager {
     public static Conversation createConv(Socket socket){
         try {
             Conversation conversation = new Conversation(socket);
-            listeConversations.add(conversation);
+            mapConversations.put(conversation.getDestinataireId(),conversation);
             return conversation;
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,5 +28,8 @@ public class ConversationManager {
         return null;
     }
 
+    public static Conversation getConv(int destinataireId){
+        return mapConversations.get(destinataireId);
+    }
 
 }

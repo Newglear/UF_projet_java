@@ -1,19 +1,20 @@
 package UserList;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 
 
-public class UserItem {
+public class UserItem implements Serializable {
 
     private String pseudo;
-    private InetAddress address;
-    private int id; // id connue des utilisateurs
+    private final InetAddress address;
+    private final int id; // id connue des utilisateurs
 
 
-    public UserItem(String pseudo, InetAddress address, int id){
+    public UserItem(int id, String pseudo, InetAddress address){
+        this.id=id;
         this.pseudo=pseudo;
         this.address=address;
-        this.id=id;
     }
 
     public String getPseudo(){

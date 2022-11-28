@@ -1,13 +1,13 @@
 package SuperTest;
 
-import Conversation.Conversation;
-import NetworkManager.TcpSend;
+import Conversation.ConversationManager;
 import UserList.ListeUser;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class User1 implements Runnable{
+public class User1 extends Thread{
 
     public void run(){
         ListeUser listeUser = new ListeUser();
@@ -17,12 +17,15 @@ public class User1 implements Runnable{
             e.printStackTrace();
         }
         try {
-            Conversation conv = new Conversation(2345);
+            ConversationManager.createConv(2345);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        try {
+            ConversationManager.getConv(2345).sendMessage("coucou user2");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

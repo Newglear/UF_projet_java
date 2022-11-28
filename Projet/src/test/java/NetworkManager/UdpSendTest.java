@@ -16,7 +16,7 @@ public class UdpSendTest extends Thread{
     InetAddress adresseClient;
     public UdpSendTest(){
         try {
-            this.message = new UDPMessage(UDPControlType.Connexion, new UserItem("PseudoTest", InetAddress.getLocalHost(), 3));
+            this.message = new UDPMessage(UDPControlType.Connexion, new UserItem(3, "PseudoTest", InetAddress.getLocalHost()));
         }catch (Exception e){e.printStackTrace();}
         start();
     }

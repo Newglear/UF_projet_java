@@ -24,6 +24,7 @@ public class UDPMessage implements Serializable {
             oo.writeObject(this);
             return bstream.toByteArray();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new UDPGetBytesException();
         }
     }
