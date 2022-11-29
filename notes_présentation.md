@@ -1,5 +1,6 @@
 # Système de chat décentralisé : 
 
+interface graphique : javafx + scene builder
 noeud/agent/utilisateur = ronds sur le diagramme 
 trucs volontairement ambigus sur le cahier des charges 
 	=> lire plusieurs fois et avec attention les documents pour limiter la perte de temps 
