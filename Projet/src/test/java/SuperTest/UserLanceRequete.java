@@ -2,20 +2,19 @@ package SuperTest;
 
 import Conversation.ConversationManager;
 import UserList.ListeUser;
+import UserList.UserAlreadyInListException;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class User1 extends Thread{
+public class UserLanceRequete{
 
-    public void run(){
-        ListeUser listeUser = new ListeUser();
-        try {
-            listeUser.addUser(2345, "romain", InetAddress.getLocalHost());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+    @Test
+    public static void main(String[] args) throws UnknownHostException, UserAlreadyInListException {
+        InetAddress addressUserRecoitRequete = InetAddress.getByName(""); // TODO
+        ListeUser.addUser(2345, "romain", addressUserRecoitRequete);
         try {
             ConversationManager.createConv(2345);
         } catch (Exception e) {

@@ -7,11 +7,11 @@ public class ListeUser{
 
     static HashMap<Integer, UserItem> tabItems = new HashMap<>();
 
-    public void addUser(int id, String pseudo, InetAddress address){
+    public static void addUser(int id, String pseudo, InetAddress address) throws UserAlreadyInListException{
         tabItems.put(id, new UserItem(id, pseudo, address));
     }
 
-    public void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
+    public static void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
        try{
             tabItems.get(id).setPseudo(newPseudo);
        } catch (Exception e) {
@@ -19,7 +19,7 @@ public class ListeUser{
        }
     }
 
-    public void removeUser(int id) throws UserNotFoundException {
+    public static void removeUser(int id) throws UserNotFoundException {
         try {
             tabItems.remove(id);
         } catch (Exception e){

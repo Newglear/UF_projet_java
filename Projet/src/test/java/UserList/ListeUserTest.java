@@ -12,7 +12,7 @@ public class ListeUserTest extends ListeUser{ // le extends juste pour pouvoir t
     ListeUser listeUser = new ListeUser();
 
     @Before
-    public void remplirListe() throws UnknownHostException {
+    public void remplirListe() throws UnknownHostException, UserAlreadyInListException {
         listeUser.addUser(2345,"romain", InetAddress.getLocalHost());
         listeUser.addUser(4567,"aude", InetAddress.getLocalHost());
         listeUser.addUser(5678, "evan", InetAddress.getLocalHost());
@@ -48,6 +48,11 @@ public class ListeUserTest extends ListeUser{ // le extends juste pour pouvoir t
         listeUser.modifyUserPseudo(2345, "hola");
     }
 
+    // TODO : à tester
+    @Test (expected = UserAlreadyInListException.class)
+    public void addUserWithSameKey() throws UnknownHostException, UserAlreadyInListException {
+        listeUser.addUser(2345, "Aude", InetAddress.getLocalHost());
+    }
 
     @Test
     public void getUserTest() throws UserNotFoundException {
