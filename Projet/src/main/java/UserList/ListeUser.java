@@ -1,56 +1,43 @@
 package UserList;
 
-import java.util.ArrayList;
 import java.net.InetAddress;
+import java.util.HashMap;
 
 public class ListeUser{
 
-    //1er user de la liste est nous même
-    protected static ArrayList<UserItem> tabItems = new ArrayList<>();
-
+    protected static HashMap<Integer, UserItem> tabItems = new HashMap<>();
 
     public static void addUser(int id, String pseudo, InetAddress address){
-        tabItems.add(new UserItem(pseudo, address, id));
+        tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
     }
 
-    public static void modifyUserPseudo(int id, String newPseudo) throws EmptyUserListException{
+    public static void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
        try{
-            tabItems.get(getIndex(id)).setPseudo(newPseudo);
-       } catch (IndexOutOfBoundsException | UserNotFoundException e) {
-            throw new EmptyUserListException();
+            tabItems.get(id).setPseudo(newPseudo);
+       } catch (Exception e) {
+            throw new UserNotFoundException();
        }
     }
 
     public static void removeUser(int id) throws UserNotFoundException {
         try {
-            tabItems.remove(getIndex(id));
-        } catch (IndexOutOfBoundsException e){
+            tabItems.remove(id);
+        } catch (Exception e){
             throw new UserNotFoundException();
         }
     }
 
-    // TODO  : coder ça mieux si possible
-    protected static int getIndex(int id) throws UserNotFoundException {
-        for (int i = 0; i<tabItems.size(); i++){
-            if (tabItems.get(i).getId()==id){
-                return i;
-            }
-        }
-        throw new UserNotFoundException();
-    }
 
     public static UserItem getUser(int id) throws UserNotFoundException {
-        for (UserItem user : tabItems) {
-            if (user.getId() == id) {
-                return user;
-            }
+        try{
+            return tabItems.get(id);
+        }catch (Exception e){
+            throw new UserNotFoundException();
         }
-        throw new UserNotFoundException();
     }
 
-
-    public static String getMyPseudo(){
-        return tabItems.get(0).getPseudo();
+    public static int getTailleListe(){
+        return tabItems.size();
     }
 
 }
