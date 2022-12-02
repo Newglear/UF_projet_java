@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public class ListeUser{
 
-    static HashMap<Integer, UserItem> tabItems = new HashMap<>();
+    protected static HashMap<Integer, UserItem> tabItems = new HashMap<>();
 
-    public static void addUser(int id, String pseudo, InetAddress address) throws UserAlreadyInListException{
-        tabItems.put(id, new UserItem(id, pseudo, address));
+    public static void addUser(int id, String pseudo, InetAddress address){
+        tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
     }
 
     public static void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
@@ -36,5 +36,8 @@ public class ListeUser{
         }
     }
 
+    public static int getTailleListe(){
+        return tabItems.size();
+    }
 
 }

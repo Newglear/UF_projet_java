@@ -7,60 +7,60 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import static org.junit.Assert.assertEquals;
 
-public class ListeUserTest extends ListeUser{ // le extends juste pour pouvoir tester le getIndex en protected
+public class ListeUserTest extends ListeUser{ // extend pour avoir accès à tabItems
 
-    ListeUser listeUser = new ListeUser();
 
     @Before
-    public void remplirListe() throws UnknownHostException, UserAlreadyInListException {
-        listeUser.addUser(2345,"romain", InetAddress.getLocalHost());
-        listeUser.addUser(4567,"aude", InetAddress.getLocalHost());
-        listeUser.addUser(5678, "evan", InetAddress.getLocalHost());
-        listeUser.addUser(9876, "gwen", InetAddress.getLocalHost());
+    public void remplirListe() throws UnknownHostException{
+        ListeUser.addUser(2345,"romain", InetAddress.getLocalHost());
+        ListeUser.addUser(4567,"aude", InetAddress.getLocalHost());
+        ListeUser.addUser(5678, "evan", InetAddress.getLocalHost());
+        ListeUser.addUser(9876, "gwen", InetAddress.getLocalHost());
 
+    }
+
+    @Test
+    public void getUserTest() throws UserNotFoundException {
+        assertEquals("romain",ListeUser.getUser(2345).getPseudo());
+        assertEquals("aude",ListeUser.getUser(4567).getPseudo());
+        assertEquals("gwen",ListeUser.getUser(9876).getPseudo());
+        assertEquals("evan",ListeUser.getUser(5678).getPseudo());
     }
 
 
     @Test
     public void addUserTest() throws UnknownHostException {
-        assertEquals("romain", listeUser.tabItems.get(2345).getPseudo());
-        assertEquals(InetAddress.getLocalHost(), listeUser.tabItems.get(2345).getAddress());
-        assertEquals(2345, listeUser.tabItems.get(2345).getId());
+        assertEquals("romain", ListeUser.tabItems.get(2345).getPseudo());
+        assertEquals(InetAddress.getLocalHost(), ListeUser.tabItems.get(2345).getAddress());
+        assertEquals(2345, ListeUser.tabItems.get(2345).getId());
     }
 
-
-    @Test (expected = UserNotFoundException.class)
-    public void emptyExceptionTest() throws UserNotFoundException {
-        listeUser.modifyUserPseudo(0, "romainMaisMieux");
-    }
 
     @Test
     public void modifyUserTest() throws UnknownHostException, UserNotFoundException {
-        listeUser.modifyUserPseudo(2345,"romainMaisMieux");
-        assertEquals("romainMaisMieux", listeUser.tabItems.get(2345).getPseudo());
-        assertEquals(InetAddress.getLocalHost(), listeUser.tabItems.get(2345).getAddress());
-        assertEquals(2345, listeUser.tabItems.get(2345).getId());
+        ListeUser.modifyUserPseudo(2345,"romainMaisMieux");
+        assertEquals("romainMaisMieux", ListeUser.tabItems.get(2345).getPseudo());
+        assertEquals(InetAddress.getLocalHost(), ListeUser.tabItems.get(2345).getAddress());
+        assertEquals(2345, ListeUser.tabItems.get(2345).getId());
+        ListeUser.modifyUserPseudo(2345, "romain");
     }
 
     @Test (expected = UserNotFoundException.class)
+    public void emptyExceptionTest() throws UserNotFoundException {
+        ListeUser.modifyUserPseudo(0, "romainMaisMieux");
+    }
+
+
+
+
+    @Test (expected = UserNotFoundException.class)
     public void removeUserTest() throws UserNotFoundException {
-        listeUser.removeUser(2345);
-        listeUser.modifyUserPseudo(2345, "hola");
+        ListeUser.removeUser(2345);
+        ListeUser.modifyUserPseudo(2345, "hola");
     }
 
-    // TODO : à tester
-    @Test (expected = UserAlreadyInListException.class)
-    public void addUserWithSameKey() throws UnknownHostException, UserAlreadyInListException {
-        listeUser.addUser(2345, "Aude", InetAddress.getLocalHost());
-    }
 
-    @Test
-    public void getUserTest() throws UserNotFoundException {
-        assertEquals("romain",listeUser.getUser(2345).getPseudo());
-        assertEquals("aude",listeUser.getUser(4567).getPseudo());
-        assertEquals("gwen",listeUser.getUser(9876).getPseudo());
-        assertEquals("evan",listeUser.getUser(5678).getPseudo());
-    }
+
 
 
     @Test
@@ -70,4 +70,14 @@ public class ListeUserTest extends ListeUser{ // le extends juste pour pouvoir t
         assertEquals("romain2", user.getPseudo());
     }
 
+    @Test
+    public void getTailleListeTest(){
+        assertEquals(4, ListeUser.getTailleListe());
+    }
+
+    @Test
+    public void addUserWithSameKey() throws UnknownHostException{
+        ListeUser.addUser(2345, "Aude", InetAddress.getLocalHost());
+        assertEquals(4, ListeUser.getTailleListe());
+    }
 }
