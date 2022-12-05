@@ -7,15 +7,14 @@ import UserList.UserItem;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 
 public class SetPseudo {
     public static int delaiAttenteMs = 2000;
     public static boolean ackPasOkRecu = false;
 
-    public static boolean pseudoConnexion(String newPseudo){
+    public static boolean pseudoConnexion(){
         try{
-            UserItem identity= new UserItem(ListeUser.getUser(0).getId(),newPseudo, InetAddress.getLocalHost());
+            UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo(), ListeUser.getMyAddress());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(bstream);
@@ -35,6 +34,27 @@ public class SetPseudo {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean changerPseudo(String newPseudo){
+        if(ListeUser.pseudoDisponible(newPseudo)){
+            try {
+                ListeUser.modifyUserPseudo(ListeUser.getMyId(), newPseudo);
+                UserItem newIdentity= new UserItem(ListeUser.getMyId(),newPseudo, ListeUser.getMyAddress());
+                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.NewPseudo,newIdentity);
+                ByteArrayOutputStream bstream = new ByteArrayOutputStream();
+                ObjectOutput oo = new ObjectOutputStream(bstream);
+                oo.writeObject(pseudoConnexion);
+                byte[] sentMessage = bstream.toByteArray();
+                UdpSend.envoyerBroadcast(sentMessage);
+                return true;
+            }catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }else{
             return false;
         }
     }
