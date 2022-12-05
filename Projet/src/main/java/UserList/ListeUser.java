@@ -4,7 +4,8 @@ import java.net.InetAddress;
 import java.util.HashMap;
 
 public class ListeUser{
-
+    /*TODO Rajouter une fonction qui retourne si un pseudo est dans la HashMap : public static boolean pseudoDisponible(String Pseudo)
+    Ne pas vérifier pour soi même (id 0)*/
     protected static HashMap<Integer, UserItem> tabItems = new HashMap<>();
 
     public static void addUser(int id, String pseudo, InetAddress address){

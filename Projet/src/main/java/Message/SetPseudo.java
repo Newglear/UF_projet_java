@@ -9,9 +9,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 
-public class SetPseudo extends Thread{
-    public static int nbAckRecu = 0;
-
+public class SetPseudo {
+    public static int delaiAttenteMs = 2000;
     public static boolean ackPasOkRecu = false;
 
     public static boolean pseudoConnexion(String newPseudo){
@@ -23,15 +22,11 @@ public class SetPseudo extends Thread{
             oo.writeObject(pseudoConnexion);
             byte[] sentMessage = bstream.toByteArray();
             UdpSend.envoyerBroadcast(sentMessage);
-            while(!ackPasOkRecu && nbAckRecu<(ListeUser.getTailleListe()-1)) {
-                //TODO rajouter des waits et notify
-            }
+            Thread.sleep(delaiAttenteMs);
             if(ackPasOkRecu){
-                nbAckRecu = 0;
                 ackPasOkRecu = false;
                 return false;
             }else{
-                nbAckRecu = 0;
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau);
                 oo.writeObject(newUserConnected);
                 byte[] ackNewUser = bstream.toByteArray();

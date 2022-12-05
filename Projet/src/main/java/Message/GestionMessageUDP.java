@@ -7,8 +7,9 @@ import UserList.ListeUser;
 import NetworkManager.UdpSend;
 public class GestionMessageUDP extends Thread {
 
-    UDPMessage mess;
-    InetAddress adresseClient;
+    public UDPMessage mess;
+
+    public InetAddress adresseClient;
     public GestionMessageUDP(byte[] buffer,InetAddress addressClient){
         try {
             this.adresseClient = addressClient;
@@ -27,12 +28,13 @@ public class GestionMessageUDP extends Thread {
                     ListeUser.removeUser(mess.user.getId());
                     break;
                 case AckPseudoOk:
-
-                    break;
-                case AckPseudoPasOK:
-
+                    ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
                     break;
                 case AckNewUserSurReseau:
+                    ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
+                    break;
+                case AckPseudoPasOK:
+                    SetPseudo.ackPasOkRecu = true;
                     ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
                     break;
             }
@@ -41,13 +43,13 @@ public class GestionMessageUDP extends Thread {
 
     public void handleConnexion(String pseudoRecu, InetAddress adresseClient){
         UDPMessage ack;
-        if(ListeUser.getMyPseudo().equals(pseudoRecu)){
-            ack = new UDPMessage(UDPControlType.AckPseudoPasOK);
-        }else{
-            ack = new UDPMessage(UDPControlType.AckPseudoOk);
-        }
         try{
-            UdpSend.envoyerUnicast(ack.getBytes(), adresseClient);
+            if(ListeUser.getUser(0).getPseudo().equals(pseudoRecu)){
+                ack = new UDPMessage(UDPControlType.AckPseudoPasOK);
+            }else{
+                ack = new UDPMessage(UDPControlType.AckPseudoOk);
+            }
+                UdpSend.envoyerUnicast(ack.getBytes(), adresseClient);
         }catch (Exception e){e.printStackTrace();}
     }
 
