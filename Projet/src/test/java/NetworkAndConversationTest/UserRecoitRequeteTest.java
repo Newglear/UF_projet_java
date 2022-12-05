@@ -1,8 +1,7 @@
-package SuperTest;
+package NetworkAndConversationTest;
 
 import Conversation.ConversationManager;
 import UserList.ListeUser;
-import UserList.UserAlreadyInListException;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package SuperTest;
+package NetworkAndConversationTest;
 
 import Conversation.ConversationManager;
 import UserList.ListeUser;
