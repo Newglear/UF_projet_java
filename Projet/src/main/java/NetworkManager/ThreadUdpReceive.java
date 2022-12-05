@@ -1,5 +1,7 @@
 package NetworkManager;
 
+import Message.GestionMessageUDP;
+
 import java.net.*;
 import java.nio.Buffer;
 
@@ -23,9 +25,8 @@ public class ThreadUdpReceive extends Thread{
                 System.out.println("Etat d'écoute");
                 receiveSocket.receive(incomingPacket);
                 System.out.println("Packet Reçu");
-                clientAddress = incomingPacket.getAddress();
+                GestionMessageUDP handleMessage = new GestionMessageUDP(incomingPacket.getData(),incomingPacket.getAddress());
                 //UdpReceiveTest test = new UdpReceiveTest(clientAddress, buffer);
-                //TODO User.traiterMessage(buffer,clientAddress);
             }
             receiveSocket.close();
         }catch(Exception e){e.printStackTrace();}

@@ -47,7 +47,7 @@ public class GestionMessageUDP extends Thread {
     public void handleConnexion(String pseudoRecu, InetAddress adresseClient){
         UDPMessage ack;
         try{
-            if(ListeUser.getUser(0).getPseudo().equals(pseudoRecu)){
+            if(ListeUser.getMyPseudo().equals(pseudoRecu)){
                 ack = new UDPMessage(UDPControlType.AckPseudoPasOK);
             }else{
                 ack = new UDPMessage(UDPControlType.AckPseudoOk);
