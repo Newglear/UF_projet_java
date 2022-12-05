@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.*;
 
 public class ListeUserTest extends ListeUser{ // extend pour avoir accès à tabItems
 
@@ -59,10 +60,6 @@ public class ListeUserTest extends ListeUser{ // extend pour avoir accès à tab
         ListeUser.modifyUserPseudo(2345, "hola");
     }
 
-
-
-
-
     @Test
     public void UserItemTest() throws UnknownHostException {
         UserItem user = new UserItem(5432, "romain", InetAddress.getLocalHost());
@@ -80,4 +77,37 @@ public class ListeUserTest extends ListeUser{ // extend pour avoir accès à tab
         ListeUser.addUser(2345, "Aude", InetAddress.getLocalHost());
         assertEquals(4, ListeUser.getTailleListe());
     }
+
+    @Test (expected = AssignationProblemException.class)
+    public void AssignationIdExceptionTest() throws AssignationProblemException {
+        int id = ListeUser.getMyId();
+        System.out.println("id: " + id);
+    }
+
+    @Test (expected = AssignationProblemException.class)
+    public void AssignationPseudoExceptionTest() throws AssignationProblemException{
+        String pseudo=ListeUser.getMyPseudo();
+        System.out.println("pseudo : "+ pseudo);
+    }
+
+    @Test
+    public void getIdTest() throws AssignationProblemException {
+        ListeUser.setMyId(3);
+        int id = ListeUser.getMyId();
+        assertEquals(3, id);
+    }
+
+    @Test
+    public void getPseudoTest() throws AssignationProblemException {
+        ListeUser.setMyPseudo("moi");
+        String id = ListeUser.getMyPseudo();
+        assertEquals("moi", id);
+    }
+
+    @Test
+    public void pseudoDisponibleTest(){
+        assertTrue(ListeUser.pseudoDisponible("blabla"));
+        assertFalse(ListeUser.pseudoDisponible("romain"));
+    }
+
 }

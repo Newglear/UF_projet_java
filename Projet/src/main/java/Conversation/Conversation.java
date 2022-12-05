@@ -23,7 +23,6 @@ public class Conversation {
         OutputStream outputStream = socket.getOutputStream();
         this.out = new ObjectOutputStream(outputStream);
         ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
-
     }
 
 

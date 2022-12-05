@@ -16,6 +16,12 @@ public class UserItem implements Serializable {
         this.pseudo=pseudo;
         this.address=address;
     }
+    
+    public UserItem(int id, String pseudo){
+        this.id=id; 
+        this.pseudo=pseudo;
+        address = null;
+    }
 
     public String getPseudo(){
         return this.pseudo;
