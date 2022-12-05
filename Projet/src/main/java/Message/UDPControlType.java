@@ -6,6 +6,5 @@ public enum UDPControlType {
     AckPseudoOk,
     AckPseudoPasOK,
     AckNewUserSurReseau,
-
-    NewPseudo;
+    ChangementPseudo
 }
