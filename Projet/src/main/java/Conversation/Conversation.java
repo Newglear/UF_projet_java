@@ -1,6 +1,8 @@
 package Conversation;
 
 import Message.TCPMessage;
+import Message.TCPType;
+import NetworkManager.TcpReceiveData;
 import NetworkManager.TcpSend;
 import UserList.ListeUser;
 import UserList.UserNotFoundException;
@@ -14,9 +16,15 @@ public class Conversation {
     private int destinataireId = 0;
     private final Socket socket;
 
-    public Conversation(Socket socket) {
+    public Conversation(Socket socket) throws Exception {
         this.socket = socket;
+        TCPMessage message = TcpReceiveData.receiveData(socket);
+        this.destinataireId = message.getDestinataireId();
+        if (message.type!= TCPType.OuvertureSession) {
+            throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
+        }
         ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
+
     }
 
 
@@ -52,9 +60,6 @@ public class Conversation {
         return this.destinataireId;
     }
 
-    public void setDestinataireId(int id){
-        this.destinataireId=id;
-    }
 
     public void sendMessage(String data) throws IOException {
         TCPMessage message = new TCPMessage(this.destinataireId, data);

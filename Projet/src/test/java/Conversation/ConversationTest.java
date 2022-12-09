@@ -9,8 +9,8 @@ import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
+// TODO (aucun de ces tests ne passent)
 public class ConversationTest {
-
 
     @Test
     public void constructorIntTest() throws Exception {
@@ -22,7 +22,6 @@ public class ConversationTest {
     public void constructorSocketTest() throws Exception {
         Socket socket = new Socket(InetAddress.getLocalHost(),1234);
         Conversation conversation = new Conversation(socket);
-        conversation.setDestinataireId(2);
     }
 
 
