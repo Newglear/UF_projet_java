@@ -26,7 +26,7 @@ public class SetPseudo {
                 ackPasOkRecu = false;
                 return false;
             }else{
-                UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau);
+                UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
                 oo.writeObject(newUserConnected);
                 byte[] ackNewUser = bstream.toByteArray();
                 UdpSend.envoyerBroadcast(ackNewUser);
