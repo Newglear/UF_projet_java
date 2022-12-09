@@ -9,15 +9,17 @@ import java.net.Socket;
 
 public class TcpSendTest {
 
-    // lancer d'abord TcpSendServeurTest sur une autre machine (compléter l'adresse)
+    // lancer d'abord TcpSendServeurTest ou TcpReceiveDataTest sur une autre machine (compléter l'adresse)
     @Test
     public void TcpSendTest() throws Exception {
-        String addressString = "insa-20551.insa-toulouse.fr"; // TODO
+        String addressString = "localhost"; // TODO
         InetAddress address = InetAddress.getByName(addressString);
         System.out.println("test d'un envoi de message à " + addressString);
         Socket socket = TcpSend.tcpConnect(address);
         TCPMessage message = new TCPMessage(2345, TCPType.OuvertureSession);
         TcpSend.envoyerMessage(socket,message);
+        TCPMessage coucou = new TCPMessage(2345, "coucou");
+        TcpSend.envoyerMessage(socket, coucou);
     }
 
 

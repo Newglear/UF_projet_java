@@ -23,6 +23,5 @@ public class TcpSendServeurTest {
         ObjectInputStream in = new ObjectInputStream(input);
         TCPMessage messageRecu = (TCPMessage) in.readObject();
         System.out.println("message reçu : "+ messageRecu.getData());
-
     }
 }
