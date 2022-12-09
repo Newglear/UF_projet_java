@@ -18,7 +18,7 @@ public class SetPseudoTest {
                 Scanner sc = new Scanner(System.in);
                 System.out.println(ListeUser.getMyPseudo() + " n'est pas un pseudo valide, veuillez saisir un nouveau Pseudo");
                 pseudoUtilise = sc.nextLine();
-                while(SetPseudo.changerPseudo(pseudoUtilise)){
+                while(!(SetPseudo.changerPseudo(pseudoUtilise))){
                     System.out.println(pseudoUtilise + " n'est pas un pseudo valide, veuillez saisir un nouveau Pseudo");
                     pseudoUtilise = sc.nextLine();
                 }

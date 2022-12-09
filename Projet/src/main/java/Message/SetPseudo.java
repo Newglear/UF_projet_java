@@ -28,9 +28,11 @@ public class SetPseudo {
                 return false;
             }else{
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
-                oo.writeObject(newUserConnected);
+                ByteArrayOutputStream newStream = new ByteArrayOutputStream();
+                ObjectOutput noo = new ObjectOutputStream(newStream);
+                noo.writeObject(newUserConnected);
                 oo.close();
-                byte[] ackNewUser = bstream.toByteArray();
+                byte[] ackNewUser = newStream.toByteArray();
                 UdpSend.envoyerBroadcast(ackNewUser);
                 return true;
             }
@@ -43,9 +45,9 @@ public class SetPseudo {
     public static boolean changerPseudo(String newPseudo){
         if(ListeUser.pseudoDisponible(newPseudo)){
             try {
-                ListeUser.modifyUserPseudo(ListeUser.getMyId(), newPseudo);
-                UserItem newIdentity= new UserItem(ListeUser.getMyId(),newPseudo);
-                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
+                ListeUser.setMyPseudo(newPseudo);
+                UserItem newIdentity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
+                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
                 ByteArrayOutputStream bstream = new ByteArrayOutputStream();
                 ObjectOutput oo = new ObjectOutputStream(bstream);
                 oo.writeObject(pseudoConnexion);

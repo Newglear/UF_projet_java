@@ -54,7 +54,7 @@ public class GestionMessageUDP extends Thread {
     public void handleConnexion(String pseudoRecu, InetAddress adresseClient){
         UDPMessage ack;
         try{
-            UserItem self = new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo(),InetAddress.getLocalHost());
+            UserItem self = new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(bstream);
             if(ListeUser.getMyPseudo().equals(pseudoRecu)){
