@@ -37,7 +37,7 @@ public class GestionMessageUDP extends Thread {
                     SetPseudo.ackPasOkRecu = true;
                     ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
                     break;
-                case NewPseudo:
+                case ChangementPseudo:
                     ListeUser.modifyUserPseudo(mess.user.getId(),mess.user.getPseudo());
                     break;
             }

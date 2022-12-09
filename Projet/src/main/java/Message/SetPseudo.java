@@ -14,7 +14,7 @@ public class SetPseudo {
 
     public static boolean pseudoConnexion(){
         try{
-            UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo(), ListeUser.getMyAddress());
+            UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(bstream);
@@ -42,8 +42,8 @@ public class SetPseudo {
         if(ListeUser.pseudoDisponible(newPseudo)){
             try {
                 ListeUser.modifyUserPseudo(ListeUser.getMyId(), newPseudo);
-                UserItem newIdentity= new UserItem(ListeUser.getMyId(),newPseudo, ListeUser.getMyAddress());
-                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.NewPseudo,newIdentity);
+                UserItem newIdentity= new UserItem(ListeUser.getMyId(),newPseudo);
+                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
                 ByteArrayOutputStream bstream = new ByteArrayOutputStream();
                 ObjectOutput oo = new ObjectOutputStream(bstream);
                 oo.writeObject(pseudoConnexion);
