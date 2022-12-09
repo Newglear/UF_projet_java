@@ -15,7 +15,7 @@ public class UserRecoitRequeteTest {
 
     @Test
     public void recoitRequeteTest() throws UnknownHostException, InterruptedException {
-        InetAddress addressUserLanceRequete = InetAddress.getByName("insa-20670.insa-toulouse.fr"); // TODO
+        InetAddress addressUserLanceRequete = InetAddress.getByName("insa-20551.insa-toulouse.fr"); // TODO
         ThreadTcpReceiveConnection threadRcv = new ThreadTcpReceiveConnection();
         ListeUser.addUser(3456, "aude", addressUserLanceRequete);
         sleep(30000);

@@ -35,6 +35,8 @@ public class Conversation {
     public Conversation(int destinataireId) throws Exception {
         this.destinataireId= destinataireId;
         this.socket= TcpSend.tcpConnect(ListeUser.getUser(destinataireId).getAddress());
+        // envoyer son id et la demande d'ouverture de session au user en face après la connexion
+        TcpSend.envoyerMessage(socket, new TCPMessage(destinataireId, TCPType.OuvertureSession));
     }
 
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
