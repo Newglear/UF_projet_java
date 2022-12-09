@@ -7,19 +7,22 @@ import UserList.UserItem;
 import NetworkManager.UdpSend;
 public class GestionMessageUDP extends Thread {
 
-    public UDPMessage mess;
+    public byte[] buffer;
 
     public InetAddress adresseClient;
     public GestionMessageUDP(byte[] buffer,InetAddress addressClient){
         try {
             this.adresseClient = addressClient;
-            ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
-            this.mess = (UDPMessage) IStream.readObject();
+            this.buffer = buffer;
             start();
         }catch (Exception e){e.printStackTrace();}
     }
     public void run(){
         try {
+            ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
+            UDPMessage mess = (UDPMessage) IStream.readObject();
+            System.out.println("Mon ID :" + ListeUser.getMyId() + " ID reçu " + mess.user.getId());
+            System.out.println(adresseClient);
             if(mess.user.getId() != ListeUser.getMyId()) {
                 switch (mess.controlType) {
                     case Connexion:
@@ -42,6 +45,8 @@ public class GestionMessageUDP extends Thread {
                         ListeUser.modifyUserPseudo(mess.user.getId(), mess.user.getPseudo());
                         break;
                 }
+            }else{
+                System.out.println("Paquet rejeté");
             }
         }catch (Exception e){e.printStackTrace();}
     }
@@ -57,6 +62,8 @@ public class GestionMessageUDP extends Thread {
             }else{
                 ack = new UDPMessage(UDPControlType.AckPseudoOk,self);
             }
+            oo.writeObject(ack);
+            oo.close();
             byte[] sentMessage = bstream.toByteArray();
             UdpSend.envoyerUnicast(sentMessage, adresseClient);
         }catch (Exception e){e.printStackTrace();}
