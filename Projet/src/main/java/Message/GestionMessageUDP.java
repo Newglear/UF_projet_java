@@ -1,9 +1,9 @@
 package Message;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.InetAddress;
 import UserList.ListeUser;
+import UserList.UserItem;
 import NetworkManager.UdpSend;
 public class GestionMessageUDP extends Thread {
 
@@ -20,26 +20,28 @@ public class GestionMessageUDP extends Thread {
     }
     public void run(){
         try {
-            switch (mess.controlType){
-                case Connexion:
-                    handleConnexion(mess.user.getPseudo(),adresseClient);
-                    break;
-                case Deconnexion:
-                    ListeUser.removeUser(mess.user.getId());
-                    break;
-                case AckPseudoOk:
-                    ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
-                    break;
-                case AckNewUserSurReseau:
-                    ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
-                    break;
-                case AckPseudoPasOK:
-                    SetPseudo.ackPasOkRecu = true;
-                    ListeUser.addUser(mess.user.getId(),mess.user.getPseudo(),adresseClient);
-                    break;
-                case ChangementPseudo:
-                    ListeUser.modifyUserPseudo(mess.user.getId(),mess.user.getPseudo());
-                    break;
+            if(mess.user.getId() != ListeUser.getMyId()) {
+                switch (mess.controlType) {
+                    case Connexion:
+                        handleConnexion(mess.user.getPseudo(), adresseClient);
+                        break;
+                    case Deconnexion:
+                        ListeUser.removeUser(mess.user.getId());
+                        break;
+                    case AckPseudoOk:
+                        ListeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        break;
+                    case AckNewUserSurReseau:
+                        ListeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        break;
+                    case AckPseudoPasOK:
+                        SetPseudo.ackPasOkRecu = true;
+                        ListeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        break;
+                    case ChangementPseudo:
+                        ListeUser.modifyUserPseudo(mess.user.getId(), mess.user.getPseudo());
+                        break;
+                }
             }
         }catch (Exception e){e.printStackTrace();}
     }
@@ -47,12 +49,16 @@ public class GestionMessageUDP extends Thread {
     public void handleConnexion(String pseudoRecu, InetAddress adresseClient){
         UDPMessage ack;
         try{
+            UserItem self = new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo(),InetAddress.getLocalHost());
+            ByteArrayOutputStream bstream = new ByteArrayOutputStream();
+            ObjectOutput oo = new ObjectOutputStream(bstream);
             if(ListeUser.getMyPseudo().equals(pseudoRecu)){
-                ack = new UDPMessage(UDPControlType.AckPseudoPasOK);
+                ack = new UDPMessage(UDPControlType.AckPseudoPasOK,self);
             }else{
-                ack = new UDPMessage(UDPControlType.AckPseudoOk);
+                ack = new UDPMessage(UDPControlType.AckPseudoOk,self);
             }
-                UdpSend.envoyerUnicast(ack.getBytes(), adresseClient);
+            byte[] sentMessage = bstream.toByteArray();
+            UdpSend.envoyerUnicast(sentMessage, adresseClient);
         }catch (Exception e){e.printStackTrace();}
     }
 
