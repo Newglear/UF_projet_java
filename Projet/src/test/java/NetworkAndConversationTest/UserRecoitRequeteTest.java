@@ -1,4 +1,4 @@
-package NetworkAndConversationTest;
+/*package NetworkAndConversationTest;
 
 import Conversation.ConversationManager;
 import NetworkManager.ThreadTcpReceiveConnection;
@@ -27,3 +27,4 @@ public class UserRecoitRequeteTest {
 
     }
 }
+*/

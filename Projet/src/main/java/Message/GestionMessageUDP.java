@@ -23,6 +23,7 @@ public class GestionMessageUDP extends Thread {
             UDPMessage mess = (UDPMessage) IStream.readObject();
             System.out.println("Mon ID :" + ListeUser.getMyId() + " ID reçu " + mess.user.getId());
             System.out.println(adresseClient);
+            System.out.println(mess.controlType);
             if(mess.user.getId() != ListeUser.getMyId()) {
                 switch (mess.controlType) {
                     case Connexion:
