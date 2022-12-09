@@ -20,6 +20,7 @@ public class TcpSendTest {
         TcpSend.envoyerMessage(socket,message);
         TCPMessage coucou = new TCPMessage(2345, "coucou");
         TcpSend.envoyerMessage(socket, coucou);
+        socket.close();
     }
 
 

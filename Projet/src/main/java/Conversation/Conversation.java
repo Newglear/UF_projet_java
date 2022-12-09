@@ -2,10 +2,10 @@ package Conversation;
 
 import Message.TCPMessage;
 import Message.TCPType;
-import NetworkManager.TcpReceiveData;
 import NetworkManager.TcpSend;
+import NetworkManager.ThreadTcpReceiveData;
+import UserList.AssignationProblemException;
 import UserList.ListeUser;
-import UserList.UserNotFoundException;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,28 +13,31 @@ import java.net.Socket;
 
 public class Conversation {
 
-    private int destinataireId = 0;
+    private int destinataireId = -1;
     private final Socket socket;
 
     public Conversation(Socket socket) throws Exception {
         this.socket = socket;
-        TCPMessage message = TcpReceiveData.receiveData(socket);
-        this.destinataireId = message.getDestinataireId();
-        if (message.type!= TCPType.OuvertureSession) {
+        // récupération des paramètres (destinataire id) dans le premier message d'initiation de connexion
+        InputStream input = socket.getInputStream();
+        ObjectInputStream in = new ObjectInputStream(input);
+        TCPMessage firstMessage = (TCPMessage) in.readObject();
+        this.destinataireId = firstMessage.getDestinataireId();
+        if (firstMessage.type!= TCPType.OuvertureSession) {
             throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
         }
-        ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
-
+        // lancement du thread de reception des messages
+        ThreadTcpReceiveData reception = new ThreadTcpReceiveData(destinataireId);
+        reception.run(socket);
     }
 
 
     public Conversation(int destinataireId) throws Exception {
         this.destinataireId= destinataireId;
         this.socket= TcpSend.tcpConnect(ListeUser.getUser(destinataireId).getAddress());
-         ThreadConversationReceive threadRcv = new ThreadConversationReceive(this);
     }
 
-    public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {         // TODO
+    public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
         switch (message.type){
             case UserData: System.out.println(message.getData()); break; // TODO faire des trucs avec la DB
             case OuvertureSession: throw new OpenConversationException("vous avez fait n'importe quoi avec les types de message");
@@ -56,7 +59,10 @@ public class Conversation {
         return this.socket;
     }
 
-    public int getDestinataireId(){
+    public int getDestinataireId() throws AssignationProblemException {
+        if (this.destinataireId == -1){
+            throw new AssignationProblemException();
+        }
         return this.destinataireId;
     }
 

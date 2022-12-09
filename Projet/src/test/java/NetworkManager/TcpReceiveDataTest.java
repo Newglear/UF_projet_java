@@ -1,13 +1,13 @@
 package NetworkManager;
 
-import Message.TCPMessage;
+import Conversation.ConversationManager;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import static NetworkManager.ThreadTcpReceiveConnection.portTcpReceive;
+import static java.lang.Thread.sleep;
 
 public class TcpReceiveDataTest {
 
@@ -18,8 +18,8 @@ public class TcpReceiveDataTest {
         System.out.println("lancement du serveur d'écoute TCP");
         Socket connexion = portEcoute.accept();
         System.out.println("j'ai reçu une connexion ");
-        TCPMessage message1 = TcpReceiveData.receiveData(connexion);
-        TCPMessage message2 = TcpReceiveData.receiveData(connexion);
-        System.out.println("message reçu : " + message2.getData());
+        ThreadTcpReceiveData thread = new ThreadTcpReceiveData(2345);
+        thread.run(connexion);
+        sleep(30000);
     }
 }

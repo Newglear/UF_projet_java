@@ -1,5 +1,6 @@
 package Conversation;
 
+import UserList.AssignationProblemException;
 import UserList.ListeUser;
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class ConversationTest {
     }
 
     @Test
-    public void getConvTest(){
+    public void getConvTest() throws AssignationProblemException {
         Conversation conv1 = ConversationManager.getConv(2345);
         Conversation conv2 = ConversationManager.getConv(5432);
         assertEquals(2345, conv1.getDestinataireId());
