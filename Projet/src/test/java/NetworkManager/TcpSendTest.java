@@ -1,6 +1,7 @@
 package NetworkManager;
 
 import Message.TCPMessage;
+import Message.TCPType;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -15,7 +16,7 @@ public class TcpSendTest {
         InetAddress address = InetAddress.getByName(addressString);
         System.out.println("test d'un envoi de message à " + addressString);
         Socket socket = TcpSend.tcpConnect(address);
-        TCPMessage message = new TCPMessage(2345, "coucou");
+        TCPMessage message = new TCPMessage(2345, TCPType.OuvertureSession);
         TcpSend.envoyerMessage(socket,message);
     }
 
