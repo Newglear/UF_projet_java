@@ -4,6 +4,7 @@ import NetworkManager.ThreadUdpReceive;
 import UserList.ListeUser;
 
 public class ChangementPseudoReceptionTest {
+
     public static void main(String args){
         ListeUser.setMyPseudo("Oui");
         ListeUser.setMyId(1);
