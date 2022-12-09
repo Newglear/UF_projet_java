@@ -11,7 +11,7 @@ public class TcpSendTest {
 
     @Test
     public void TcpSendTest() throws Exception {
-        String addressString = ""; // TODO
+        String addressString = "insa-20551.insa-toulouse.fr"; // TODO
         InetAddress address = InetAddress.getByName(addressString);
         System.out.println("test d'un envoi de message à " + addressString);
         Socket socket = TcpSend.tcpConnect(address);
