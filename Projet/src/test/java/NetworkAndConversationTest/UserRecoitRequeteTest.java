@@ -16,9 +16,9 @@ public class UserRecoitRequeteTest {
     @Test
     public void recoitRequeteTest() throws IOException, InterruptedException {
         InetAddress addressUserLanceRequete = InetAddress.getByName("insa-20551.insa-toulouse.fr"); // TODO
+        ListeUser.addUser(3456, "aude", addressUserLanceRequete);
         ThreadTcpReceiveConnection threadRcv = new ThreadTcpReceiveConnection();
         sleep(10000);
-        ListeUser.addUser(3456, "aude", addressUserLanceRequete);
         ConversationManager.getConv(3456).sendMessage("coucou user1");
 
     }

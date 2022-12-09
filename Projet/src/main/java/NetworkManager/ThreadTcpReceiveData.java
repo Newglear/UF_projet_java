@@ -24,10 +24,12 @@ public class ThreadTcpReceiveData extends Thread {
             try {
                 TCPMessage message = (TCPMessage) in.readObject();
                 // on passe le message à la conversation
-                ConversationManager.getConv(destinataireId).traiterMessageEntrant(message);
+                ConversationManager.getConv(destinataireId).traiterMessageEntrant(message); // TODO ici j'ai un nullpointerexception
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println("je me termine ");
-                isFinished = true ;
+                isFinished = true;
                 socket.close();
             }
         }

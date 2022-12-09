@@ -8,7 +8,7 @@ public class ConversationManager {
 
     public static Conversation createConv(int destinataireId){
         try {
-            Conversation conversation = new Conversation(destinataireId);
+            Conversation conversation = new Conversation(destinataireId); // TODO la création de la conversation a beson de récupérer la conversation dans la hashmap et du coup ça fait de la merde
             mapConversations.put(conversation.getDestinataireId(),conversation);
             return conversation;
         } catch (Exception e) {
