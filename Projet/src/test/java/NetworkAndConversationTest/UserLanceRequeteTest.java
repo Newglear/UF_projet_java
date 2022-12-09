@@ -12,7 +12,7 @@ public class UserLanceRequeteTest {
 
     @Test
     public void lanceRequeteTest() throws UnknownHostException{
-        InetAddress addressUserRecoitRequete = InetAddress.getByName(""); // TODO
+        InetAddress addressUserRecoitRequete = InetAddress.getByName("insa-20552.insa-toulouse.fr"); // TODO
         ListeUser.addUser(2345, "romain", addressUserRecoitRequete);
         try {
             ConversationManager.createConv(2345);
