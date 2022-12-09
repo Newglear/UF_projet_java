@@ -1,3 +1,4 @@
+/*
 package ThreadManager;
 
 import Conversation.ThreadConversationReceive;
@@ -12,3 +13,4 @@ public class ConversationThreadRecord {
         this.threadConvReceive = receive;
     }
 }
+*/

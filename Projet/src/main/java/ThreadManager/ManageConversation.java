@@ -1,3 +1,4 @@
+/*
 package ThreadManager;
 
 import Conversation.Conversation;
@@ -25,3 +26,4 @@ public class ManageConversation {
         ListeThreadsConvs.remove(conv);
     }
 }
+*/

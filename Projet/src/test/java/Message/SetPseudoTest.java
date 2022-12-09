@@ -13,6 +13,7 @@ public class SetPseudoTest {
         try {
             ListeUser.setMyId(0);
             ListeUser.setMyPseudo("Test");
+            ThreadUdpReceive ThreadReceive = new ThreadUdpReceive();
             if(!SetPseudo.pseudoConnexion()){
                 Scanner sc = new Scanner(System.in);
                 System.out.println(ListeUser.getMyPseudo() + " n'est pas un pseudo valide, veuillez saisir un nouveau Pseudo");
