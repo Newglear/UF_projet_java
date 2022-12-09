@@ -1,5 +1,6 @@
 package NetworkAndConversationTest;
 
+import Conversation.Conversation;
 import Conversation.ConversationManager;
 import NetworkManager.ThreadTcpReceiveConnection;
 import UserList.ListeUser;
@@ -7,19 +8,22 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
+import static NetworkManager.ThreadTcpReceiveConnection.portTcpReceive;
 import static java.lang.Thread.sleep;
 
 public class UserRecoitRequeteTest {
 
     @Test
-    public void recoitRequeteTest() throws IOException, InterruptedException {
+    public void recoitRequeteTest() throws Exception {
         InetAddress addressUserLanceRequete = InetAddress.getByName("insa-20551.insa-toulouse.fr"); // TODO
         ListeUser.addUser(3456, "aude", addressUserLanceRequete);
-        ThreadTcpReceiveConnection threadRcv = new ThreadTcpReceiveConnection();
-        sleep(10000);
-        ConversationManager.getConv(3456).sendMessage("coucou user1");
-
+        ServerSocket portEcoute = new ServerSocket(portTcpReceive);
+        Socket connexion = portEcoute.accept();
+        Conversation conversation = new Conversation(connexion);
+        conversation.sendMessage("coucou user 1");
     }
 }
