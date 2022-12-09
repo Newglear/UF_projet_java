@@ -11,6 +11,7 @@ import java.net.Socket;
 
 import static NetworkManager.ThreadTcpReceiveConnection.portTcpReceive;
 
+// pour tester TcpSend
 public class TcpSendServeurTest {
 
     @Test

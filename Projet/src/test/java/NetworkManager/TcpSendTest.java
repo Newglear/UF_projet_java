@@ -5,10 +5,10 @@ import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class TcpSendTest {
 
+    // lancer d'abord TcpSendServeurTest sur une autre machine (compléter l'adresse)
     @Test
     public void TcpSendTest() throws Exception {
         String addressString = ""; // TODO
