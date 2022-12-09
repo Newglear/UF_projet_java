@@ -15,6 +15,7 @@ public class Conversation {
 
     private int destinataireId = -1;
     private final Socket socket;
+    private ThreadTcpReceiveData reception;
 
     public Conversation(Socket socket) throws Exception {
         this.socket = socket;
@@ -27,7 +28,7 @@ public class Conversation {
             throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
         }
         // lancement du thread de reception des messages
-        ThreadTcpReceiveData reception = new ThreadTcpReceiveData(destinataireId);
+        this.reception = new ThreadTcpReceiveData(destinataireId);
         reception.run(socket);
     }
 
@@ -37,6 +38,7 @@ public class Conversation {
         this.socket= TcpSend.tcpConnect(ListeUser.getUser(destinataireId).getAddress());
         // envoyer son id et la demande d'ouverture de session au user en face après la connexion
         TcpSend.envoyerMessage(socket, new TCPMessage(destinataireId, TCPType.OuvertureSession));
+        this.reception = new ThreadTcpReceiveData(destinataireId);
     }
 
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
@@ -48,12 +50,7 @@ public class Conversation {
     }
 
     public void fermerConversation(){
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            System.out.println("Il y a eu un problème avec un socket, maintenant tu peux pleurer");
-            e.printStackTrace();
-        }
+        reception.setFinished();
         // TODO  : fermer les thread avec le threadManager
     }
 

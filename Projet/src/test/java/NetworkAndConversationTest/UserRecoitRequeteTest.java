@@ -14,16 +14,12 @@ import static java.lang.Thread.sleep;
 public class UserRecoitRequeteTest {
 
     @Test
-    public void recoitRequeteTest() throws UnknownHostException, InterruptedException {
+    public void recoitRequeteTest() throws IOException, InterruptedException {
         InetAddress addressUserLanceRequete = InetAddress.getByName("insa-20551.insa-toulouse.fr"); // TODO
         ThreadTcpReceiveConnection threadRcv = new ThreadTcpReceiveConnection();
+        sleep(10000);
         ListeUser.addUser(3456, "aude", addressUserLanceRequete);
-        sleep(30000);
-        try {
-            ConversationManager.getConv(3456).sendMessage("coucou user1");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ConversationManager.getConv(3456).sendMessage("coucou user1");
 
     }
 }
