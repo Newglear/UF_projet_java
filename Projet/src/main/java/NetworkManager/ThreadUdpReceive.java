@@ -8,7 +8,7 @@ import java.nio.Buffer;
 public class ThreadUdpReceive extends Thread{
     public static final int receivePort = 6751;
     private InetAddress clientAddress;
-    public final static int tailleMax = 250; //TODO : modifier taille max message
+    public final static int tailleMax = 2048; //TODO : modifier taille max message
     public boolean isFinished = false;
 
     public ThreadUdpReceive(){

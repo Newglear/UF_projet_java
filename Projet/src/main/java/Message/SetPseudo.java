@@ -19,6 +19,7 @@ public class SetPseudo {
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(bstream);
             oo.writeObject(pseudoConnexion);
+            oo.close();
             byte[] sentMessage = bstream.toByteArray();
             UdpSend.envoyerBroadcast(sentMessage);
             Thread.sleep(delaiAttenteMs);
@@ -28,6 +29,7 @@ public class SetPseudo {
             }else{
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
                 oo.writeObject(newUserConnected);
+                oo.close();
                 byte[] ackNewUser = bstream.toByteArray();
                 UdpSend.envoyerBroadcast(ackNewUser);
                 return true;
