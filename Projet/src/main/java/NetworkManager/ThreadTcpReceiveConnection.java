@@ -1,6 +1,10 @@
 package NetworkManager;
+import Conversation.Conversation;
 import Conversation.ConversationManager;
+import Message.TCPMessage;
 
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.*;
 
 public class ThreadTcpReceiveConnection extends Thread{

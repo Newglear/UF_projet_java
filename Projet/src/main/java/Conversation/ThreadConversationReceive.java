@@ -16,25 +16,11 @@ public class ThreadConversationReceive extends Thread{
 
     public ThreadConversationReceive(Conversation conversation){
         this.conversation=conversation;
-
         start();
     }
 
 
     public void run(){
-        // init des paramètres de la conversation (destinataire)
-        try {
-            TCPMessage message = TcpReceiveData.receiveData(this.conversation.getSocket());
-            conversation.setDestinataireId(message.getDestinataireId());
-            if (message.type!= TCPType.OuvertureSession) {
-                throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
         while (!isFinished){ // TODO : changer ce while true moche
             try {
                 TCPMessage message = TcpReceiveData.receiveData(this.conversation.getSocket());

@@ -7,6 +7,9 @@ public class TcpReceiveTest {
     @Test
     public void TcpReceiveTest(){
         ThreadTcpReceiveConnection threadRcv = new ThreadTcpReceiveConnection();
+        while (true){
+
+        }
     }
 
 }
