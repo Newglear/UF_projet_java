@@ -1,17 +1,11 @@
 package Conversation;
 
-import Message.TCPMessage;
-import Message.TCPType;
-import Message.WrongConstructorException;
-import NetworkManager.TcpSend;
-import NetworkManager.ThreadTcpReceiveConnection;
 import UserList.ListeUser;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
 

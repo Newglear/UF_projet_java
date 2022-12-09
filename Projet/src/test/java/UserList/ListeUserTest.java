@@ -110,4 +110,9 @@ public class ListeUserTest extends ListeUser{ // extend pour avoir accès à tab
         assertFalse(ListeUser.pseudoDisponible("romain"));
     }
 
+    @Test
+    public void newTest(){
+
+    }
+
 }

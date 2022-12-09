@@ -43,7 +43,7 @@ public class ListeUser{
         return tabItems.size();
     }
 
-    public static boolean pseudoDisponible(String pseudo){ //TODO Return true si le pseudo n'est pas dans la HashMap, false sinon
+    public static boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;

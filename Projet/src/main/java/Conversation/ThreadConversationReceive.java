@@ -11,7 +11,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ThreadConversationReceive extends Thread{
 
-    private Conversation conversation;
+    private final Conversation conversation;
+    private boolean isFinished = false;
 
     public ThreadConversationReceive(Conversation conversation){
         this.conversation=conversation;
@@ -23,7 +24,7 @@ public class ThreadConversationReceive extends Thread{
     public void run(){
         // init des paramètres de la conversation (destinataire)
         try {
-            TCPMessage message = TcpReceiveData.receiveData(this.conversation.getIn());
+            TCPMessage message = TcpReceiveData.receiveData(this.conversation.getSocket());
             conversation.setDestinataireId(message.getDestinataireId());
             if (message.type!= TCPType.OuvertureSession) {
                 throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
@@ -34,14 +35,18 @@ public class ThreadConversationReceive extends Thread{
 
 
 
-        while (true){ // TODO : changer ce while true moche
+        while (!isFinished){ // TODO : changer ce while true moche
             try {
-                TCPMessage message = TcpReceiveData.receiveData(this.conversation.getIn());
+                TCPMessage message = TcpReceiveData.receiveData(this.conversation.getSocket());
                 conversation.traiterMessageEntrant(message);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setFinished(){
+        this.isFinished=true;
     }
 
 }
