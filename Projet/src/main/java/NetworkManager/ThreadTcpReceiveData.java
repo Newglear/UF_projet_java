@@ -10,7 +10,7 @@ import Message.TCPMessage;
 
 public class ThreadTcpReceiveData extends Thread {
 
-    private int destinataireId = -1;
+    private final int destinataireId;
     private boolean isFinished = false ;
 
     public ThreadTcpReceiveData(int destinataireId) {
@@ -26,11 +26,10 @@ public class ThreadTcpReceiveData extends Thread {
                 // on passe le message à la conversation
                 ConversationManager.getConv(destinataireId).traiterMessageEntrant(message);
             } catch (Exception e) {
-                System.out.println("je me termine ");
-                isFinished = true ;
-                socket.close();
+                System.out.println("oups l'exception");
             }
         }
+        socket.close();
 
     }
 

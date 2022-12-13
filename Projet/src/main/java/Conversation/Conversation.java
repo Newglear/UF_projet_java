@@ -13,8 +13,9 @@ import java.net.Socket;
 
 public class Conversation {
 
-    private int destinataireId = -1;
+    private final int destinataireId;
     private final Socket socket;
+    private ThreadTcpReceiveData reception;
 
     public Conversation(Socket socket) throws Exception {
         this.socket = socket;
@@ -27,7 +28,7 @@ public class Conversation {
             throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
         }
         // lancement du thread de reception des messages
-        ThreadTcpReceiveData reception = new ThreadTcpReceiveData(destinataireId);
+        this.reception = new ThreadTcpReceiveData(destinataireId);
         reception.run(socket);
     }
 
@@ -46,13 +47,7 @@ public class Conversation {
     }
 
     public void fermerConversation(){
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            System.out.println("Il y a eu un problème avec un socket, maintenant tu peux pleurer");
-            e.printStackTrace();
-        }
-        // TODO  : fermer les thread avec le threadManager
+        this.reception.setFinished();
     }
 
     public Socket getSocket(){
