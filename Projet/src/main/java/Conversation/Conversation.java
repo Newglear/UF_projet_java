@@ -29,7 +29,7 @@ public class Conversation {
         }
         // lancement du thread de reception des messages
         this.reception = new ThreadTcpReceiveData(destinataireId);
-        reception.run(socket);
+        reception.run(socket, this);
     }
 
 
