@@ -9,6 +9,7 @@ public class ThreadGestionMessageUDP extends Thread {
 
     public byte[] buffer;
 
+
     public InetAddress adresseClient;
     public ThreadGestionMessageUDP(byte[] buffer, InetAddress addressClient){
         try {
@@ -21,9 +22,6 @@ public class ThreadGestionMessageUDP extends Thread {
         try {
             ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
             UDPMessage mess = (UDPMessage) IStream.readObject();
-            System.out.println("Mon ID :" + ListeUser.getMyId() + " ID reçu " + mess.user.getId());
-            System.out.println(adresseClient);
-            System.out.println(mess.controlType);
             if(mess.user.getId() != ListeUser.getMyId()) {
                 switch (mess.controlType) {
                     case Connexion:
@@ -46,8 +44,6 @@ public class ThreadGestionMessageUDP extends Thread {
                         ListeUser.modifyUserPseudo(mess.user.getId(), mess.user.getPseudo());
                         break;
                 }
-            }else{
-                System.out.println("Paquet rejeté");
             }
         }catch (Exception e){e.printStackTrace();}
     }
@@ -56,17 +52,12 @@ public class ThreadGestionMessageUDP extends Thread {
         UDPMessage ack;
         try{
             UserItem self = new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
-            ByteArrayOutputStream bstream = new ByteArrayOutputStream();
-            ObjectOutput oo = new ObjectOutputStream(bstream);
             if(ListeUser.getMyPseudo().equals(pseudoRecu)){
                 ack = new UDPMessage(UDPControlType.AckPseudoPasOK,self);
             }else{
                 ack = new UDPMessage(UDPControlType.AckPseudoOk,self);
             }
-            oo.writeObject(ack);
-            oo.close();
-            byte[] sentMessage = bstream.toByteArray();
-            UDPSend.envoyerUnicast(sentMessage, adresseClient);
+            UdpSend.envoyerUnicast(ack, adresseClient);
         }catch (Exception e){e.printStackTrace();}
     }
 

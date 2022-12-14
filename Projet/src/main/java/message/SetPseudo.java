@@ -12,28 +12,20 @@ public class SetPseudo {
     public static int delaiAttenteMs = 2000;
     public static boolean ackPasOkRecu = false;
 
+    public static boolean  connexionEtablie = false;
     public static boolean pseudoConnexion(){
         try{
             UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
-            ByteArrayOutputStream bstream = new ByteArrayOutputStream();
-            ObjectOutput oo = new ObjectOutputStream(bstream);
-            oo.writeObject(pseudoConnexion);
-            oo.close();
-            byte[] sentMessage = bstream.toByteArray();
-            UDPSend.envoyerBroadcast(sentMessage);
+            UdpSend.envoyerBroadcast(pseudoConnexion);
             Thread.sleep(delaiAttenteMs);
             if(ackPasOkRecu){
                 ackPasOkRecu = false;
                 return false;
             }else{
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
-                ByteArrayOutputStream newStream = new ByteArrayOutputStream();
-                ObjectOutput noo = new ObjectOutputStream(newStream);
-                noo.writeObject(newUserConnected);
-                oo.close();
-                byte[] ackNewUser = newStream.toByteArray();
-                UDPSend.envoyerBroadcast(ackNewUser);
+                UdpSend.envoyerBroadcast(newUserConnected);
+                connexionEtablie = true;
                 return true;
             }
         }catch(Exception e){
@@ -43,16 +35,18 @@ public class SetPseudo {
     }
 
     public static boolean changerPseudo(String newPseudo){
+        UDPMessage pseudoConnexion;
+
         if(ListeUser.pseudoDisponible(newPseudo)){
             try {
                 ListeUser.setMyPseudo(newPseudo);
                 UserItem newIdentity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
-                UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
-                ByteArrayOutputStream bstream = new ByteArrayOutputStream();
-                ObjectOutput oo = new ObjectOutputStream(bstream);
-                oo.writeObject(pseudoConnexion);
-                byte[] sentMessage = bstream.toByteArray();
-                UDPSend.envoyerBroadcast(sentMessage);
+                if(connexionEtablie){
+                    pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
+                }else{
+                    pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
+                }
+                UdpSend.envoyerBroadcast(pseudoConnexion);
                 return true;
             }catch (Exception e){
                 e.printStackTrace();
