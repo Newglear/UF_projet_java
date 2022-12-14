@@ -4,34 +4,39 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import conversation.Conversation;
+import conversation.ConversationManager;
 import message.TCPMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class ThreadTCPReceiveData extends Thread {
 
-    private boolean isFinished;
+    private boolean isFinished = false;
+    private final int destinataireId;
+    private static final Logger LOGGER = LogManager.getLogger(ThreadTCPReceiveData.class);
 
     public ThreadTCPReceiveData(int destinataireId) {
-        isFinished = false;
+        LOGGER.trace("creátion du thread de reception avec " + destinataireId);
+        this.destinataireId = destinataireId;
     }
 
-    public void run(Socket socket, Conversation conversation) throws  Exception{
+    public void run(Socket socket) throws  Exception{
         InputStream input = socket.getInputStream();
         ObjectInputStream in = new ObjectInputStream(input);
         while (!isFinished) {
             try {
                 TCPMessage message = (TCPMessage) in.readObject();
                 // on passe le message à la conversation
-                conversation.traiterMessageEntrant(message); // TODO ici j'ai un nullpointerexception avec le conv manager
+                LOGGER.trace("nouveau message reçu de " + destinataireId + " : " + message.getData());
+                ConversationManager.getConv(destinataireId).traiterMessageEntrant(message); // TODO ici j'ai un nullpointerexception avec le conv manager
             } catch (Exception e) {
-                e.printStackTrace(); // il ferme le socket un peu trop souvent oupsy
-                System.out.println("je me termine ");
-                isFinished = true;
-                socket.close();
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
             }
         }
-
+        socket.close();
+        LOGGER.trace("fermeture de la connexion en réception avec " + destinataireId);
     }
 
     public void setFinished(){

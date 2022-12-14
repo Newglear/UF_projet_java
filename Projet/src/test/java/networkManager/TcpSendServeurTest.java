@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static networkManager.ThreadTCPReceiveConnection.portTcpReceive;
+import static networkManager.ThreadTCPServeur.portTcpReceive;
 
 // pour tester TcpSend
 public class TcpSendServeurTest {

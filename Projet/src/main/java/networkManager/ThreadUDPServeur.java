@@ -2,12 +2,12 @@ package networkManager;
 
 import java.net.*;
 
-public class ThreadUDPReceive extends Thread{
+public class ThreadUDPServeur extends Thread{
     public static final int receivePort = 6751;
     public final static int tailleMax = 250; //TODO : modifier taille max message
     public boolean isFinished = false;
 
-    public ThreadUDPReceive(){
+    public ThreadUDPServeur(){
         start();
     }
 

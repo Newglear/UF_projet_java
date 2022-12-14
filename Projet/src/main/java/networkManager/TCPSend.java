@@ -10,6 +10,7 @@ import userList.ListeUser;
 import userList.UserNotFoundException;
 
 public class TCPSend {
+
     private static final Logger LOGGER = LogManager.getLogger(TCPSend.class);
     public static void envoyerMessage(Socket socket, TCPMessage message) throws IOException {
         OutputStream outputStream = socket.getOutputStream();
@@ -19,18 +20,12 @@ public class TCPSend {
     }
 
     public static Socket tcpConnect(int destinataireId){
-        InetAddress address = null;
         try {
-            address = ListeUser.getUser(destinataireId).getAddress();
-        } catch (UserNotFoundException e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-        try {
-            Socket socket = new Socket(address, ThreadTCPReceiveConnection.portTcpReceive);
+            InetAddress address = ListeUser.getUser(destinataireId).getAddress();
+            Socket socket = new Socket(address, ThreadTCPServeur.portTcpReceive);
             LOGGER.trace("Connection réalisée avec " + destinataireId);
             return socket;
-        } catch (IOException e) {
+        } catch (UserNotFoundException | IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }

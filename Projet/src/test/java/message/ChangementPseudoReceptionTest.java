@@ -1,6 +1,6 @@
 package message;
 
-import networkManager.ThreadUDPReceive;
+import networkManager.ThreadUDPServeur;
 import userList.ListeUser;
 
 public class ChangementPseudoReceptionTest {
@@ -8,7 +8,7 @@ public class ChangementPseudoReceptionTest {
     public static void main(String[] args){
         ListeUser.setMyPseudo("Test");
         ListeUser.setMyId(1);
-        ThreadUDPReceive ThreadReceive = new ThreadUDPReceive();
+        ThreadUDPServeur ThreadReceive = new ThreadUDPServeur();
         try {
             Thread.sleep(20000);
         }catch (Exception e){e.printStackTrace();}

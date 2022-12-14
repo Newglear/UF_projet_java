@@ -5,12 +5,12 @@ import java.net.InetAddress;
 import userList.ListeUser;
 import userList.UserItem;
 import networkManager.UDPSend;
-public class GestionMessageUDP extends Thread {
+public class ThreadGestionMessageUDP extends Thread {
 
     public byte[] buffer;
 
     public InetAddress adresseClient;
-    public GestionMessageUDP(byte[] buffer,InetAddress addressClient){
+    public ThreadGestionMessageUDP(byte[] buffer, InetAddress addressClient){
         try {
             this.adresseClient = addressClient;
             this.buffer = buffer;

@@ -10,32 +10,55 @@ import userList.ListeUser;
 import java.io.*;
 import java.net.Socket;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import userList.UserNotFoundException;
 
 public class Conversation {
 
-    private final int destinataireId;
-    private final Socket socket;
+    private static final Logger LOGGER = LogManager.getLogger(Conversation.class);
+    private int destinataireId;
+    private Socket socket;
     private ThreadTCPReceiveData reception;
 
-    public Conversation(Socket socket) throws Exception {
+
+    /** on a reçu une demande de connexion externe et on crée la conversation*/
+    public Conversation(Socket socket){
         this.socket = socket;
         // récupération des paramètres (destinataire id) dans le premier message d'initiation de connexion
-        InputStream input = socket.getInputStream();
-        ObjectInputStream in = new ObjectInputStream(input);
-        TCPMessage firstMessage = (TCPMessage) in.readObject();
-        this.destinataireId = firstMessage.getDestinataireId();
-        if (firstMessage.type!= TCPType.OuvertureSession) {
-            throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
+        try {
+            InputStream input = socket.getInputStream();
+            ObjectInputStream in = new ObjectInputStream(input);
+            TCPMessage firstMessage = (TCPMessage) in.readObject();
+            this.destinataireId = firstMessage.getDestinataireId();
+            if (firstMessage.type!= TCPType.OuvertureSession) {
+                throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
+            }
+            LOGGER.trace("création d'une conversation avec " + destinataireId);
+            // lancement du thread de reception des messages
+            this.reception = new ThreadTCPReceiveData(destinataireId);
+            reception.run(socket);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
         }
-        // lancement du thread de reception des messages
-        this.reception = new ThreadTCPReceiveData(destinataireId);
-        reception.run(socket, this);
+
     }
 
 
-    public Conversation(int destinataireId) throws Exception {
+    /** Le user local veut créer une conversation avec un autre user*/
+    public Conversation(int destinataireId){
         this.destinataireId= destinataireId;
-        this.socket= TCPSend.tcpConnect(ListeUser.getUser(destinataireId).getId());
+        try {
+            this.socket= TCPSend.tcpConnect(ListeUser.getUser(destinataireId).getId());
+            LOGGER.trace("création d'une conversation avec " + destinataireId);
+            this.reception= new ThreadTCPReceiveData(destinataireId);
+            reception.run(socket);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
@@ -48,10 +71,6 @@ public class Conversation {
 
     public void fermerConversation(){
         this.reception.setFinished();
-    }
-
-    public Socket getSocket(){
-        return this.socket;
     }
 
     public int getDestinataireId() throws AssignationProblemException {

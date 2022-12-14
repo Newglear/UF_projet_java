@@ -21,7 +21,7 @@ public class UDPSend {
             socketSend.setBroadcast(true);
             sendPacket = new DatagramPacket(message, message.length);
             sendPacket.setAddress(broadcastAddress);
-            sendPacket.setPort(ThreadUDPReceive.receivePort);
+            sendPacket.setPort(ThreadUDPServeur.receivePort);
             socketSend.send(sendPacket);
             socketSend.close();
         }catch (Exception e){e.printStackTrace();}
@@ -32,7 +32,7 @@ public class UDPSend {
             socketSend = new DatagramSocket();
             sendPacket = new DatagramPacket(message,message.length);
             sendPacket.setAddress(receiverAddress);
-            sendPacket.setPort(ThreadUDPReceive.receivePort);
+            sendPacket.setPort(ThreadUDPServeur.receivePort);
             socketSend.send(sendPacket);
             socketSend.close();
         }catch (Exception e){e.printStackTrace();}

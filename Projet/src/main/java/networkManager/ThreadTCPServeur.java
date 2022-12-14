@@ -5,14 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.net.*;
 
-public class ThreadTCPReceiveConnection extends Thread{
+public class ThreadTCPServeur extends Thread{
 
-    private static final Logger LOGGER = LogManager.getLogger(ThreadTCPReceiveConnection.class);
+    private static final Logger LOGGER = LogManager.getLogger(ThreadTCPServeur.class);
 
     public final static int portTcpReceive = 4753;
     public static boolean isFinished;
 
-    public ThreadTCPReceiveConnection(){
+    public ThreadTCPServeur(){
         start();
     }
     public void run(){
