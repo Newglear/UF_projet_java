@@ -19,11 +19,14 @@ public class ConversationManager {
 
     protected static Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
 
-    public static synchronized Conversation createConv(int destinataireId) {
+    public static synchronized Conversation createConv(int destinataireId) throws ConversationAlreadyExists {
+        if (mapConversations.containsKey(destinataireId)){
+            throw new ConversationAlreadyExists(destinataireId);
+        }
         try {
-            Conversation conversation = new Conversation(destinataireId); // TODO la création de la conversation a beson de récupérer la conversation dans la hashmap et du coup ça fait de la merde
+            Conversation conversation = new Conversation(destinataireId);
             mapConversations.put(conversation.getDestinataireId(), conversation);
-            LOGGER.trace("création d'une conversation avec " + destinataireId);
+            LOGGER.trace("création d'une conversation avec " + destinataireId + " : connexion sortante");
             return conversation;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -36,7 +39,7 @@ public class ConversationManager {
         try {
             Conversation conversation = new Conversation(socket);
             mapConversations.put(conversation.getDestinataireId(), conversation);
-            LOGGER.trace("création d'une conversation avec " + conversation.getDestinataireId());
+            LOGGER.trace("création d'une conversation avec " + conversation.getDestinataireId() + " : connexion entrante");
             return conversation;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

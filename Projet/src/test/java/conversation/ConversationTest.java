@@ -15,6 +15,8 @@ import static org.junit.Assert.assertEquals;
 
 public class ConversationTest {
 
+    // TODO : problèmes de serveur et de bind quand tous les tests lancés l'un après l'autre
+
     @Test
     public void constructorIntTest() throws Exception {
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi

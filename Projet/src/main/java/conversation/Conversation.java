@@ -68,7 +68,7 @@ public class Conversation {
             case UserData:
                 LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break; // TODO faire des trucs avec la DB
             case OuvertureSession:
-                throw new OpenConversationException("vous avez fait n'importe quoi avec les types de message");
+                throw new OpenConversationException("Un message d'ouverture de session a été passé à cette conversation");
             case FermetureSession:
                 try {
                     this.fermerConversation();
