@@ -1,7 +1,7 @@
 package NetworkAndConversationTest;
 
-import Conversation.ConversationManager;
-import UserList.ListeUser;
+import conversation.ConversationManager;
+import userList.ListeUser;
 import org.junit.Test;
 
 import java.io.IOException;
