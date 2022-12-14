@@ -16,7 +16,7 @@ public class UDPMessageTest {
     @Test
     public void getBytesTest() throws UDPGetBytesException, UnknownHostException {
         UDPMessage message = new UDPMessage(UDPControlType.Deconnexion, new UserItem(4, "Aude", InetAddress.getLocalHost()));
-        UdpSend.envoyerBroadcast(message.getBytes());
+        UdpSend.envoyerBroadcast(message);
         System.out.println("tout s'est bien passé je crois");
     }
 }
