@@ -11,17 +11,16 @@ public class ThreadTCPServeur extends Thread{
 
     private static final Logger LOGGER = LogManager.getLogger(ThreadTCPServeur.class);
 
-    public final static int portTcpReceive = 4753;
-    public static boolean isFinished;
+    public final static int PORT_TCP = 4753;
 
     public ThreadTCPServeur(){
         start();
     }
     public void run(){
         try {
-            ServerSocket portEcoute = new ServerSocket(portTcpReceive);
+            ServerSocket portEcoute = new ServerSocket(PORT_TCP);
             LOGGER.info("démarrage du serveur TCP");
-            while (!isFinished) {
+            while (true) {
                 Socket connexion = portEcoute.accept();
                 LOGGER.trace("nouvelle connexion détectée");
                 ConversationManager.createConv(connexion);

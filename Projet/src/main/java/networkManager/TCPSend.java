@@ -1,6 +1,8 @@
 package networkManager;
 
 import message.TCPMessage;
+import message.TCPType;
+import message.WrongConstructorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import userList.ListeUser;
@@ -25,10 +27,12 @@ public class TCPSend {
     public static Socket tcpConnect(int destinataireId){
         try {
             InetAddress address = ListeUser.getUser(destinataireId).getAddress();
-            Socket socket = new Socket(address, ThreadTCPServeur.portTcpReceive);
+            Socket socket = new Socket(address, ThreadTCPServeur.PORT_TCP);
             LOGGER.trace("Connection réalisée avec " + destinataireId);
+            // envoi du message de demande d'ouverture session
+            TCPSend.envoyerMessage(socket, new TCPMessage(destinataireId, TCPType.OuvertureSession));
             return socket;
-        } catch (UserNotFoundException | IOException e) {
+        } catch (UserNotFoundException | IOException | WrongConstructorException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }

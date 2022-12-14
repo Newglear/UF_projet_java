@@ -19,7 +19,7 @@ public class ConversationManager {
 
     protected static Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
 
-    public static Conversation createConv(int destinataireId) {
+    public static synchronized Conversation createConv(int destinataireId) {
         try {
             Conversation conversation = new Conversation(destinataireId); // TODO la création de la conversation a beson de récupérer la conversation dans la hashmap et du coup ça fait de la merde
             mapConversations.put(conversation.getDestinataireId(), conversation);
@@ -32,7 +32,7 @@ public class ConversationManager {
         return null;
     }
 
-    public static Conversation createConv(Socket socket) {
+    public static synchronized Conversation createConv(Socket socket) {
         try {
             Conversation conversation = new Conversation(socket);
             mapConversations.put(conversation.getDestinataireId(), conversation);
@@ -45,7 +45,7 @@ public class ConversationManager {
         return null;
     }
 
-    public static Conversation getConv(int destinataireId) {
+    public static synchronized Conversation getConv(int destinataireId) {
         return mapConversations.get(destinataireId);
     }
 

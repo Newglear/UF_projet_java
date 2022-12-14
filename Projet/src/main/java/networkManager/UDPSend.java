@@ -35,7 +35,7 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage, sentMessage.length);
             sendPacket.setAddress(broadcastAddress);
-            sendPacket.setPort(ThreadUDPServeur.receivePort);
+            sendPacket.setPort(ThreadUDPServeur.PORT_UDP);
             socketSend.send(sendPacket);
             socketSend.close();
         }catch (Exception e){e.printStackTrace();}
@@ -51,7 +51,7 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage,sentMessage.length);
             sendPacket.setAddress(receiverAddress);
-            sendPacket.setPort(ThreadUDPServeur.receivePort);
+            sendPacket.setPort(ThreadUDPServeur.PORT_UDP);
             socketSend.send(sendPacket);
             socketSend.close();
         }catch (Exception e){e.printStackTrace();}

@@ -25,7 +25,7 @@ public class Conversation {
     /**
      * on a reçu une demande de connexion externe et on crée la conversation
      */
-    public Conversation(Socket socket) {
+    protected Conversation(Socket socket) {
         this.socket = socket;
         // récupération des paramètres (destinataire id) dans le premier message d'initiation de connexion
         try {
@@ -38,8 +38,7 @@ public class Conversation {
             }
             LOGGER.trace("création d'une conversation avec " + destinataireId);
             // lancement du thread de reception des messages
-            this.reception = new ThreadTCPReceiveData(destinataireId);
-            reception.run(socket);
+            this.reception = new ThreadTCPReceiveData(destinataireId, socket);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -51,13 +50,12 @@ public class Conversation {
     /**
      * Le user local veut créer une conversation avec un autre user
      */
-    public Conversation(int destinataireId) {
+    protected Conversation(int destinataireId) {
         this.destinataireId = destinataireId;
         try {
             this.socket = TCPSend.tcpConnect(ListeUser.getUser(destinataireId).getId());
             LOGGER.trace("création d'une conversation avec " + destinataireId);
-            this.reception = new ThreadTCPReceiveData(destinataireId);
-            reception.run(socket);
+            this.reception = new ThreadTCPReceiveData(destinataireId, socket);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -68,18 +66,24 @@ public class Conversation {
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
         switch (message.type) {
             case UserData:
-                System.out.println(message.getData());
-                break; // TODO faire des trucs avec la DB
+                LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break; // TODO faire des trucs avec la DB
             case OuvertureSession:
                 throw new OpenConversationException("vous avez fait n'importe quoi avec les types de message");
             case FermetureSession:
-                this.fermerConversation();
+                try {
+                    this.fermerConversation();
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage());
+                    e.printStackTrace();
+                }
                 break;
         }
     }
 
-    public void fermerConversation() {
-        this.reception.setFinished();
+    public void fermerConversation() throws IOException {
+        this.reception.interrupt();
+        this.socket.close();
+        LOGGER.trace("fermeture de la conversation avec " + destinataireId);
     }
 
     public int getDestinataireId() throws AssignationProblemException {

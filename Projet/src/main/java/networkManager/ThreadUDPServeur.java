@@ -5,8 +5,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ThreadUDPServeur extends Thread{
-    public static final int receivePort = 6751;
-    public final static int tailleMax = 250; //TODO : modifier taille max message
+    public static final int PORT_UDP = 6751;
+    public final static int TAILLE_MAX = 250; //TODO : modifier taille max message
     public boolean isFinished = false;
 
     public ThreadUDPServeur(){
@@ -15,8 +15,8 @@ public class ThreadUDPServeur extends Thread{
 
     public void run(){
         try{
-            DatagramSocket receiveSocket = new DatagramSocket(receivePort);
-            byte[] buffer = new byte[tailleMax];
+            DatagramSocket receiveSocket = new DatagramSocket(PORT_UDP);
+            byte[] buffer = new byte[TAILLE_MAX];
             DatagramPacket incomingPacket = new DatagramPacket(buffer,buffer.length);
 
             while(!isFinished){

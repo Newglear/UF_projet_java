@@ -1,6 +1,9 @@
 package userList;
 
+import conversation.Conversation;
+
 import java.net.InetAddress;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +22,14 @@ public class ListeUser{
     /** Private constructor to prevent anybody from invoking it. */
     private ListeUser() {}
 
-    protected static HashMap<Integer, UserItem> tabItems = new HashMap<>();
+    protected static Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
-    public static void addUser(int id, String pseudo, InetAddress address){
+
+    public static synchronized void addUser(int id, String pseudo, InetAddress address){
         tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
     }
 
-    public static void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
+    public static synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
        try{
             tabItems.get(id).setPseudo(newPseudo);
        } catch (Exception e) {
@@ -33,7 +37,7 @@ public class ListeUser{
        }
     }
 
-    public static void removeUser(int id) throws UserNotFoundException {
+    public static synchronized void removeUser(int id) throws UserNotFoundException {
         try {
             tabItems.remove(id);
         } catch (Exception e){
@@ -41,7 +45,7 @@ public class ListeUser{
         }
     }
 
-    public static UserItem getUser(int id) throws UserNotFoundException {
+    public static synchronized UserItem getUser(int id) throws UserNotFoundException {
         try{
             return tabItems.get(id);
         }catch (Exception e){
@@ -49,11 +53,11 @@ public class ListeUser{
         }
     }
 
-    public static int getTailleListe(){
+    public static synchronized int getTailleListe(){
         return tabItems.size();
     }
 
-    public static boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
+    public static synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;

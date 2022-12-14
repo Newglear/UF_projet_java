@@ -1,45 +1,53 @@
 package conversation;
 
+import networkManager.ThreadTCPServeur;
+import org.junit.Test;
 import userList.AssignationProblemException;
 import userList.ListeUser;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
 
-// TODO (aucun de ces tests ne passent)
 public class ConversationTest {
 
     @Test
     public void constructorIntTest() throws Exception {
+        ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
         ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
         Conversation conversation1 = new Conversation(1);
+        conversation1.fermerConversation();
+        tcpServeur.interrupt();
     }
 
     @Test
     public void constructorSocketTest() throws Exception {
-        Socket socket = new Socket(InetAddress.getLocalHost(),1234);
+        EnvoyerMessage envoyerMessage = new EnvoyerMessage(); // envoi d'un message d'ouverture de conversation
+        ServerSocket ecoute = new ServerSocket(ThreadTCPServeur.PORT_TCP); // mini serveur en localhost
+        Socket socket = ecoute.accept();
         Conversation conversation = new Conversation(socket);
+        conversation.fermerConversation();
+        ecoute.close();
     }
-
 
 
     @Test
-    public void createConvTest() throws IOException {
-        ConversationManager.createConv(3);
-        Socket socket = new Socket(InetAddress.getLocalHost(),1235);
-        ConversationManager.createConv(socket);
+    public void sendMessageTest() throws IOException {
+        ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
+        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        Conversation conversation1 = new Conversation(1);
+        conversation1.sendMessage("coucou");
+        conversation1.fermerConversation();
+        // c'est un peu chelou parce que c'est la même conversation qui envoie et qui reçoit, mais c'est ok
+        tcpServeur.interrupt();
     }
 
-    @Test
-    public void getConvTest() throws AssignationProblemException {
-        Conversation conv1 = ConversationManager.getConv(2345);
-        Conversation conv2 = ConversationManager.getConv(5432);
-        assertEquals(2345, conv1.getDestinataireId());
-        assertEquals(5432, conv2.getDestinataireId());
-    }
+
+
+
 
 }
