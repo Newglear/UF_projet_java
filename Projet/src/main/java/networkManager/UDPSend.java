@@ -1,15 +1,17 @@
 package networkManager;
-package NetworkManager;
+
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import message.UDPMessage;
+
 
 public class UDPSend {
     private static final InetAddress broadcastAddress;
-import Message.UDPMessage;
-public class UdpSend {
-    private static InetAddress broadcastAddress;
 
     static {
         try {

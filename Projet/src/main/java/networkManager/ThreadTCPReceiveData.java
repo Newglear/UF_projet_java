@@ -1,13 +1,13 @@
 package networkManager;
 
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.net.Socket;
-
 import conversation.ConversationManager;
 import message.TCPMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 
 
 public class ThreadTCPReceiveData extends Thread {

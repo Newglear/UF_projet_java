@@ -1,10 +1,12 @@
 package message;
 
-import java.io.*;
-import java.net.InetAddress;
+import networkManager.UDPSend;
 import userList.ListeUser;
 import userList.UserItem;
-import networkManager.UDPSend;
+
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.net.InetAddress;
 public class ThreadGestionMessageUDP extends Thread {
 
     public byte[] buffer;
@@ -57,7 +59,7 @@ public class ThreadGestionMessageUDP extends Thread {
             }else{
                 ack = new UDPMessage(UDPControlType.AckPseudoOk,self);
             }
-            UdpSend.envoyerUnicast(ack, adresseClient);
+            UDPSend.envoyerUnicast(ack, adresseClient);
         }catch (Exception e){e.printStackTrace();}
     }
 

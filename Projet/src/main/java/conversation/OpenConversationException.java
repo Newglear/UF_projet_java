@@ -5,8 +5,8 @@ public class OpenConversationException extends Exception {
 
     private final String message;
 
-    public OpenConversationException(String message){
-        this.message=message;
+    public OpenConversationException(String message) {
+        this.message = message;
     }
 
     @Override

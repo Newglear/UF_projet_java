@@ -1,12 +1,8 @@
 package message;
 
-import userList.ListeUser;
 import networkManager.UDPSend;
+import userList.ListeUser;
 import userList.UserItem;
-
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 
 public class SetPseudo {
     public static int delaiAttenteMs = 2000;
@@ -17,14 +13,14 @@ public class SetPseudo {
         try{
             UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
-            UdpSend.envoyerBroadcast(pseudoConnexion);
+            UDPSend.envoyerBroadcast(pseudoConnexion);
             Thread.sleep(delaiAttenteMs);
             if(ackPasOkRecu){
                 ackPasOkRecu = false;
                 return false;
             }else{
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
-                UdpSend.envoyerBroadcast(newUserConnected);
+                UDPSend.envoyerBroadcast(newUserConnected);
                 connexionEtablie = true;
                 return true;
             }
@@ -46,7 +42,7 @@ public class SetPseudo {
                 }else{
                     pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
                 }
-                UdpSend.envoyerBroadcast(pseudoConnexion);
+                UDPSend.envoyerBroadcast(pseudoConnexion);
                 return true;
             }catch (Exception e){
                 e.printStackTrace();
