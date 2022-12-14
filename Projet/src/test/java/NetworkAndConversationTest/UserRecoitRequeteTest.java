@@ -1,4 +1,4 @@
-package NetworkAndConversationTest;
+/*package NetworkAndConversationTest;
 
 import Conversation.Conversation;
 import Conversation.ConversationManager;
@@ -27,3 +27,4 @@ public class UserRecoitRequeteTest {
         conversation.sendMessage("coucou user 1");
     }
 }
+*/
