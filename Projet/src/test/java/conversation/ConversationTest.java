@@ -20,7 +20,8 @@ public class ConversationTest {
     @Test
     public void constructorIntTest() throws Exception {
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
-        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        ListeUser listeUser = ListeUser.getInstance();
+        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         Conversation conversation1 = new Conversation(1);
         conversation1.fermerConversation();
         tcpServeur.interrupt();
@@ -40,7 +41,8 @@ public class ConversationTest {
     @Test
     public void sendMessageTest() throws IOException {
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
-        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        ListeUser listeUser = ListeUser.getInstance();
+        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         Conversation conversation1 = new Conversation(1);
         conversation1.sendMessage("coucou");
         conversation1.fermerConversation();

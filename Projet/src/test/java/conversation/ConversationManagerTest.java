@@ -30,7 +30,8 @@ public class ConversationManagerTest {
     public void createConvIntTest() throws IOException, ConversationAlreadyExists {
         ConversationManager conversations = ConversationManager.getInstance();
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur();
-        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        ListeUser listeUser = ListeUser.getInstance();
+        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         conversations.createConv(1);
     }
 
@@ -38,7 +39,8 @@ public class ConversationManagerTest {
     public void createConvIntTwice() throws UnknownHostException, ConversationAlreadyExists {
         ConversationManager conversations = ConversationManager.getInstance();
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur();
-        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        ListeUser listeUser = ListeUser.getInstance();
+        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         conversations.createConv(1);
         conversations.createConv(1);
     }
@@ -64,10 +66,11 @@ public class ConversationManagerTest {
     public void getConvTest() throws UnknownHostException, AssignationProblemException, UserNotFoundException, ConversationAlreadyExists {
         ConversationManager conversations = ConversationManager.getInstance();
         ThreadTCPServeur tcpServeur = new ThreadTCPServeur();
-        ListeUser.addUser(1, "romain", InetAddress.getLocalHost());
+        ListeUser listeUser = ListeUser.getInstance();
+        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         conversations.createConv(1);
         Conversation conv = conversations.getConv(1);
         assertEquals(1, conv.getDestinataireId());
-        assertEquals("romain", ListeUser.getUser(conv.getDestinataireId()).getPseudo()); // on reteste la liste user parce que pourquoi pas
+        assertEquals("romain", listeUser.getUser(conv.getDestinataireId()).getPseudo()); // on reteste la liste user parce que pourquoi pas
     }
 }

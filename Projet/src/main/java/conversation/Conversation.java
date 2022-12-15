@@ -52,8 +52,9 @@ public class Conversation {
      */
     protected Conversation(int destinataireId) {
         this.destinataireId = destinataireId;
+        ListeUser listeUser = ListeUser.getInstance();
         try {
-            this.socket = TCPSend.tcpConnect(ListeUser.getUser(destinataireId).getId());
+            this.socket = TCPSend.tcpConnect(listeUser.getUser(destinataireId).getId());
             LOGGER.trace("création d'une conversation avec " + destinataireId);
             this.reception = new ThreadTCPReceiveData(destinataireId, socket);
         } catch (Exception e) {

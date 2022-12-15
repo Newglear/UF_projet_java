@@ -10,8 +10,9 @@ public class SetPseudo {
 
     public static boolean  connexionEtablie = false;
     public static boolean pseudoConnexion(){
+        ListeUser listeUser = ListeUser.getInstance();
         try{
-            UserItem identity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
+            UserItem identity= new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
             UDPSend.envoyerBroadcast(pseudoConnexion);
             Thread.sleep(delaiAttenteMs);
@@ -32,11 +33,11 @@ public class SetPseudo {
 
     public static boolean changerPseudo(String newPseudo){
         UDPMessage pseudoConnexion;
-
-        if(ListeUser.pseudoDisponible(newPseudo)){
+        ListeUser listeUser = ListeUser.getInstance();
+        if(listeUser.pseudoDisponible(newPseudo)){
             try {
-                ListeUser.setMyPseudo(newPseudo);
-                UserItem newIdentity= new UserItem(ListeUser.getMyId(),ListeUser.getMyPseudo());
+                listeUser.setMyPseudo(newPseudo);
+                UserItem newIdentity= new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
                 if(connexionEtablie){
                     pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
                 }else{

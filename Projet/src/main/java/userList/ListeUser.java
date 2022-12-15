@@ -9,27 +9,27 @@ import java.util.Map;
 
 public class ListeUser{
 
-    private static String myPseudo = "";
-    private static int myId = -1;
+    private String myPseudo = "";
+    private int myId = -1;
 
-    /*// The ONLY instance of UserList
+    // The ONLY instance of UserList
     private static final ListeUser instance = new ListeUser();
 
     public static ListeUser getInstance() {
         return instance;
-    }*/
+    }
 
     /** Private constructor to prevent anybody from invoking it. */
     private ListeUser() {}
 
-    protected static Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
+    protected Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
 
-    public static synchronized void addUser(int id, String pseudo, InetAddress address){
+    public synchronized void addUser(int id, String pseudo, InetAddress address){
         tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
     }
 
-    public static synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
+    public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
        try{
             tabItems.get(id).setPseudo(newPseudo);
        } catch (Exception e) {
@@ -37,7 +37,7 @@ public class ListeUser{
        }
     }
 
-    public static synchronized void removeUser(int id) throws UserNotFoundException {
+    public synchronized void removeUser(int id) throws UserNotFoundException {
         try {
             tabItems.remove(id);
         } catch (Exception e){
@@ -45,7 +45,7 @@ public class ListeUser{
         }
     }
 
-    public static synchronized UserItem getUser(int id) throws UserNotFoundException {
+    public synchronized UserItem getUser(int id) throws UserNotFoundException {
         try{
             return tabItems.get(id);
         }catch (Exception e){
@@ -53,11 +53,11 @@ public class ListeUser{
         }
     }
 
-    public static synchronized int getTailleListe(){
+    public synchronized int getTailleListe(){
         return tabItems.size();
     }
 
-    public static synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
+    public synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;
@@ -66,15 +66,15 @@ public class ListeUser{
         return true;
     }
 
-    public static void setMyId(int id){
+    public synchronized void setMyId(int id){
         myId=id;
     }
 
-    public static void setMyPseudo(String pseudo){
+    public synchronized void setMyPseudo(String pseudo){
         myPseudo=pseudo;
     }
 
-    public static int getMyId() throws AssignationProblemException {
+    public synchronized int getMyId() throws AssignationProblemException {
         if (myId==-1){
             throw new AssignationProblemException("ListeUser", "myId");
         }
@@ -82,11 +82,15 @@ public class ListeUser{
 
     }
 
-    public static String getMyPseudo() throws AssignationProblemException {
+    public synchronized String getMyPseudo() throws AssignationProblemException {
         if (myPseudo.equals("")){
             throw new AssignationProblemException("ListeUser", "myPseudo");
         }
         return myPseudo;
+    }
+
+    public void clear(){
+        this.tabItems.clear();
     }
 
 }

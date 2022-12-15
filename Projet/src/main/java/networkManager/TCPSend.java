@@ -26,7 +26,8 @@ public class TCPSend {
 
     public static Socket tcpConnect(int destinataireId){
         try {
-            InetAddress address = ListeUser.getUser(destinataireId).getAddress();
+            ListeUser listeUser = ListeUser.getInstance();
+            InetAddress address = listeUser.getUser(destinataireId).getAddress();
             Socket socket = new Socket(address, ThreadTCPServeur.PORT_TCP);
             LOGGER.trace("Connection réalisée avec " + destinataireId);
             // envoi du message de demande d'ouverture session
