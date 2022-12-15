@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class TCPMessage implements Serializable {
 
     private final int destinataireId;
-    public TCPType type;
+    private final TCPType type;
     private final String data;
 
 
@@ -30,4 +30,7 @@ public class TCPMessage implements Serializable {
         return this.data;
     }
 
+    public TCPType getType() {
+        return type;
+    }
 }

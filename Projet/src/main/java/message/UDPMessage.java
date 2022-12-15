@@ -6,9 +6,9 @@ import java.io.*;
 
 public class UDPMessage implements Serializable {
 
-    public UserItem user;
+    private final UserItem user;
 
-    public UDPControlType controlType;
+    private final UDPControlType controlType;
 
     public UDPMessage(UDPControlType controlType, UserItem user) {
         this.controlType=controlType;
@@ -18,4 +18,11 @@ public class UDPMessage implements Serializable {
     public String toString(){
         return "type : " + controlType + " envoyé par " + user.getId();
     }
+
+    public UserItem getUser(){
+        return this.user;
+    }
+
+    public UDPControlType getControlType(){return this.controlType;}
+
 }

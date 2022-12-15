@@ -33,7 +33,7 @@ public class ListeUserTest{
 
 
     @Test
-    public void addUserTest() throws UnknownHostException {
+    public void addUserTest() throws UnknownHostException, AssignationProblemException {
         ListeUser listeUser = ListeUser.getInstance();
         assertEquals("romain", listeUser.tabItems.get(2345).getPseudo());
         assertEquals(InetAddress.getLocalHost(), listeUser.tabItems.get(2345).getAddress());
@@ -42,7 +42,7 @@ public class ListeUserTest{
 
 
     @Test
-    public void modifyUserTest() throws UnknownHostException, UserNotFoundException {
+    public void modifyUserTest() throws UnknownHostException, UserNotFoundException, AssignationProblemException {
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.modifyUserPseudo(2345,"romainMaisMieux");
         assertEquals("romainMaisMieux", listeUser.tabItems.get(2345).getPseudo());

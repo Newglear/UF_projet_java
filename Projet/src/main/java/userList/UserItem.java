@@ -7,7 +7,7 @@ import java.net.InetAddress;
 public class UserItem implements Serializable {
 
     private String pseudo;
-    private final InetAddress address;
+    private InetAddress address;
     private final int id; // id connue des utilisateurs
 
 
@@ -16,9 +16,9 @@ public class UserItem implements Serializable {
         this.pseudo=pseudo;
         this.address=address;
     }
-    
+
     public UserItem(int id, String pseudo){
-        this.id=id; 
+        this.id=id;
         this.pseudo=pseudo;
         address = null;
     }
@@ -27,7 +27,10 @@ public class UserItem implements Serializable {
         return this.pseudo;
     }
 
-    public InetAddress getAddress(){
+    public InetAddress getAddress() throws AssignationProblemException {
+        if (this.address==null){
+            throw new AssignationProblemException("UserItem", "address");
+        }
         return this.address;
     }
 
@@ -39,6 +42,9 @@ public class UserItem implements Serializable {
         this.pseudo=newPseudo;
     }
 
+    public void setAddress(InetAddress address){
+        this.address=address;
+    }
 
     @Override
     public String toString() {

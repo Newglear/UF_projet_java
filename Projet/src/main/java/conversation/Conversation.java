@@ -33,7 +33,7 @@ public class Conversation {
             ObjectInputStream in = new ObjectInputStream(input);
             TCPMessage firstMessage = (TCPMessage) in.readObject();
             this.destinataireId = firstMessage.getDestinataireId();
-            if (firstMessage.type != TCPType.OuvertureSession) {
+            if (firstMessage.getType() != TCPType.OuvertureSession) {
                 throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
             }
             LOGGER.trace("création d'une conversation avec " + destinataireId);
@@ -65,7 +65,7 @@ public class Conversation {
     }
 
     public void traiterMessageEntrant(TCPMessage message) throws OpenConversationException {
-        switch (message.type) {
+        switch (message.getType()) {
             case UserData:
                 LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break; // TODO faire des trucs avec la DB
             case OuvertureSession:

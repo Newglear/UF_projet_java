@@ -25,26 +25,26 @@ public class ThreadGestionMessageUDP extends Thread {
         try {
             ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
             UDPMessage mess = (UDPMessage) IStream.readObject();
-            if(mess.user.getId() != listeUser.getMyId()) {
-                switch (mess.controlType) {
+            if(mess.getUser().getId() != listeUser.getMyId()) {
+                switch (mess.getControlType()) {
                     case Connexion:
-                        handleConnexion(mess.user.getPseudo(), adresseClient);
+                        handleConnexion(mess.getUser().getPseudo(), adresseClient);
                         break;
                     case Deconnexion:
-                        listeUser.removeUser(mess.user.getId());
+                        listeUser.removeUser(mess.getUser().getId());
                         break;
                     case AckPseudoOk:
-                        listeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        listeUser.addUser(mess.getUser().getId(), mess.getUser().getPseudo(), adresseClient);
                         break;
                     case AckNewUserSurReseau:
-                        listeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        listeUser.addUser(mess.getUser().getId(), mess.getUser().getPseudo(), adresseClient);
                         break;
                     case AckPseudoPasOK:
                         SetPseudo.ackPasOkRecu = true;
-                        listeUser.addUser(mess.user.getId(), mess.user.getPseudo(), adresseClient);
+                        listeUser.addUser(mess.getUser().getId(), mess.getUser().getPseudo(), adresseClient);
                         break;
                     case ChangementPseudo:
-                        listeUser.modifyUserPseudo(mess.user.getId(), mess.user.getPseudo());
+                        listeUser.modifyUserPseudo(mess.getUser().getId(), mess.getUser().getPseudo());
                         break;
                 }
             }
@@ -55,7 +55,7 @@ public class ThreadGestionMessageUDP extends Thread {
         UDPMessage ack;
         ListeUser listeUser = ListeUser.getInstance();
         try{
-            UserItem self = new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
+            UserItem self = new UserItem(listeUser.getMyId(),listeUser.getMyPseudo(),InetAddress.getLocalHost());
             if(listeUser.getMyPseudo().equals(pseudoRecu)){
                 ack = new UDPMessage(UDPControlType.AckPseudoPasOK,self);
             }else{
