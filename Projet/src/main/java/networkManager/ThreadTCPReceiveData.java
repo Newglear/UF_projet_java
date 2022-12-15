@@ -34,7 +34,7 @@ public class ThreadTCPReceiveData extends Thread {
                     TCPMessage message = (TCPMessage) in.readObject();
                     // on passe le message à la conversation
                     LOGGER.trace("nouveau message reçu de " + destinataireId + " : " + message.getData());
-                    ConversationManager.getConv(destinataireId).traiterMessageEntrant(message);
+                     // TODO refaire mieux ConversationManager.getConv(destinataireId).traiterMessageEntrant(message);
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                     e.printStackTrace();

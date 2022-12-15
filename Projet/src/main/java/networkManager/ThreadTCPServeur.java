@@ -23,7 +23,9 @@ public class ThreadTCPServeur extends Thread{
             while (true) {
                 Socket connexion = portEcoute.accept();
                 LOGGER.trace("nouvelle connexion détectée");
-                ConversationManager.createConv(connexion);
+                // TODO refaire mieux
+                ConversationManager conversations = ConversationManager.getInstance();
+                conversations.createConv(connexion);
             }
         }catch (Exception e){
             LOGGER.error(e.getMessage());
