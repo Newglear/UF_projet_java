@@ -12,13 +12,14 @@ import userList.ListeUser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Conversation {
 
     private static final Logger LOGGER = LogManager.getLogger(Conversation.class);
     private int destinataireId;
-    private Socket socket;
+    private InetAddress destinataireAddress;
     private ThreadTCPReceiveData reception;
 
 
@@ -26,7 +27,6 @@ public class Conversation {
      * on a reçu une demande de connexion externe et on crée la conversation
      */
     protected Conversation(Socket socket) {
-        this.socket = socket;
         // récupération des paramètres (destinataire id) dans le premier message d'initiation de connexion
         try {
             InputStream input = socket.getInputStream();
@@ -54,9 +54,9 @@ public class Conversation {
         this.destinataireId = destinataireId;
         ListeUser listeUser = ListeUser.getInstance();
         try {
-            this.socket = TCPSend.tcpConnect(listeUser.getUser(destinataireId).getId());
+            // TODO this.socket = TCPSend.tcpConnect(listeUser.getUser(destinataireId).getId());
             LOGGER.trace("création d'une conversation avec " + destinataireId);
-            this.reception = new ThreadTCPReceiveData(destinataireId, socket);
+            // TODO this.reception = new ThreadTCPReceiveData(destinataireId, socket);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -83,7 +83,6 @@ public class Conversation {
 
     public void fermerConversation() throws IOException {
         this.reception.interrupt();
-        this.socket.close();
         LOGGER.trace("fermeture de la conversation avec " + destinataireId);
     }
 
@@ -95,9 +94,9 @@ public class Conversation {
     }
 
 
-    public void sendMessage(String data) throws IOException {
+    public void sendMessage(String data) {
         TCPMessage message = new TCPMessage(this.destinataireId, data);
-        TCPSend.envoyerMessage(this.socket, message);
+        // TODO TCPSend.envoyerMessage(message, );
         // TODO : faire des trucs avec la database
     }
 

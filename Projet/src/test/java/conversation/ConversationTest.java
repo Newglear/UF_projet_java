@@ -1,25 +1,23 @@
 package conversation;
 
-import networkManager.ThreadTCPServeur;
+import networkManager.TCPServeur;
 import org.junit.Test;
-import userList.AssignationProblemException;
 import userList.ListeUser;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
 
 public class ConversationTest {
 
-    // TODO : problèmes de serveur et de bind quand tous les tests lancés l'un après l'autre
+    // TODO : problèmes de serveur et de bind
 
     @Test
     public void constructorIntTest() throws Exception {
-        ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
+        TCPServeur tcpServeur = new TCPServeur(); // je mets le serveur en localhost aussi
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         Conversation conversation1 = new Conversation(1);
@@ -30,7 +28,7 @@ public class ConversationTest {
     @Test
     public void constructorSocketTest() throws Exception {
         EnvoyerMessage envoyerMessage = new EnvoyerMessage(); // envoi d'un message d'ouverture de conversation
-        ServerSocket ecoute = new ServerSocket(ThreadTCPServeur.PORT_TCP); // mini serveur en localhost
+        ServerSocket ecoute = new ServerSocket(TCPServeur.PORT_TCP); // mini serveur en localhost
         Socket socket = ecoute.accept();
         Conversation conversation = new Conversation(socket);
         conversation.fermerConversation();
@@ -40,7 +38,7 @@ public class ConversationTest {
 
     @Test
     public void sendMessageTest() throws IOException {
-        ThreadTCPServeur tcpServeur = new ThreadTCPServeur(); // je mets le serveur en localhost aussi
+        TCPServeur tcpServeur = new TCPServeur(); // je mets le serveur en localhost aussi
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         Conversation conversation1 = new Conversation(1);
