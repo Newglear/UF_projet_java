@@ -15,4 +15,7 @@ public class UDPMessage implements Serializable {
         this.user=user;
     }
 
+    public String toString(){
+        return "type : " + controlType + " envoyé par " + user.getId();
+    }
 }

@@ -1,5 +1,5 @@
 package message;
-import networkManager.ThreadUDPServeur;
+import networkManager.UDPServeur;
 import userList.ListeUser;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class SetPseudoTest {
         try {
             listeUser.setMyId(0);
             listeUser.setMyPseudo("Test");
-            ThreadUDPServeur ThreadReceive = new ThreadUDPServeur();
+            UDPServeur ThreadReceive = new UDPServeur();
             if(!SetPseudo.pseudoConnexion()){
                 Scanner sc = new Scanner(System.in);
                 System.out.println(listeUser.getMyPseudo() + " n'est pas un pseudo valide, veuillez saisir un nouveau Pseudo");

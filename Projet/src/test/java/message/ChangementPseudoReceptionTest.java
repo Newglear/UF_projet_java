@@ -1,6 +1,6 @@
 package message;
 
-import networkManager.ThreadUDPServeur;
+import networkManager.UDPServeur;
 import userList.ListeUser;
 
 public class ChangementPseudoReceptionTest {
@@ -9,7 +9,7 @@ public class ChangementPseudoReceptionTest {
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.setMyPseudo("Test");
         listeUser.setMyId(1);
-        ThreadUDPServeur ThreadReceive = new ThreadUDPServeur();
+        UDPServeur ThreadReceive = new UDPServeur();
         try {
             Thread.sleep(20000);
         }catch (Exception e){e.printStackTrace();}
