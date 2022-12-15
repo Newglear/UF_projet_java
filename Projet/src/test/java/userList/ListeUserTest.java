@@ -1,5 +1,6 @@
 package userList;
 
+import chavardage.AssignationProblemException;
 import org.junit.Before;
 import org.junit.Test;
 

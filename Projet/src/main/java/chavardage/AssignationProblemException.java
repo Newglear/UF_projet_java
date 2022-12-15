@@ -1,4 +1,4 @@
-package userList;
+package chavardage;
 
 public class AssignationProblemException extends Exception {
 
