@@ -7,8 +7,9 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
-public class ConversationManager {
+public class ConversationManager implements Consumer<Socket> {
 
     // constructeur privé car personne ne doit pouvoir l'appeler (singleton)
     private ConversationManager() {
@@ -39,16 +40,6 @@ public class ConversationManager {
         }
     }
 
-    public synchronized void createConv(Socket socket) {
-        try {
-            Conversation conversation = new Conversation(socket);
-            mapConversations.put(conversation.getDestinataireId(), conversation);
-            LOGGER.trace("création d'une conversation avec " + conversation.getDestinataireId() + " : connexion entrante");
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     public synchronized Conversation getConv(int destinataireId) {
         return mapConversations.get(destinataireId);
@@ -59,4 +50,20 @@ public class ConversationManager {
     }
 
 
+    @Override
+    public void accept(Socket socket) {
+        // TODO créer conversation associée au socket
+
+    /* public synchronized void createConv(Socket socket) {
+        try {
+            Conversation conversation = new Conversation(socket);
+            mapConversations.put(conversation.getDestinataireId(), conversation);
+            LOGGER.trace("création d'une conversation avec " + conversation.getDestinataireId() + " : connexion entrante");
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }*/
+
+    }
 }

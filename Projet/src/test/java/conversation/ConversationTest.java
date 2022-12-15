@@ -1,13 +1,10 @@
 package conversation;
 
-import networkManager.TCPServeur;
+import message.TCPMessage;
+import message.TCPType;
+import message.WrongConstructorException;
 import org.junit.Test;
 import userList.ListeUser;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,9 +13,24 @@ public class ConversationTest {
 
 
     @Test
-    public void conversationTest(){
+    public void conversationTest() throws ConversationException, WrongConstructorException {
         // TODO
+        ListeUser.getInstance().setMyId(3); // j'ai l'id 3
+        Conversation conversation = new Conversation(5); // je crée une conversation avec 5
+        conversation.sendMessage("coucou");
+        assertEquals(5, conversation.getDestinataireId());
+        conversation.traiterMessageEntrant(new TCPMessage(3, "hola"));
+        try { // on teste que les exceptions se lancent bien quand il faut
+            conversation.traiterMessageEntrant(new TCPMessage(3, TCPType.OuvertureSession));
+        } catch (ConversationException e) {
+        }
+        try {
+            conversation.traiterMessageEntrant(new TCPMessage(4, "ahah"));
+        } catch (ConversationException e) {
+        }
+        conversation.traiterMessageEntrant(new TCPMessage(3, TCPType.FermetureSession));
     }
+
 
 
 

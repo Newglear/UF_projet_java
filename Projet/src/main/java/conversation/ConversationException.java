@@ -1,11 +1,11 @@
 package conversation;
 
-public class OpenConversationException extends Exception {
+public class ConversationException extends Exception {
 
 
     private final String message;
 
-    public OpenConversationException(String message) {
+    public ConversationException(String message) {
         this.message = message;
     }
 

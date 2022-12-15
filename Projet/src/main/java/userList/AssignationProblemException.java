@@ -13,6 +13,6 @@ public class AssignationProblemException extends Exception {
 
     @Override
     public String toString(){
-        return ("la variable "+ nomVariable + "de la classe " + nomClasse + "n'a pas été assignée correctement") ;
+        return ("la variable "+ nomVariable + " de la classe " + nomClasse + "n'a pas été assignée correctement") ;
     }
 }
