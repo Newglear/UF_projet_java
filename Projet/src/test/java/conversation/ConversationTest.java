@@ -23,17 +23,19 @@ public class ConversationTest {
         try { // on teste que les exceptions se lancent bien quand il faut
             conversation.traiterMessageEntrant(new TCPMessage(3, TCPType.OuvertureSession));
         } catch (ConversationException e) {
+            System.out.println("exception levée : " + e);
         }
         try {
             conversation.traiterMessageEntrant(new TCPMessage(4, "ahah"));
         } catch (ConversationException e) {
+            System.out.println("exception levée : " + e);
         }
         conversation.traiterMessageEntrant(new TCPMessage(3, TCPType.FermetureSession));
     }
 
 
 
-
+// TODO supprimer
 
     /* @Test
     public void constructorIntTest() throws Exception {

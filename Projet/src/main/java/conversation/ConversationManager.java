@@ -2,6 +2,8 @@ package conversation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import userList.AssignationProblemException;
+import userList.ListeUser;
 
 import java.net.Socket;
 import java.util.Collections;
@@ -23,26 +25,31 @@ public class ConversationManager implements Consumer<Socket> {
 
     private static final Logger LOGGER = LogManager.getLogger(ConversationManager.class);
 
-
     protected Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
 
-    public synchronized void createConv(int destinataireId) throws ConversationAlreadyExists {
+    public synchronized void addConv(int destinataireId) throws ConversationAlreadyExists, ConvWithSelf {
         if (mapConversations.containsKey(destinataireId)){
             throw new ConversationAlreadyExists(destinataireId);
         }
         try {
-            Conversation conversation = new Conversation(destinataireId);
-            mapConversations.put(conversation.getDestinataireId(), conversation);
-            LOGGER.trace("création d'une conversation avec " + destinataireId + " : connexion sortante");
-        } catch (Exception e) {
+            if (destinataireId == ListeUser.getInstance().getMyId()){
+                throw new ConvWithSelf("vous ne pouvez pas créer de conversation avec vous-même");
+            }
+        } catch (AssignationProblemException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
+        Conversation conversation = new Conversation(destinataireId);
+        mapConversations.put(conversation.getDestinataireId(), conversation);
     }
 
 
-    public synchronized Conversation getConv(int destinataireId) {
-        return mapConversations.get(destinataireId);
+    public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
+        try {
+            return mapConversations.get(destinataireId);
+        }catch (Exception e){
+            throw new ConversationDoesNotExist(destinataireId);
+        }
     }
 
     public synchronized void clear() {

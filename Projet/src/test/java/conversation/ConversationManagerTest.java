@@ -1,15 +1,8 @@
 package conversation;
 
-import networkManager.TCPServeur;
 import org.junit.Before;
 import org.junit.Test;
 import userList.ListeUser;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import static org.junit.Assert.assertEquals;
 
 public class ConversationManagerTest {
 
@@ -20,6 +13,25 @@ public class ConversationManagerTest {
     }
 
     @Test
+    public void addConvTest() throws ConversationAlreadyExists, ConvWithSelf {
+        ConversationManager convManager = ConversationManager.getInstance();
+        ListeUser.getInstance().setMyId(3);
+        try {
+            convManager.addConv(3);
+        } catch (ConvWithSelf e){
+            System.out.println("exception levée : " + e.getMessage());
+        }
+        convManager.addConv(5);
+        convManager.addConv(6);
+        try {
+            convManager.addConv(6);
+        } catch (ConversationAlreadyExists e){
+            System.out.println("exception levée : " + e);
+        }
+    }
+
+
+    /* @Test
     public void createConvIntTest() throws IOException, ConversationAlreadyExists {
         ConversationManager conversations = ConversationManager.getInstance();
         TCPServeur tcpServeur = new TCPServeur();
@@ -36,7 +48,7 @@ public class ConversationManagerTest {
         listeUser.addUser(1, "romain", InetAddress.getLocalHost());
         conversations.createConv(1);
         conversations.createConv(1);
-    }
+    }*/
 
     /*@Test
     public void createConvSocketTest() throws IOException, WrongConstructorException {
