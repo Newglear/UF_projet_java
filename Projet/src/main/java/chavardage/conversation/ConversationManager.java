@@ -1,10 +1,16 @@
 package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
+import chavardage.message.TCPMessage;
+import chavardage.message.TCPType;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,8 +45,7 @@ public class ConversationManager implements Consumer<Socket> {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
-        Conversation conversation = new Conversation(destinataireId);
-        mapConversations.put(conversation.getDestinataireId(), conversation);
+        mapConversations.put(destinataireId, new Conversation(destinataireId));
     }
 
 
@@ -59,7 +64,21 @@ public class ConversationManager implements Consumer<Socket> {
 
     @Override
     public void accept(Socket socket) {
-        // TODO créer conversation associée au socket
+        try {
+            InputStream inputStream = socket.getInputStream();
+            ObjectInputStream in = new ObjectInputStream(inputStream);
+            TCPMessage firstMessage = (TCPMessage) in.readObject(); // le premier message reçu, normalement un ouverture connexion
+            if (firstMessage.getType()!= TCPType.OuvertureSession){
+                ConversationException e = new ConversationException("le message passé n'est pas un ouverture session");
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+            }
+            getInstance().addConv(firstMessage.getEnvoyeurId());
+            // TODO se démerder avec le socket pour la réception ah ah bon courage
+        } catch (IOException | ClassNotFoundException | AssignationProblemException | ConversationAlreadyExists | ConvWithSelf e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
 
     /* public synchronized void createConv(Socket socket) {
         try {

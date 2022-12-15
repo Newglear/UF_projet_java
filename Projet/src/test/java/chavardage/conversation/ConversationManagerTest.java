@@ -1,8 +1,17 @@
 package chavardage.conversation;
 
+import chavardage.message.TCPMessage;
+import chavardage.message.TCPType;
+import chavardage.message.WrongConstructorException;
+import chavardage.networkManager.TCPSend;
+import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class ConversationManagerTest {
 
@@ -10,24 +19,33 @@ public class ConversationManagerTest {
     @Before
     public void clearInstance(){
         ConversationManager.getInstance().clear();
+        ListeUser.getInstance().setMyId(3);
     }
 
     @Test
     public void addConvTest() throws ConversationAlreadyExists, ConvWithSelf {
         ConversationManager convManager = ConversationManager.getInstance();
-        ListeUser.getInstance().setMyId(3);
         try {
             convManager.addConv(3);
-        } catch (ConvWithSelf e){
+        } catch (ConvWithSelf e) {
             System.out.println("exception levée : " + e.getMessage());
         }
         convManager.addConv(5);
         convManager.addConv(6);
         try {
             convManager.addConv(6);
-        } catch (ConversationAlreadyExists e){
+        } catch (ConversationAlreadyExists e) {
             System.out.println("exception levée : " + e);
         }
+    }
+
+    @Test
+    public void acceptTest() throws IOException, WrongConstructorException {
+        // attention on teste le accept (j'ai peur)
+        TCPServeur serveur = new TCPServeur();
+        serveur.setSubscriber(ConversationManager.getInstance());
+        // j'envoie une demande de nouvelle conversation de 5
+        TCPSend.envoyer(InetAddress.getLocalHost(), new TCPMessage(3, TCPType.OuvertureSession, 5));
     }
 
 

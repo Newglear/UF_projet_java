@@ -18,7 +18,7 @@ public class TCPSend {
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
         out.writeObject(message);
-        LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
+        // LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
     }
 
     public static void tcpConnect(int destinataireId){
