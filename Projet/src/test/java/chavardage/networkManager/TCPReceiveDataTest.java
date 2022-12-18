@@ -10,24 +10,16 @@ import java.net.UnknownHostException;
 
 public class TCPReceiveDataTest {
 
-    private TCPServeur serveur;
 
-    @Before
-    // lancement du serveur en réception
-    public void lancement() throws ServerAlreadyOpen {
-        this.serveur = new TCPServeur();
-    }
 
     @Test
-    public void threadTest() throws UnknownHostException {
-        Socket socket = TCPSend.connectTo(InetAddress.getLocalHost());
+    public void threadTest() throws UnknownHostException, ServerAlreadyOpen {
+        TCPServeur serveur = new TCPServeur();
+        Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
         TCPReceiveData thread = new TCPReceiveData(socket);
         thread.close();
+        serveur.close();
     }
 
-    @After
-    public void fermer(){
-        this.serveur.close();
-    }
 
 }

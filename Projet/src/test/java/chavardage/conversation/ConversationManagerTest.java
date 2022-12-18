@@ -4,6 +4,7 @@ import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
 import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.ServerAlreadyOpen;
+import chavardage.networkManager.TCPConnect;
 import chavardage.networkManager.TCPSend;
 import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
@@ -12,7 +13,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.Socket;
 
 public class ConversationManagerTest {
 
@@ -46,7 +47,8 @@ public class ConversationManagerTest {
         TCPServeur serveur = new TCPServeur();
         serveur.setSubscriber(ConversationManager.getInstance());
         // j'envoie une demande de nouvelle conversation de 5
-        TCPSend.envoyer(InetAddress.getLocalHost(), new TCPMessage(3, TCPType.OuvertureSession, 5));
+        InetAddress localhost = InetAddress.getLocalHost();
+        TCPSend.envoyer(localhost, new TCPMessage(3, TCPType.OuvertureSession, 5));
     }
 
 

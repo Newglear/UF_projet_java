@@ -10,12 +10,12 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TCPSend {
+public class TCPConnect {
 
-    private static final Logger LOGGER = LogManager.getLogger(TCPSend.class);
+    private static final Logger LOGGER = LogManager.getLogger(TCPConnect.class);
 
     // TODO attention à qui utilise ça
-    public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
+    /*public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
         Socket socket = new Socket(address, TCPServeur.PORT_TCP);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
@@ -23,7 +23,8 @@ public class TCPSend {
         LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
         out.close();
         socket.close();
-    }
+    }*/
+
 
     public static Socket connectTo(InetAddress address){
         try {

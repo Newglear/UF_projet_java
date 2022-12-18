@@ -22,7 +22,11 @@ public class TCPServeur extends Thread{
     }
 
     public TCPServeur() throws ServerAlreadyOpen {
-        if (nbInstances!=0) throw new ServerAlreadyOpen("TCPServeur");
+        if (nbInstances!=0) {
+            ServerAlreadyOpen e = new ServerAlreadyOpen("TCPServeur");
+            LOGGER.error(e.getMessage());
+            throw e;
+        }
         nbInstances+=1;
         start();
     }
@@ -42,6 +46,7 @@ public class TCPServeur extends Thread{
                 // conversations.createConv(connexion);
             }
             portEcoute.close();
+            LOGGER.info("fermeture du serveur TCP");
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();}
@@ -50,6 +55,5 @@ public class TCPServeur extends Thread{
     public synchronized void close(){
         nbInstances-=1;
         this.isClose=true;
-        LOGGER.info("fermeture du serveur TCP");
     }
 }
