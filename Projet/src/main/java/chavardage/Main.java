@@ -1,5 +1,8 @@
 package chavardage;
 
+import chavardage.networkManager.ServerAlreadyOpen;
+import chavardage.networkManager.TCPServeur;
+import chavardage.networkManager.UDPServeur;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +16,19 @@ public class Main {
     public static void main(String[] args){
         Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
+
+        try {
+            TCPServeur tcpServeur = new TCPServeur();
+            UDPServeur udpServeur = new UDPServeur();
+
+            tcpServeur.close();
+            udpServeur.close();
+
+        } catch (Exception | ServerAlreadyOpen e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+
 
     }
 

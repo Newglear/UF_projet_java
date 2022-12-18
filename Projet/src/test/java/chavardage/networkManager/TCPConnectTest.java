@@ -1,17 +1,13 @@
 package chavardage.networkManager;
 
-import chavardage.message.TCPMessage;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TCPSendTest {
+public class TCPConnectTest {
 
-    private TCPServeur serveur ;
 
 
 
@@ -23,12 +19,6 @@ public class TCPSendTest {
         serveur.close();
     }
 
-    /*@Test
-    public void envoyerTest() throws IOException {
-        Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
-        TCPConnect.envoyer(socket, new TCPMessage(1,"hola"));
-        socket.close();
-    }*/
 
 
 }

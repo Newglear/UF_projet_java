@@ -3,6 +3,8 @@ package chavardage.conversation;
 import chavardage.AssignationProblemException;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
+import chavardage.networkManager.TCPReceiveData;
+import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,7 +36,10 @@ public class ConversationManager implements Consumer<Socket> {
 
     protected Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
 
-    public synchronized void addConv(int destinataireId) throws ConversationAlreadyExists, ConvWithSelf {
+    protected Map<Integer, TCPSendData> sendDataMap = Collections.synchronizedMap(new HashMap<>());
+    protected Map<Integer, TCPReceiveData> receiveDataMap = Collections.synchronizedMap(new HashMap<>());
+
+    protected synchronized void addConv(int destinataireId) throws ConversationAlreadyExists, ConvWithSelf {
         if (mapConversations.containsKey(destinataireId)){
             throw new ConversationAlreadyExists(destinataireId);
         }
@@ -49,7 +55,28 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
-    public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
+    protected synchronized void addSendData(int destinataireId, Socket socket) throws ConversationAlreadyExists {
+        if (mapConversations.containsKey(destinataireId)){
+            throw new ConversationAlreadyExists(destinataireId);
+        }
+        try {
+            sendDataMap.put(destinataireId, new TCPSendData(socket));
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    protected synchronized void addReceiveData(int destinataireId, Socket socket) throws ConversationAlreadyExists {
+        if (mapConversations.containsKey(destinataireId)){
+            throw new ConversationAlreadyExists(destinataireId);
+        }
+        receiveDataMap.put(destinataireId, new TCPReceiveData(socket));
+    }
+
+
+
+    protected synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
         try {
             return mapConversations.get(destinataireId);
         }catch (Exception e){
@@ -75,6 +102,7 @@ public class ConversationManager implements Consumer<Socket> {
                 e.printStackTrace();
             }
             getInstance().addConv(firstMessage.getEnvoyeurId());
+
             // TODO se démerder avec le socket pour la réception ah ah bon courage
         } catch (IOException | ClassNotFoundException | AssignationProblemException | ConversationAlreadyExists | ConvWithSelf e) {
             LOGGER.error(e.getMessage());

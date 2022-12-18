@@ -2,6 +2,7 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.message.TCPMessage;
+import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,10 +41,7 @@ public class Conversation implements Consumer<TCPMessage> {
 
     protected Conversation(int destinataireId) {
         this.destinataireId = destinataireId;
-        ListeUser listeUser = ListeUser.getInstance();
-        // TODO this.socket = TCPSend.tcpConnect(listeUser.getUser(destinataireId).getId());
         LOGGER.trace("création d'une conversation avec " + destinataireId);
-        // TODO this.reception = new ThreadTCPReceiveData(destinataireId, socket);
     }
 
     public void accept(TCPMessage message) {
@@ -94,6 +92,7 @@ public class Conversation implements Consumer<TCPMessage> {
 
     public void sendMessage(String data) {
         TCPMessage message = new TCPMessage(this.destinataireId, data);
+
         // TODO TCPSend.envoyerMessage(message, );
         // TODO : faire des trucs avec la database
     }
