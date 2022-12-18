@@ -40,9 +40,7 @@ public class TCPReceiveData extends Thread {
             while (!isClosed) {
                 try {
                     TCPMessage message = (TCPMessage) in.readObject();
-                    // on passe le message à la conversation
-                    // LOGGER.trace("nouveau message reçu de " + destinataireId + " : " + message.getData());
-                     // TODO refaire mieux ConversationManager.getConv(destinataireId).traiterMessageEntrant(message);
+                    subscriber.accept(message);
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                     e.printStackTrace();

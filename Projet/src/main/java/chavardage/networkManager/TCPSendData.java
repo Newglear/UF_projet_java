@@ -8,7 +8,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public class TCPSendData implements Consumer<TCPMessage> {
+public class TCPSendData {
 
     private static final Logger LOGGER = LogManager.getLogger(TCPSendData.class);
     private final ObjectOutputStream out;
@@ -16,11 +16,11 @@ public class TCPSendData implements Consumer<TCPMessage> {
     public TCPSendData(Socket socket) throws IOException {
         OutputStream outputStream = socket.getOutputStream();
         this.out = new ObjectOutputStream(outputStream);
+        LOGGER.trace("création d'un objet d'envoi sur le socket " + socket);
     }
 
 
-    @Override
-    public void accept(TCPMessage message) {
+    public void envoyer(TCPMessage message) {
         try {
             out.writeObject(message);
             LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());

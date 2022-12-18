@@ -44,6 +44,7 @@ public class Conversation implements Consumer<TCPMessage> {
         LOGGER.trace("création d'une conversation avec " + destinataireId);
     }
 
+    @Override
     public void accept(TCPMessage message) {
 
         try {

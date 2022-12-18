@@ -19,6 +19,7 @@ public class TCPServeur extends Thread{
 
     public void setSubscriber(Consumer<Socket> subscriber){
         this.subscriber = subscriber;
+        LOGGER.trace("le subscriber a été set à " + subscriber);
     }
 
     public TCPServeur() throws ServerAlreadyOpen {
