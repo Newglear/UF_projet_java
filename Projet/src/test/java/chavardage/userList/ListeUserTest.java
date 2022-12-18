@@ -20,7 +20,6 @@ public class ListeUserTest{
         listeUser.addUser(4567,"aude", InetAddress.getLocalHost());
         listeUser.addUser(5678, "evan", InetAddress.getLocalHost());
         listeUser.addUser(9876, "gwen", InetAddress.getLocalHost());
-
     }
 
     @Test

@@ -90,6 +90,8 @@ public class ListeUser{
     }
 
     public void clear(){
+        this.myId = -1;
+        this.myPseudo = "";
         this.tabItems.clear();
     }
 

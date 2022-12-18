@@ -1,19 +1,16 @@
 package chavardage.networkManager;
 
-import chavardage.message.TCPMessage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class TCPSendTest {
+public class TCPReceiveDataTest {
 
-    private TCPServeur serveur ;
+    private TCPServeur serveur;
 
     @Before
     // lancement du serveur en réception
@@ -22,18 +19,15 @@ public class TCPSendTest {
     }
 
     @Test
-    public void envoyerTest() throws IOException {
-        TCPSend.envoyer(InetAddress.getLocalHost(), new TCPMessage(1,"hola"));
-    }
-
-    @Test
-    public void connectToTest() throws IOException {
+    public void threadTest() throws UnknownHostException {
         Socket socket = TCPSend.connectTo(InetAddress.getLocalHost());
-        socket.close();
+        TCPReceiveData thread = new TCPReceiveData(socket);
+        thread.close();
     }
 
     @After
-    public void closeServ(){
+    public void fermer(){
         this.serveur.close();
     }
+
 }

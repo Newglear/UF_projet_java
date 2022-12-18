@@ -3,6 +3,7 @@ package chavardage.conversation;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
 import chavardage.message.WrongConstructorException;
+import chavardage.networkManager.ServerAlreadyOpen;
 import chavardage.networkManager.TCPSend;
 import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
@@ -40,7 +41,7 @@ public class ConversationManagerTest {
     }
 
     @Test
-    public void acceptTest() throws IOException, WrongConstructorException {
+    public void acceptTest() throws IOException, WrongConstructorException, ServerAlreadyOpen {
         // attention on teste le accept (j'ai peur)
         TCPServeur serveur = new TCPServeur();
         serveur.setSubscriber(ConversationManager.getInstance());

@@ -15,8 +15,14 @@ public class UDPServeur extends Thread{
     public static final int PORT_UDP = 6751;
     public final static int TAILLE_MAX = 2048;
     private static final Logger LOGGER = LogManager.getLogger(UDPServeur.class);
+    private boolean isClose=false;
+    private static int nbInstances=0;
 
-    public UDPServeur(){
+
+
+    public UDPServeur() throws ServerAlreadyOpen {
+        if (nbInstances!=0) throw new ServerAlreadyOpen("UDPServeur");
+        nbInstances+=1;
         start();
     }
 
@@ -35,7 +41,7 @@ public class UDPServeur extends Thread{
             byte[] buffer = new byte[TAILLE_MAX];
             DatagramPacket incomingPacket = new DatagramPacket(buffer,buffer.length);
             LOGGER.info("démarrage du serveur UDP");
-            while(true){
+            while(!isClose){
                 receiveSocket.receive(incomingPacket);
                 InetAddress clientAddress = incomingPacket.getAddress();
                 ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
@@ -44,8 +50,17 @@ public class UDPServeur extends Thread{
                 LOGGER.trace("paquet reçu : " + mess);
                 subscriber.accept(mess);
             }
+            receiveSocket.close();
         }catch(Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();}
     }
+
+    public synchronized void close(){
+        nbInstances-=1;
+        this.isClose=true;
+        LOGGER.info("fermeture du serveur UDP");
+    }
+
+
 }

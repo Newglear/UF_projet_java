@@ -13,25 +13,29 @@ import java.net.Socket;
 public class TCPSend {
 
     private static final Logger LOGGER = LogManager.getLogger(TCPSend.class);
+
+    // TODO attention à qui utilise ça
     public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
         Socket socket = new Socket(address, TCPServeur.PORT_TCP);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
         out.writeObject(message);
-        // LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
+        LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
+        out.close();
+        socket.close();
     }
 
-    public static void tcpConnect(int destinataireId){
-        /* try {
-            ListeUser listeUser = ListeUser.getInstance();
-            InetAddress address = listeUser.getUser(destinataireId).getAddress();
-            Socket socket = new Socket(address, ThreadTCPServeur.PORT_TCP);
-            LOGGER.trace("Connection réalisée avec " + destinataireId);
-            // envoi du message de demande d'ouverture session
-            TCPSend.envoyerMessage(new TCPMessage(destinataireId, TCPType.OuvertureSession), );
-        } catch (UserNotFoundException | IOException | WrongConstructorException e) {
+    public static Socket connectTo(InetAddress address){
+        try {
+            Socket socket = new Socket(address, TCPServeur.PORT_TCP);
+            LOGGER.trace("Connection réalisée avec " + address);
+            // envoi du message de demande d'ouverture session TODO trouver où le faire ça
+            // TCPSend.envoyer(new TCPMessage(address, TCPType.OuvertureSession), );
+            return socket;
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
-        }*/
+        }
+        return null;
     }
 }

@@ -68,6 +68,7 @@ public class ConversationManager implements Consumer<Socket> {
             InputStream inputStream = socket.getInputStream();
             ObjectInputStream in = new ObjectInputStream(inputStream);
             TCPMessage firstMessage = (TCPMessage) in.readObject(); // le premier message reçu, normalement un ouverture connexion
+            in.close();
             if (firstMessage.getType()!= TCPType.OuvertureSession){
                 ConversationException e = new ConversationException("le message passé n'est pas un ouverture session");
                 LOGGER.error(e.getMessage());
