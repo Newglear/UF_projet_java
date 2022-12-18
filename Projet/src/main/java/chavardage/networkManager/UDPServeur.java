@@ -15,29 +15,19 @@ public class UDPServeur extends Thread{
     public static final int PORT_UDP = 6751;
     public final static int TAILLE_MAX = 2048;
     private static final Logger LOGGER = LogManager.getLogger(UDPServeur.class);
-    private boolean isClose=false;
-    private static int nbInstances=0;
-
-
-
-    public UDPServeur() throws ServerAlreadyOpen {
-        /*if (nbInstances!=0){
-            ServerAlreadyOpen e = new ServerAlreadyOpen("UDPServeur");
-            LOGGER.error(e.getMessage());
-            throw e;
-        }else{
-            nbInstances=1;
-            }
-         */
-        LOGGER.trace("création du serveur UDP");
-
-    }
 
     Consumer<UDPMessage> subscriber;
 
+
+    public UDPServeur() {
+        LOGGER.trace("création du serveur UDP");
+        start();
+    }
+
+
     public synchronized void setSubscriber(Consumer<UDPMessage> subscriber){
-        LOGGER.trace("le subscriber a été set à " + subscriber);
         this.subscriber = subscriber;
+        LOGGER.trace("le subscriber a été set à " + subscriber);
     }
 
     public void run(){ // même si c'est tentant, pour une raison que j'ignore le run en synchronized il est pas fan fan
@@ -60,16 +50,9 @@ public class UDPServeur extends Thread{
             }
             receiveSocket.close();
             LOGGER.info("fermeture du serveur UDP");
-            this.nbInstances=0;
         }catch(Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();}
     }
-
-    /*public synchronized void close(){
-        nbInstances=0;
-        this.isClose=true;
-    }*/
-
 
 }

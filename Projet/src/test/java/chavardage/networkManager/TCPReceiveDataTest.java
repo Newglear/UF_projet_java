@@ -13,12 +13,12 @@ public class TCPReceiveDataTest {
 
 
     @Test
-    public void threadTest() throws UnknownHostException, ServerAlreadyOpen {
-        // TCPServeur serveur = new TCPServeur();
+    public void threadTest() throws UnknownHostException {
+        TCPServeur serveur = new TCPServeur();
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
         TCPReceiveData thread = new TCPReceiveData(socket);
         thread.close();
-        // serveur.close();
+        serveur.interrupt();
     }
 
 

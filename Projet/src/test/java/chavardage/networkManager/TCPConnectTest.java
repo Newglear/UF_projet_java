@@ -12,11 +12,11 @@ public class TCPConnectTest {
 
 
     @Test
-    public void connectToTest() throws IOException, ServerAlreadyOpen {
+    public void connectToTest() throws IOException {
         TCPServeur serveur = new TCPServeur();
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
         socket.close();
-        serveur.close();
+        serveur.interrupt();
     }
 
 

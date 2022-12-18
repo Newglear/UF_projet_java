@@ -10,9 +10,8 @@ import org.junit.Test;
 public class UDPServeurTest {
 
     @Test
-    public void serveurTest() throws ServerAlreadyOpen {
+    public void serveurTest() {
         UDPServeur serveur = new UDPServeur();
-        serveur.start();
         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Connexion, new UserItem(1,"aude")));
         ConsumerTest consumer = new ConsumerTest();
         serveur.setSubscriber(consumer);

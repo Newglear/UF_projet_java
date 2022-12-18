@@ -12,7 +12,7 @@ public class TCPSendDataTest {
 
 
     @Test
-    public void sendDataTest() throws ServerAlreadyOpen, IOException {
+    public void sendDataTest() throws IOException {
         TCPServeur tcpServeur = new TCPServeur();
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
         TCPSendData sendData = new TCPSendData(socket);
@@ -20,6 +20,6 @@ public class TCPSendDataTest {
         sendData.envoyer(new TCPMessage(1, "coucou"));
         sendData.envoyer(new TCPMessage(1, "encore un message"));
         sendData.close();
-        tcpServeur.close();
+        tcpServeur.interrupt();
     }
 }
