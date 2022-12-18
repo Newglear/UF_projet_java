@@ -17,7 +17,7 @@ public class TCPReceiveDataTest {
         TCPServeur serveur = new TCPServeur();
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost());
         TCPReceiveData thread = new TCPReceiveData(socket);
-        thread.close();
+        thread.interrupt();
         serveur.interrupt();
     }
 

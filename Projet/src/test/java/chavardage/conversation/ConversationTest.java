@@ -21,52 +21,12 @@ public class ConversationTest {
         assertEquals(5, conversation.getDestinataireId());
         conversation.accept(new TCPMessage(3, "hola"));
         // on teste que les exceptions se lancent bien quand il faut
-        System.out.println("des exceptions sont attendues : ");
+        System.out.println("3 conversationException sont attendues : ");
         conversation.accept(new TCPMessage(3, TCPType.OuvertureSession, 6));
         conversation.accept(new TCPMessage(4, "ahah"));
         conversation.accept(new TCPMessage(3, TCPType.FermetureSession));
         conversation.accept(new TCPMessage(3, TCPType.FermetureSession));
     }
-
-
-
-// TODO supprimer
-
-    /* @Test
-    public void constructorIntTest() throws Exception {
-        TCPServeur tcpServeur = new TCPServeur(); // je mets le serveur en localhost aussi
-        ListeUser listeUser = ListeUser.getInstance();
-        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
-        Conversation conversation1 = new Conversation(1);
-        conversation1.fermerConversation();
-        tcpServeur.interrupt();
-    }
-
-    @Test
-    public void constructorSocketTest() throws Exception {
-        EnvoyerMessage envoyerMessage = new EnvoyerMessage(); // envoi d'un message d'ouverture de conversation
-        ServerSocket ecoute = new ServerSocket(TCPServeur.PORT_TCP); // mini serveur en localhost
-        Socket socket = ecoute.accept();
-        Conversation conversation = new Conversation(socket);
-        conversation.fermerConversation();
-        ecoute.close();
-    }
-
-
-    @Test
-    public void sendMessageTest() throws IOException {
-        TCPServeur tcpServeur = new TCPServeur(); // je mets le serveur en localhost aussi
-        ListeUser listeUser = ListeUser.getInstance();
-        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
-        Conversation conversation1 = new Conversation(1);
-        conversation1.sendMessage("coucou");
-        conversation1.fermerConversation();
-        // c'est un peu chelou parce que c'est la même conversation qui envoie et qui reçoit, mais c'est ok
-        tcpServeur.interrupt();
-    }*/
-
-
-
 
 
 }

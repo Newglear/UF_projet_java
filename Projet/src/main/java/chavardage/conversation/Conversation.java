@@ -2,7 +2,6 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.message.TCPMessage;
-import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,29 +15,6 @@ public class Conversation implements Consumer<TCPMessage> {
     private final int destinataireId;
     private boolean isClosed = false;
 
-    // TODO supprimer
-    /* protected Conversation(Socket socket) {
-        // récupération des paramètres (destinataire id) dans le premier message d'initiation de connexion
-        try {
-            InputStream input = socket.getInputStream();
-            ObjectInputStream in = new ObjectInputStream(input);
-            TCPMessage firstMessage = (TCPMessage) in.readObject();
-            this.destinataireId = firstMessage.getDestinataireId();
-            if (firstMessage.getType() != TCPType.OuvertureSession) {
-                throw new OpenConversationException("Le message passé n'est pas un OuvertureSession");
-            }
-            LOGGER.trace("création d'une conversation avec " + destinataireId);
-            // lancement du thread de reception des messages
-            this.reception = new ThreadTCPReceiveData(destinataireId, socket);
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-
-    }*/
-
-
-
     protected Conversation(int destinataireId) {
         this.destinataireId = destinataireId;
         LOGGER.trace("création d'une conversation avec " + destinataireId);
@@ -46,7 +22,6 @@ public class Conversation implements Consumer<TCPMessage> {
 
     @Override
     public void accept(TCPMessage message) {
-
         try {
             if (message.getDestinataireId()!=ListeUser.getInstance().getMyId()){
                 ConversationException e = new ConversationException("Un message destiné à un autre utilisateur a été reçu");
@@ -69,7 +44,7 @@ public class Conversation implements Consumer<TCPMessage> {
                 break;
             case FermetureSession:
                 try {
-                    this.fermerConversation();
+                    this.fermer();
                 } catch (IOException | ConversationException e1) {
                     LOGGER.error(e1.getMessage());
                     e1.printStackTrace();
@@ -78,7 +53,7 @@ public class Conversation implements Consumer<TCPMessage> {
         }
     }
 
-    private synchronized void fermerConversation() throws IOException, ConversationException {
+    public synchronized void fermer() throws IOException, ConversationException {
         if (this.isClosed){
             throw new ConversationException("cette conversation a déjà été fermée");
         }

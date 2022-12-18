@@ -17,7 +17,7 @@ public class RecupConvFirstMessage implements Consumer<TCPMessage> {
 
 
     @Override
-    public synchronized void accept(TCPMessage tcpMessage) {
+    public void accept(TCPMessage tcpMessage) {
         LOGGER.trace("je récupère le premier message");
         this.destinataireId = tcpMessage.getDestinataireId();
         this.tcpType=tcpMessage.getType();
