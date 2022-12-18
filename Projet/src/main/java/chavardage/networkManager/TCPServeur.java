@@ -3,6 +3,7 @@ package chavardage.networkManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
@@ -31,9 +32,11 @@ public class TCPServeur extends Thread{
         nbInstances+=1;
         start();
     }
+
+
     public void run(){
         if (this.subscriber==null){
-            this.subscriber=(sock) -> LOGGER.trace("socket: " + sock.toString());
+            this.subscriber=(sock) -> LOGGER.trace("default subscriber : " + sock.toString());
         }
         try {
             ServerSocket portEcoute = new ServerSocket(PORT_TCP);

@@ -17,6 +17,11 @@ public class TCPServeurTest{
         TCPSend.envoyer(localhost,new TCPMessage(1, "yo"));
         serveur.setSubscriber((sock -> System.out.println("le subscriber a bien été appelé")));
         TCPSend.envoyer(localhost,new TCPMessage(1, "coucou toi"));
+        /* try {
+            TCPServeur serveur1 = new TCPServeur();
+        } catch (Exception e){
+            System.out.println("l'exception " + e.getMessage()+ " a été levée");
+        }*/
         serveur.close();
     }
 

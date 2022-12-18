@@ -18,10 +18,10 @@ public class Main {
         LOGGER.info("démarrage de l'application");
 
         try {
-            TCPServeur tcpServeur = new TCPServeur();
+            // TCPServeur tcpServeur = new TCPServeur();
             UDPServeur udpServeur = new UDPServeur();
 
-            tcpServeur.close();
+            //tcpServeur.close();
             udpServeur.close();
 
         } catch (Exception | ServerAlreadyOpen e) {

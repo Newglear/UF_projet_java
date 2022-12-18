@@ -30,14 +30,20 @@ public class ConversationManagerTest {
         Conversation conversation2 = new Conversation(6);
         convManager.addConv(5, conversation1);
         convManager.addConv(6, conversation2);
+    }
+
+
+    @Test
+    public void createConvTest() throws ServerAlreadyOpen {
+        // TCPServeur serveur = new TCPServeur();
 
     }
 
-    @Test
+    /* @Test
     public void acceptTest() throws IOException, ServerAlreadyOpen, WrongConstructorException {
         // attention on teste le accept (j'ai peur)
         TCPServeur serveur = new TCPServeur();
-        serveur.setSubscriber(ConversationManager.getInstance());
+        // serveur.setSubscriber(ConversationManager.getInstance());
         // j'envoie une demande de nouvelle conversation de 5
         InetAddress localhost = InetAddress.getLocalHost();
         Socket socket = new Socket(localhost, TCPServeur.PORT_TCP);
@@ -46,54 +52,8 @@ public class ConversationManagerTest {
         out.writeObject(new TCPMessage(3,TCPType.OuvertureSession, 5));
         out.close();
         socket.close();
-    }
-
-
-    /* @Test
-    public void createConvIntTest() throws IOException, ConversationAlreadyExists {
-        ConversationManager conversations = ConversationManager.getInstance();
-        TCPServeur tcpServeur = new TCPServeur();
-        ListeUser listeUser = ListeUser.getInstance();
-        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
-        conversations.createConv(1);
-    }
-
-    @Test (expected = ConversationAlreadyExists.class)
-    public void createConvIntTwice() throws UnknownHostException, ConversationAlreadyExists {
-        ConversationManager conversations = ConversationManager.getInstance();
-        TCPServeur tcpServeur = new TCPServeur();
-        ListeUser listeUser = ListeUser.getInstance();
-        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
-        conversations.createConv(1);
-        conversations.createConv(1);
     }*/
 
-    /*@Test
-    public void createConvSocketTest() throws IOException, WrongConstructorException {
-        ThreadTCPServeur threadTCPServeur = new ThreadTCPServeur(); // le serveur crée la conversation
-        Socket socket = new Socket(InetAddress.getLocalHost(), ThreadTCPServeur.PORT_TCP);
-        TCPMessage message = new TCPMessage(1, TCPType.OuvertureSession);
-        TCPSend.envoyerMessage(message, );
-    }
 
-    @Test // TODO ce test fait des trucs bizarres
-    public void createConvSocketTwice() throws IOException, WrongConstructorException {
-        ThreadTCPServeur threadTCPServeur = new ThreadTCPServeur(); // le serveur crée la conversation
-        Socket socket = new Socket(InetAddress.getLocalHost(), ThreadTCPServeur.PORT_TCP);
-        TCPMessage message = new TCPMessage(1, TCPType.OuvertureSession);
-        TCPSend.envoyerMessage(message, );
-        TCPSend.envoyerMessage(message, );
-    }
 
-    @Test
-    public void getConvTest() throws UnknownHostException, AssignationProblemException, UserNotFoundException, ConversationAlreadyExists {
-        ConversationManager conversations = ConversationManager.getInstance();
-        ThreadTCPServeur tcpServeur = new ThreadTCPServeur();
-        ListeUser listeUser = ListeUser.getInstance();
-        listeUser.addUser(1, "romain", InetAddress.getLocalHost());
-        conversations.createConv(1);
-        Conversation conv = conversations.getConv(1);
-        assertEquals(1, conv.getDestinataireId());
-        assertEquals("romain", listeUser.getUser(conv.getDestinataireId()).getPseudo()); // on reteste la liste user parce que pourquoi pas
-    }*/
 }

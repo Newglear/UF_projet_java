@@ -34,7 +34,7 @@ public class UDPServeur extends Thread{
 
     public void run(){
         if (this.subscriber==null){
-            this.subscriber=(msg) -> LOGGER.trace("received: "+msg);
+            this.subscriber=(msg) -> LOGGER.trace("default subscriber : "+msg);
         }
         try{
             DatagramSocket receiveSocket = new DatagramSocket(PORT_UDP);

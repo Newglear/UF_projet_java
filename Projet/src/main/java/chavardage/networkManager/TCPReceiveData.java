@@ -32,7 +32,7 @@ public class TCPReceiveData extends Thread {
     @Override
     public void run() {
         if (this.subscriber==null){
-            this.subscriber=(mess) -> LOGGER.trace("message: " + mess.toString());
+            this.subscriber=(mess) -> LOGGER.trace("default subscriber : " + mess.toString());
         }
         try {
             InputStream input = socket.getInputStream();
