@@ -17,17 +17,6 @@ public class Main {
         Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
 
-        try {
-            // TCPServeur tcpServeur = new TCPServeur();
-            UDPServeur udpServeur = new UDPServeur();
-
-            //tcpServeur.close();
-            udpServeur.close();
-
-        } catch (Exception | ServerAlreadyOpen e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
 
 
     }

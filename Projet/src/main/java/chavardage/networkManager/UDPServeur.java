@@ -21,18 +21,26 @@ public class UDPServeur extends Thread{
 
 
     public UDPServeur() throws ServerAlreadyOpen {
-        if (nbInstances!=0) throw new ServerAlreadyOpen("UDPServeur");
-        nbInstances+=1;
-        start();
+        /*if (nbInstances!=0){
+            ServerAlreadyOpen e = new ServerAlreadyOpen("UDPServeur");
+            LOGGER.error(e.getMessage());
+            throw e;
+        }else{
+            nbInstances=1;
+            }
+         */
+        LOGGER.trace("création du serveur UDP");
+
     }
 
     Consumer<UDPMessage> subscriber;
 
-    public void setSubscriber(Consumer<UDPMessage> subscriber){
+    public synchronized void setSubscriber(Consumer<UDPMessage> subscriber){
+        LOGGER.trace("le subscriber a été set à " + subscriber);
         this.subscriber = subscriber;
     }
 
-    public void run(){
+    public void run(){ // même si c'est tentant, pour une raison que j'ignore le run en synchronized il est pas fan fan
         if (this.subscriber==null){
             this.subscriber=(msg) -> LOGGER.trace("default subscriber : "+msg);
         }
@@ -41,7 +49,7 @@ public class UDPServeur extends Thread{
             byte[] buffer = new byte[TAILLE_MAX];
             DatagramPacket incomingPacket = new DatagramPacket(buffer,buffer.length);
             LOGGER.info("démarrage du serveur UDP");
-            while(!isClose){
+            while(!this.isInterrupted()){
                 receiveSocket.receive(incomingPacket);
                 InetAddress clientAddress = incomingPacket.getAddress();
                 ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
@@ -51,16 +59,17 @@ public class UDPServeur extends Thread{
                 subscriber.accept(mess);
             }
             receiveSocket.close();
+            LOGGER.info("fermeture du serveur UDP");
+            this.nbInstances=0;
         }catch(Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();}
     }
 
-    public synchronized void close(){
-        nbInstances-=1;
+    /*public synchronized void close(){
+        nbInstances=0;
         this.isClose=true;
-        LOGGER.info("fermeture du serveur UDP");
-    }
+    }*/
 
 
 }

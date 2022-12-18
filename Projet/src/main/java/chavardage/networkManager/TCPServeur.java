@@ -18,7 +18,7 @@ public class TCPServeur extends Thread{
     Consumer<Socket> subscriber;
     private boolean isClose=false;
 
-    public void setSubscriber(Consumer<Socket> subscriber){
+    public synchronized void setSubscriber(Consumer<Socket> subscriber){
         this.subscriber = subscriber;
         LOGGER.trace("le subscriber a été set à " + subscriber);
     }
@@ -34,7 +34,7 @@ public class TCPServeur extends Thread{
     }
 
 
-    public void run(){
+    public synchronized void run(){
         if (this.subscriber==null){
             this.subscriber=(sock) -> LOGGER.trace("default subscriber : " + sock.toString());
         }
