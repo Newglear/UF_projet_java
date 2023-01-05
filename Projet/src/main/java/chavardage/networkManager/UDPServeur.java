@@ -9,21 +9,40 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.function.Consumer;
 
 public class UDPServeur extends Thread{
-    public static final int PORT_UDP = 6751;
+    public static final int DEFAULT_PORT_UDP = 6751;
     public final static int TAILLE_MAX = 2048;
     private static final Logger LOGGER = LogManager.getLogger(UDPServeur.class);
-
+    private DatagramSocket receiveSocket;
     Consumer<UDPMessage> subscriber;
 
-
+    /** crée le serveur sur le port par défaut*/
     public UDPServeur() {
-        LOGGER.trace("création du serveur UDP");
-        start();
+        try {
+            receiveSocket = new DatagramSocket(DEFAULT_PORT_UDP);
+            LOGGER.trace("création du serveur UDP");
+            start();
+        } catch (SocketException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
+
+    /** crée le serveur sur le port donné*/
+    public UDPServeur(int port){
+        try {
+            receiveSocket = new DatagramSocket(port);
+            LOGGER.trace("création du serveur UDP");
+            start();
+        } catch (SocketException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public synchronized void setSubscriber(Consumer<UDPMessage> subscriber){
         this.subscriber = subscriber;
@@ -35,7 +54,6 @@ public class UDPServeur extends Thread{
             this.subscriber=(msg) -> LOGGER.trace("default subscriber : "+msg);
         }
         try{
-            DatagramSocket receiveSocket = new DatagramSocket(PORT_UDP);
             byte[] buffer = new byte[TAILLE_MAX];
             DatagramPacket incomingPacket = new DatagramPacket(buffer,buffer.length);
             LOGGER.info("démarrage du serveur UDP");

@@ -40,7 +40,7 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage, sentMessage.length);
             sendPacket.setAddress(BROADCAST_ADDRESS);
-            sendPacket.setPort(UDPServeur.PORT_UDP);
+            sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
             socketSend.send(sendPacket);
             LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast");
             socketSend.close();
@@ -57,7 +57,7 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage,sentMessage.length);
             sendPacket.setAddress(receiverAddress);
-            sendPacket.setPort(UDPServeur.PORT_UDP);
+            sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
             socketSend.send(sendPacket);
             LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress);
             socketSend.close();
