@@ -1,10 +1,11 @@
 package chavardage.message;
 
 import chavardage.networkManager.UDPSend;
+import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 
-/* public class SetPseudo {
+public class SetPseudo {
     public static int delaiAttenteMs = 2000;
     public static boolean ackPasOkRecu = false;
 
@@ -14,14 +15,14 @@ import chavardage.userList.UserItem;
         try{
             UserItem identity= new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
             UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
-            UDPSend.envoyerBroadcast(pseudoConnexion);
+            UDPSend.envoyerBroadcast(pseudoConnexion, UDPServeur.DEFAULT_PORT_UDP);
             Thread.sleep(delaiAttenteMs);
             if(ackPasOkRecu){
                 ackPasOkRecu = false;
                 return false;
             }else{
                 UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
-                UDPSend.envoyerBroadcast(newUserConnected);
+                UDPSend.envoyerBroadcast(newUserConnected, UDPServeur.DEFAULT_PORT_UDP);
                 connexionEtablie = true;
                 return true;
             }
@@ -43,7 +44,7 @@ import chavardage.userList.UserItem;
                 }else{
                     pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
                 }
-                UDPSend.envoyerBroadcast(pseudoConnexion);
+                UDPSend.envoyerBroadcast(pseudoConnexion, UDPServeur.DEFAULT_PORT_UDP);
                 return true;
             }catch (Exception e){
                 e.printStackTrace();
@@ -53,4 +54,4 @@ import chavardage.userList.UserItem;
             return false;
         }
     }
-}*/
+}

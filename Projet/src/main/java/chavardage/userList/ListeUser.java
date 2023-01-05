@@ -29,6 +29,11 @@ public class ListeUser{
         tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
     }
 
+    public synchronized void addUser(UserItem userItem){
+        tabItems.putIfAbsent(userItem.getId(), userItem);
+    }
+
+
     public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
        try{
             tabItems.get(id).setPseudo(newPseudo);
