@@ -61,14 +61,14 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         LOGGER.trace(udpMessage.getUser().getPseudo() + " s'est déconnecté");
                         break;
                     case AckPseudoOk:
-                    case AckNewUserSurReseau:
+                    // case AckNewUserSurReseau: TODO refaire et tester quand romain aura expliqué ce que c'est
                         listeUser.addUser(udpMessage.getUser());
                         LOGGER.trace("ajout de " + udpMessage.getUser().getPseudo() + " dans la liste user");
                         break;
                     case AckPseudoPasOK:
-                        /*SetPseudo.ackPasOkRecu = true;
-                        listeUser.addUser(udpMessage.getUser().getId(), udpMessage.getUser().getPseudo(), adresseClient);
-                        */break;
+                        SetPseudo.ackPasOkRecu = true;
+                        listeUser.addUser(udpMessage.getUser());
+                        break;
                     case ChangementPseudo:
                         listeUser.modifyUserPseudo(udpMessage.getUser().getId(), udpMessage.getUser().getPseudo());
                         LOGGER.trace(udpMessage.getUser().getId() + " a changé son pseudo à " + udpMessage.getUser().getPseudo());

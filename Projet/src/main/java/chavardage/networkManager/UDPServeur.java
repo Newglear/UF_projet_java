@@ -44,6 +44,20 @@ public class UDPServeur extends Thread{
         }
     }
 
+
+    /** serveur créé avec subscriber direct*/
+    public UDPServeur(int port, Consumer<UDPMessage> consumer){
+        setSubscriber(consumer);
+        try {
+            receiveSocket = new DatagramSocket(port);
+            LOGGER.trace("création du serveur UDP");
+            start();
+        } catch (SocketException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     /** crée le serveur sur le port donné*/
     public UDPServeur(int port){
         try {

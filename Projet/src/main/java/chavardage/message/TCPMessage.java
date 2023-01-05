@@ -4,7 +4,7 @@ import chavardage.AssignationProblemException;
 
 import java.io.Serializable;
 
-public class TCPMessage implements Serializable {
+public class TCPMessage implements Serializable { // TODO ajouter date et heure
 
     private final int destinataireId;
     private final int envoyeurId;

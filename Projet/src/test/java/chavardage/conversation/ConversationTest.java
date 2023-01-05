@@ -27,7 +27,7 @@ public class ConversationTest {
         assertEquals(5, conversation.getDestinataireId());
         conversation.accept(new TCPMessage(3, "hola"));
         // on teste que les exceptions se lancent bien quand il faut
-        System.out.println("3 conversationException sont attendues : ");
+        System.out.println("2 conversationException sont attendues : ");
         conversation.accept(new TCPMessage(3, TCPType.OuvertureSession, 6));
         conversation.accept(new TCPMessage(3, TCPType.OuvertureSession, 6));
         conversation.accept(new TCPMessage(4, "ahah"));
