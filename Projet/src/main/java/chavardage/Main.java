@@ -1,8 +1,5 @@
 package chavardage;
 
-import chavardage.networkManager.ServerAlreadyOpen;
-import chavardage.networkManager.TCPServeur;
-import chavardage.networkManager.UDPServeur;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

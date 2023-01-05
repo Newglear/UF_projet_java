@@ -1,16 +1,14 @@
-package chavardage.message;
+package chavardage.connexion;
 
+import chavardage.connexion.GestionUDPMessage;
+import chavardage.message.UDPControlType;
+import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
 
 public class GestionUDPMessageTest {
 
@@ -35,9 +33,6 @@ public class GestionUDPMessageTest {
         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.ChangementPseudo, distant),port);
         // test de la déconnexion
          UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Deconnexion,distant),port);
-
-
-
     }
 
 }
