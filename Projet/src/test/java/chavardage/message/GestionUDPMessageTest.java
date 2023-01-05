@@ -23,15 +23,18 @@ public class GestionUDPMessageTest {
 
     @Test
     public void gestionTest() {
-        UDPServeur udpServeur = new UDPServeur(6896, GestionUDPMessage.getInstance());
+        int port = 6896;
+        UDPServeur udpServeur = new UDPServeur(port, GestionUDPMessage.getInstance());
         UserItem distant = new UserItem(3,"romain");
-        // test réception des acks
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.AckPseudoOk, distant),6896);
+        // demande de connexion
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.DemandeConnexion, distant),port);
+        // le nouvel user a pu avoir son pseudo et se connecte
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.NewUser, distant),port);
         // test changement pseudo
         distant.setPseudo("gwen");
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.ChangementPseudo, distant),6896);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.ChangementPseudo, distant),port);
         // test de la déconnexion
-         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Deconnexion,distant),6896);
+         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Deconnexion,distant),port);
 
 
 

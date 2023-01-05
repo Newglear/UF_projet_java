@@ -88,7 +88,7 @@ public class UDPServeur extends Thread{
                 InetAddress clientAddress = incomingPacket.getAddress();
                 ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
                 UDPMessage mess = (UDPMessage) IStream.readObject();
-                mess.getUser().setAddress(clientAddress); // récupérer l'adresse de celui qui nous a envoyé le paquet pour la passer plus haut
+                mess.getEnvoyeur().setAddress(clientAddress); // récupérer l'adresse de celui qui nous a envoyé le paquet pour la passer plus haut
                 LOGGER.trace("paquet reçu : " + mess);
                 subscriber.accept(mess);
             }

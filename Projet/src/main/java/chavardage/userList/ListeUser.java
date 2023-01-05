@@ -94,10 +94,13 @@ public class ListeUser{
         return myPseudo;
     }
 
-    public void clear(){
+    public synchronized void clear(){
         this.myId = -1;
         this.myPseudo = "";
         this.tabItems.clear();
     }
 
+    public synchronized UserItem getMySelf() {
+        return new UserItem(myId,myPseudo);
+    }
 }

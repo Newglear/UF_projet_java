@@ -27,51 +27,42 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
 
 
 
-    public void handleConnexion(UserItem user){
-        UDPMessage ack;
-        ListeUser listeUser = ListeUser.getInstance();
-        try{
-            UserItem self = new UserItem(listeUser.getMyId(),listeUser.getMyPseudo(),InetAddress.getLocalHost());
-            if(listeUser.getMyPseudo().equals(user.getPseudo())){
-                ack = new UDPMessage(UDPControlType.AckPseudoPasOK,self);
-                LOGGER.trace(user.getPseudo() + " est mon pseudo, je renvoie le ack pas ok");
-            }else{
-                ack = new UDPMessage(UDPControlType.AckPseudoOk,self);
-                LOGGER.trace(user.getPseudo() + " n'est pas mon pseudo, je renvoie le ack ok");
-            }
-            UDPSend.envoyerUnicast(ack,user.getAddress(), UDPServeur.DEFAULT_PORT_UDP);
-        }catch (Exception e){
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
 
     @Override
+    /* tout s'envoie sur le port UDP par défaut */
     public void accept(UDPMessage udpMessage) {
         ListeUser listeUser = ListeUser.getInstance();
         try {
-            if(udpMessage.getUser().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
+            if(udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
-                    case Connexion:
-                        handleConnexion(udpMessage.getUser());
+                    case DemandeConnexion:
+                        if (udpMessage.getEnvoyeur().getPseudo().equals(ListeUser.getInstance().getMyPseudo())){
+                            LOGGER.trace("envoi d'un AckPseudoPasOk");
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.AckPseudoPasOK, ListeUser.getInstance().getMySelf()),udpMessage.getEnvoyeur().getAddress());
+                        }else{
+                            LOGGER.trace("envoi d'un AckPseudoOk");
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.AckPseudoOk, ListeUser.getInstance().getMySelf()),udpMessage.getEnvoyeur().getAddress());
+                        }
                         break;
                     case Deconnexion:
-                        listeUser.removeUser(udpMessage.getUser().getId());
-                        LOGGER.trace(udpMessage.getUser().getPseudo() + " s'est déconnecté");
+                        listeUser.removeUser(udpMessage.getEnvoyeur().getId());
+                        LOGGER.trace(udpMessage.getEnvoyeur().getPseudo() + " s'est déconnecté");
                         break;
                     case AckPseudoOk:
-                    // case AckNewUserSurReseau: TODO refaire et tester quand romain aura expliqué ce que c'est
-                        listeUser.addUser(udpMessage.getUser());
-                        LOGGER.trace("ajout de " + udpMessage.getUser().getPseudo() + " dans la liste user");
+                        // TODO
+                        break;
+                    case NewUser:
+                        listeUser.addUser(udpMessage.getEnvoyeur());
+                        LOGGER.trace("ajout de " + udpMessage.getEnvoyeur().getPseudo() + " dans la liste user");
                         break;
                     case AckPseudoPasOK:
-                        SetPseudo.ackPasOkRecu = true;
-                        listeUser.addUser(udpMessage.getUser());
+                        /*SetPseudo.ackPasOkRecu = true;
+                        listeUser.addUser(udpMessage.getUser());*/ //TODO
                         break;
                     case ChangementPseudo:
-                        listeUser.modifyUserPseudo(udpMessage.getUser().getId(), udpMessage.getUser().getPseudo());
-                        LOGGER.trace(udpMessage.getUser().getId() + " a changé son pseudo à " + udpMessage.getUser().getPseudo());
+                        listeUser.modifyUserPseudo(udpMessage.getEnvoyeur().getId(), udpMessage.getEnvoyeur().getPseudo());
+                        LOGGER.trace(udpMessage.getEnvoyeur().getId() + " a changé son pseudo à " + udpMessage.getEnvoyeur().getPseudo());
                         break;
                 }
             }

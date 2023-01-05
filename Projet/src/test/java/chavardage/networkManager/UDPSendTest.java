@@ -12,11 +12,11 @@ public class UDPSendTest {
 
     @Test
     public void envoyerBroadcastTest(){
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Connexion, new UserItem(3, "aude")), 2345);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.DemandeConnexion, new UserItem(3, "aude")), 2345);
     }
 
     @Test
     public void envoyerUnicastTest() throws UnknownHostException {
-        UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.Connexion, new UserItem(3, "aude")), InetAddress.getLocalHost(), 2345);
+        UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.DemandeConnexion, new UserItem(3, "aude")), InetAddress.getLocalHost(), 2345);
     }
 }

@@ -1,10 +1,10 @@
 package chavardage.message;
 
 public enum UDPControlType {
-    Connexion,
-    Deconnexion,
-    AckPseudoOk,
-    AckPseudoPasOK,
-    AckNewUserSurReseau,
-    ChangementPseudo
+    DemandeConnexion, /* broadcast*/
+    AckPseudoOk, /* unicast*/
+    AckPseudoPasOK, /* unicast*/
+    NewUser, /* broadcast*/
+    ChangementPseudo, /* broadcast*/
+    Deconnexion /* broadcast*/
 }

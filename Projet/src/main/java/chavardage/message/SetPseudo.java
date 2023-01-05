@@ -14,14 +14,14 @@ public class SetPseudo {
         ListeUser listeUser = ListeUser.getInstance();
         try{
             UserItem identity= new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
-            UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.Connexion,identity);
+            UDPMessage pseudoConnexion = new UDPMessage(UDPControlType.DemandeConnexion,identity);
             UDPSend.envoyerBroadcast(pseudoConnexion, UDPServeur.DEFAULT_PORT_UDP);
             Thread.sleep(delaiAttenteMs);
             if(ackPasOkRecu){
                 ackPasOkRecu = false;
                 return false;
             }else{
-                UDPMessage newUserConnected = new UDPMessage(UDPControlType.AckNewUserSurReseau, identity);
+                UDPMessage newUserConnected = new UDPMessage(UDPControlType.NewUser, identity);
                 UDPSend.envoyerBroadcast(newUserConnected, UDPServeur.DEFAULT_PORT_UDP);
                 connexionEtablie = true;
                 return true;
@@ -42,7 +42,7 @@ public class SetPseudo {
                 if(connexionEtablie){
                     pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
                 }else{
-                    pseudoConnexion = new UDPMessage(UDPControlType.AckNewUserSurReseau,newIdentity);
+                    pseudoConnexion = new UDPMessage(UDPControlType.NewUser,newIdentity);
                 }
                 UDPSend.envoyerBroadcast(pseudoConnexion, UDPServeur.DEFAULT_PORT_UDP);
                 return true;

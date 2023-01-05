@@ -11,7 +11,7 @@ public class EnvoyerMessagesDeTest extends Thread{
 
     public void run(){
         UserItem distant = new UserItem(3,"romain");
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Connexion,distant));
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.DemandeConnexion,distant));
         distant.setPseudo("romainMaisMieux");
         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.ChangementPseudo,distant));
     }
