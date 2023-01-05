@@ -14,17 +14,36 @@ public class TCPServeur extends Thread {
 
     private static final Logger LOGGER = LogManager.getLogger(TCPServeur.class);
 
-    public final static int PORT_TCP = 4753;
+    public final static int DEFAULT_PORT_TCP = 4753;
 
     private ServerSocket serverSocket;
 
     Consumer<Socket> subscriber;
 
+    /** crée le serveur sur le port par défaut*/
     public TCPServeur() {
-        LOGGER.trace("création du serveur TCP");
-        start();
+        try {
+            serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
+
+    /** crée le serveur sur le port donné*/
+    public TCPServeur(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public synchronized void setSubscriber(Consumer<Socket> subscriber) {
         this.subscriber = subscriber;
@@ -37,7 +56,6 @@ public class TCPServeur extends Thread {
             this.subscriber = (sock) -> LOGGER.trace("default subscriber : " + sock.toString());
         }
         try {
-            serverSocket = new ServerSocket(PORT_TCP);
             LOGGER.info("démarrage du serveur TCP");
             while (!isInterrupted()) {
                 Socket connexion = serverSocket.accept(); // accept est bloquant et ne réagit au interrupt

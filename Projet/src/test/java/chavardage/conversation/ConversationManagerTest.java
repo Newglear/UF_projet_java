@@ -41,7 +41,7 @@ public class ConversationManagerTest {
     public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, WrongConstructorException {
         TCPServeur serveur = new TCPServeur();
         InetAddress localhost = InetAddress.getLocalHost();
-        Socket socket = new Socket(localhost, TCPServeur.PORT_TCP);
+        Socket socket = new Socket(localhost, TCPServeur.DEFAULT_PORT_TCP);
         ConversationManager.getInstance().createConversation(socket);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
@@ -60,7 +60,7 @@ public class ConversationManagerTest {
         serveur.setSubscriber(ConversationManager.getInstance());
         // j'envoie une demande de nouvelle conversation de 5
         InetAddress localhost = InetAddress.getLocalHost();
-        Socket socket = new Socket(localhost, TCPServeur.PORT_TCP);
+        Socket socket = new Socket(localhost, TCPServeur.DEFAULT_PORT_TCP);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
         out.writeObject(new TCPMessage(3, TCPType.OuvertureSession, 5));

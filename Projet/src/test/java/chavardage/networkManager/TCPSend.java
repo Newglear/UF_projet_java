@@ -13,7 +13,7 @@ public class TCPSend {
     /** fonction d'envoi simple pour les tests*/
 
     public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
-        Socket socket = new Socket(address, TCPServeur.PORT_TCP);
+        Socket socket = new Socket(address, TCPServeur.DEFAULT_PORT_TCP);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
         out.writeObject(message);

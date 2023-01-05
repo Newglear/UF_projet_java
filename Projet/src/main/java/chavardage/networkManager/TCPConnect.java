@@ -28,7 +28,7 @@ public class TCPConnect {
 
     public static Socket connectTo(InetAddress address){
         try {
-            Socket socket = new Socket(address, TCPServeur.PORT_TCP);
+            Socket socket = new Socket(address, TCPServeur.DEFAULT_PORT_TCP);
             LOGGER.trace("Connection réalisée avec " + address + " sur le socket " + socket);
             // envoi du message de demande d'ouverture session TODO trouver où le faire ça
             // TCPSend.envoyer(new TCPMessage(address, TCPType.OuvertureSession), );
