@@ -12,8 +12,8 @@ public class TCPSend {
 
     /** fonction d'envoi simple pour les tests*/
 
-    public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
-        Socket socket = new Socket(address, TCPServeur.DEFAULT_PORT_TCP);
+    public static void envoyer(InetAddress address, TCPMessage message, int port) throws IOException {
+        Socket socket = new Socket(address, port);
         OutputStream outputStream = socket.getOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(outputStream);
         out.writeObject(message);

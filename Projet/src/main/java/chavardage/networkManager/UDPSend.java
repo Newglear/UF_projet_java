@@ -29,7 +29,7 @@ public class UDPSend {
     private static DatagramSocket socketSend;
     private static DatagramPacket sendPacket;
 
-    public static void envoyerBroadcast(UDPMessage message){
+    public static void envoyerBroadcast(UDPMessage message, int port){
         try {
             socketSend = new DatagramSocket();
             socketSend.setBroadcast(true);
@@ -40,14 +40,17 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage, sentMessage.length);
             sendPacket.setAddress(BROADCAST_ADDRESS);
-            sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
+            sendPacket.setPort(port);
             socketSend.send(sendPacket);
             LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast");
             socketSend.close();
-        }catch (Exception e){e.printStackTrace();}
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    public static void envoyerUnicast(UDPMessage message, InetAddress receiverAddress){
+    public static void envoyerUnicast(UDPMessage message, InetAddress receiverAddress, int port){
         try {
             socketSend = new DatagramSocket();
             ByteArrayOutputStream bstream = new ByteArrayOutputStream();
@@ -57,11 +60,14 @@ public class UDPSend {
             byte[] sentMessage = bstream.toByteArray();
             sendPacket = new DatagramPacket(sentMessage,sentMessage.length);
             sendPacket.setAddress(receiverAddress);
-            sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
+            sendPacket.setPort(port);
             socketSend.send(sendPacket);
             LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress);
             socketSend.close();
-        }catch (Exception e){e.printStackTrace();}
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }

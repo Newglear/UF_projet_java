@@ -5,18 +5,17 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 
 public class TCPServeurTest{
 
     @Test
     public void serveurTest() throws IOException {
-        TCPServeur serveur = new TCPServeur();
+        TCPServeur serveur = new TCPServeur(3456);
         InetAddress localhost = InetAddress.getLocalHost();
-        TCPSend.envoyer(localhost,new TCPMessage(1, "hola"));
-        TCPSend.envoyer(localhost,new TCPMessage(1, "yo"));
+        TCPSend.envoyer(localhost,new TCPMessage(1, "hola"), 3456);
+        TCPSend.envoyer(localhost,new TCPMessage(1, "yo"), 3456);
         serveur.setSubscriber((sock -> System.out.println("le subscriber a bien été appelé")));
-        TCPSend.envoyer(localhost,new TCPMessage(1, "coucou toi"));
+        TCPSend.envoyer(localhost,new TCPMessage(1, "coucou toi"), 3456);
         serveur.interrupt();
     }
 
