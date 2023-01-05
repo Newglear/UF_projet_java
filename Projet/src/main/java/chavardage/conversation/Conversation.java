@@ -49,7 +49,7 @@ public class Conversation implements Consumer<TCPMessage> {
                     this.isOpen=true;
                     try {
                         this.destinataireId=message.getEnvoyeurId();
-                        LOGGER.trace("le destinataireId a été set à " + this.destinataireId);
+                        LOGGER.trace("le destinataireId a été set à " + this.destinataireId + ", je notifie");
                         notifyAll(); // c'est bon, le destinataire id a été set
                     } catch (AssignationProblemException e) {
                         LOGGER.error(e.getMessage());

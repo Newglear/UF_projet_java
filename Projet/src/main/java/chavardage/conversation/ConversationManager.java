@@ -23,7 +23,7 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     private static final ConversationManager instance = new ConversationManager();
-
+    private static final int TIMEOUT = 100;
     public static ConversationManager getInstance() {
         return instance;
     }
@@ -53,9 +53,11 @@ public class ConversationManager implements Consumer<Socket> {
         Conversation conversation = new Conversation();
         TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
-            /*if (conversation.getDestinataireId()==Conversation.DEFAULT_DESTINATAIRE){
-                wait();
-            }*/
+            if (conversation.getDestinataireId()==Conversation.DEFAULT_DESTINATAIRE){
+                LOGGER.trace("j'attends que le destinataire id de la conv soit set");
+                wait(TIMEOUT);
+            }
+            LOGGER.trace("je continue mon exécution");
             if (conversation.getDestinataireId() == ListeUser.getInstance().getMyId()){
                 throw new ConversationException("vous ne pouvez pas créer de conversation avec vous-même");
             }

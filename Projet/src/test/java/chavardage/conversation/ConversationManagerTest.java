@@ -34,15 +34,14 @@ public class ConversationManagerTest {
 
 
     @Test
-    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, InterruptedException, WrongConstructorException {
+    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, InterruptedException {
         // TODO
         ConversationManager convManager = ConversationManager.getInstance();
         ServerSocket serverSocket = new ServerSocket(4987);
-        Socket socketEnvoi = new Socket(InetAddress.getLocalHost(),4987);
+        SocketEnvoi socketEnvoi = new SocketEnvoi();
+        socketEnvoi.start();
         Socket socketReception = serverSocket.accept();
-        TCPSendData sendData = new TCPSendData(socketEnvoi);
         convManager.createConversation(socketReception);
-        sendData.envoyer(new TCPMessage(3, TCPType.OuvertureSession,6));
     }
 
     @Test
