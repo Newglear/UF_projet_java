@@ -65,7 +65,7 @@ public class TCPReceiveData extends Thread {
     }
 
 
-    @Override
+    /*@Override
     public void interrupt() { // https://codeahoy.com/java/How-To-Stop-Threads-Safely/
         try {
             this.socket.close();
@@ -75,6 +75,6 @@ public class TCPReceiveData extends Thread {
         } finally {
             super.interrupt();
         }
-    }
+    }*/
 
 }

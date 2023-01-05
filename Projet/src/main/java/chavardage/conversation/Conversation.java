@@ -12,16 +12,23 @@ import java.util.function.Consumer;
 public class Conversation implements Consumer<TCPMessage> {
 
     private static final Logger LOGGER = LogManager.getLogger(Conversation.class);
-    private final int destinataireId;
+    public static final int DEFAULT_DESTINATAIRE = 0;
+    private int destinataireId;
     private boolean isClosed = false;
+    private boolean isOpen = false;
 
     protected Conversation(int destinataireId) {
         this.destinataireId = destinataireId;
         LOGGER.trace("création d'une conversation avec " + destinataireId);
     }
 
+    protected Conversation(){
+        this.destinataireId = DEFAULT_DESTINATAIRE;
+        LOGGER.trace("création d'une conversation avec un destinataire par défaut");
+    }
+
     @Override
-    public void accept(TCPMessage message) {
+    public synchronized void accept(TCPMessage message) {
         try {
             if (message.getDestinataireId()!=ListeUser.getInstance().getMyId()){
                 ConversationException e = new ConversationException("Un message destiné à un autre utilisateur a été reçu");
@@ -38,9 +45,21 @@ public class Conversation implements Consumer<TCPMessage> {
             case UserData:
                 LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break; // TODO faire des trucs avec la DB
             case OuvertureSession:
-                ConversationException e = new ConversationException("Un message d'ouverture de session a été passé à cette conversation déjà ouverte");
-                LOGGER.error(e.getMessage());
-                e.printStackTrace();
+                if (!isOpen){
+                    this.isOpen=true;
+                    try {
+                        this.destinataireId=message.getEnvoyeurId();
+                        LOGGER.trace("le destinataireId a été set à " + this.destinataireId);
+                        notifyAll(); // c'est bon, le destinataire id a été set
+                    } catch (AssignationProblemException e) {
+                        LOGGER.error(e.getMessage());
+                        e.printStackTrace();
+                    }
+                }else {
+                    ConversationException e = new ConversationException("Un message d'ouverture de session a été passé à cette conversation déjà ouverte");
+                    LOGGER.error(e.getMessage());
+                    e.printStackTrace();
+                }
                 break;
             case FermetureSession:
                 try {

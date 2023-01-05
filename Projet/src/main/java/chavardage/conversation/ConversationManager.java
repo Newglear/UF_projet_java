@@ -31,7 +31,6 @@ public class ConversationManager implements Consumer<Socket> {
     private static final Logger LOGGER = LogManager.getLogger(ConversationManager.class);
 
     protected Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
-
     protected Map<Integer, TCPSendData> sendDataMap = Collections.synchronizedMap(new HashMap<>());
     protected Map<Integer, TCPReceiveData> receiveDataMap = Collections.synchronizedMap(new HashMap<>());
 
@@ -49,29 +48,25 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
-    protected synchronized void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException {
+    protected synchronized void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException, InterruptedException {
         LOGGER.trace("appel de createConversation");
-        RecupConvFirstMessage recupFirst = new RecupConvFirstMessage();
-        TCPReceiveData receiveData = new TCPReceiveData(socket, recupFirst);
-        TCPMessage firstMessage=recupFirst.getFirstMessage();
-        int destinataireId = firstMessage.getDestinataireId();
-        if (mapConversations.containsKey(destinataireId)){
-            throw new ConversationAlreadyExists(destinataireId);
-        }
-        if (firstMessage.getType()!= TCPType.OuvertureSession){
-            throw new ConversationException("le message passé n'est pas un ouverture session");
-        }
+        Conversation conversation = new Conversation();
+        TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
-            if (destinataireId == ListeUser.getInstance().getMyId()){
+            /*if (conversation.getDestinataireId()==Conversation.DEFAULT_DESTINATAIRE){
+                wait();
+            }*/
+            if (conversation.getDestinataireId() == ListeUser.getInstance().getMyId()){
                 throw new ConversationException("vous ne pouvez pas créer de conversation avec vous-même");
             }
+            if (mapConversations.containsKey(conversation.getDestinataireId())){
+                throw new ConversationAlreadyExists(conversation.getDestinataireId());
+            }
             TCPSendData sendData = new TCPSendData(socket);
-            Conversation conversation = new Conversation(destinataireId);
-            receiveData.setSubscriber(conversation);
-            getInstance().addConv(destinataireId, conversation);
-            getInstance().addReceiveData(destinataireId, receiveData);
-            getInstance().addSendData(destinataireId, sendData);
-            LOGGER.trace("la conversation avec " + destinataireId + " a bien été créée ");
+            getInstance().addConv(conversation.getDestinataireId(), conversation);
+            getInstance().addReceiveData(conversation.getDestinataireId(), receiveData);
+            getInstance().addSendData(conversation.getDestinataireId(), sendData);
+            LOGGER.trace("la conversation avec " + conversation.getDestinataireId() + " a bien été créée ");
         } catch (IOException | AssignationProblemException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -117,6 +112,8 @@ public class ConversationManager implements Consumer<Socket> {
             // TODO se démerder avec le socket pour la réception ah ah bon courage
         } catch (ConversationAlreadyExists | ConversationException e) {
             LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

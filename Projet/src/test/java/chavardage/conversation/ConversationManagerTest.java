@@ -3,20 +3,16 @@ package chavardage.conversation;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
 import chavardage.message.WrongConstructorException;
-import chavardage.networkManager.TCPConnect;
-import chavardage.networkManager.TCPServeur;
+import chavardage.networkManager.TCPReceiveData;
+import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-
-import static java.lang.Thread.sleep;
 
 public class ConversationManagerTest {
 
@@ -38,12 +34,19 @@ public class ConversationManagerTest {
 
 
     @Test
-    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, WrongConstructorException {
+    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, InterruptedException, WrongConstructorException {
         // TODO
+        ConversationManager convManager = ConversationManager.getInstance();
+        ServerSocket serverSocket = new ServerSocket(4987);
+        Socket socketEnvoi = new Socket(InetAddress.getLocalHost(),4987);
+        Socket socketReception = serverSocket.accept();
+        TCPSendData sendData = new TCPSendData(socketEnvoi);
+        convManager.createConversation(socketReception);
+        sendData.envoyer(new TCPMessage(3, TCPType.OuvertureSession,6));
     }
 
     @Test
-    public void acceptTest() throws IOException, WrongConstructorException, InterruptedException {
+    public void acceptTest() {
         // TODO mettre le accept en suscripteur du serveur
     }
 
