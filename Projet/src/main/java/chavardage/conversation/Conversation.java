@@ -14,7 +14,6 @@ public class Conversation implements Consumer<TCPMessage> {
     private static final Logger LOGGER = LogManager.getLogger(Conversation.class);
     public static final int DEFAULT_DESTINATAIRE = 0;
     private int destinataireId;
-    private boolean isClosed = false;
     private boolean isOpen = false;
 
     protected Conversation(int destinataireId) {
@@ -43,7 +42,8 @@ public class Conversation implements Consumer<TCPMessage> {
 
         switch (message.getType()) {
             case UserData:
-                LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break; // TODO faire des trucs avec la DB
+                // TODO faire des trucs avec la DB
+                LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break;
             case OuvertureSession:
                 if (!isOpen){
                     this.isOpen=true;
@@ -62,23 +62,12 @@ public class Conversation implements Consumer<TCPMessage> {
                 }
                 break;
             case FermetureSession:
-                try {
-                    this.fermer();
-                } catch (IOException | ConversationException e1) {
-                    LOGGER.error(e1.getMessage());
-                    e1.printStackTrace();
-                }
+                ConversationManager.getInstance().fermerConversation(destinataireId);
                 break;
         }
     }
 
-    public synchronized void fermer() throws IOException, ConversationException {
-        if (this.isClosed){
-            throw new ConversationException("cette conversation a déjà été fermée");
-        }
-        isClosed=true;
-        LOGGER.trace("fermeture de la conversation avec " + destinataireId);
-    }
+
 
     public int getDestinataireId() {
         return this.destinataireId;
@@ -86,9 +75,7 @@ public class Conversation implements Consumer<TCPMessage> {
 
 
     public void sendMessage(String data) {
-        TCPMessage message = new TCPMessage(this.destinataireId, data);
 
-        // TODO TCPSend.envoyerMessage(message, );
         // TODO : faire des trucs avec la database
     }
 

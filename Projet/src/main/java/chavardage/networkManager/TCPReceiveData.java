@@ -51,13 +51,13 @@ public class TCPReceiveData extends Thread {
                     TCPMessage message = (TCPMessage) in.readObject();
                     LOGGER.trace("passage du message au subscriber");
                     subscriber.accept(message);
+                }catch (SocketException e){
+                    // quand on interromp le thread le socket se ferme pas de suite, c'est pas très grave
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                     e.printStackTrace();
                 }
             }
-        } catch (SocketException e){
-            LOGGER.trace("je vais ignorer cette exception, opération réalisée par une professionnelle");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

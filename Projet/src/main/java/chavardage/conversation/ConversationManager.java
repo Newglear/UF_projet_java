@@ -34,16 +34,16 @@ public class ConversationManager implements Consumer<Socket> {
     protected Map<Integer, TCPSendData> sendDataMap = Collections.synchronizedMap(new HashMap<>());
     protected Map<Integer, TCPReceiveData> receiveDataMap = Collections.synchronizedMap(new HashMap<>());
 
-    protected synchronized void addConv(int destinataireId,Conversation conversation ) {
+    private synchronized void addConv(int destinataireId,Conversation conversation ) {
         mapConversations.put(destinataireId,conversation);
     }
 
 
-    protected synchronized void addSendData(int destinataireId, TCPSendData sendData) {
+    private synchronized void addSendData(int destinataireId, TCPSendData sendData) {
         sendDataMap.put(destinataireId, sendData);
     }
 
-    protected synchronized void addReceiveData(int destinataireId, TCPReceiveData receiveData) {
+    private synchronized void addReceiveData(int destinataireId, TCPReceiveData receiveData) {
         receiveDataMap.put(destinataireId, receiveData);
     }
 
@@ -76,7 +76,7 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
-    protected synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
+    public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
         try {
             return mapConversations.get(destinataireId);
         }catch (Exception e){
@@ -84,7 +84,7 @@ public class ConversationManager implements Consumer<Socket> {
         }
     }
 
-    protected synchronized TCPSendData getSendData(int destinataireId) throws ConversationDoesNotExist {
+    public synchronized TCPSendData getSendData(int destinataireId) throws ConversationDoesNotExist {
         try {
             return sendDataMap.get(destinataireId);
         }catch (Exception e){
@@ -92,7 +92,7 @@ public class ConversationManager implements Consumer<Socket> {
         }
     }
 
-    protected synchronized TCPReceiveData getReceiveData(int destinataireId) throws ConversationDoesNotExist {
+    public synchronized TCPReceiveData getReceiveData(int destinataireId) throws ConversationDoesNotExist {
         try {
             return receiveDataMap.get(destinataireId);
         }catch (Exception e){
@@ -121,13 +121,14 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
+
     public synchronized void fermerConversation(int destinataireId){
         // fermeture thread reception
+        LOGGER.trace("fermeture de la conversation avec " + destinataireId);
         try {
             getInstance().getReceiveData(destinataireId).interrupt();
             getInstance().getSendData(destinataireId).close();
-            getInstance().getConv(destinataireId).fermer();
-        } catch (ConversationDoesNotExist | IOException | ConversationException e) {
+        } catch (ConversationDoesNotExist e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
