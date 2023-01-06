@@ -36,6 +36,8 @@ public class ConversationManagerTest {
         // TODO mettre le accept en suscripteur du serveur
     }
 
+    // TODO tester les add et les puts parce que visiblement ils marchent pas
+
 
 
 }

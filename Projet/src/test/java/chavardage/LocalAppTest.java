@@ -2,6 +2,7 @@ package chavardage;
 
 import chavardage.connexion.ChavardageManager;
 import chavardage.connexion.GestionUDPMessage;
+import chavardage.conversation.ConversationAlreadyExists;
 import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
 import chavardage.message.TCPMessage;
@@ -19,7 +20,7 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException {
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists {
         int port_local_udp = 9473;
         int port_distant_udp = 9474;
         int port_local_tcp = 9475;
@@ -41,11 +42,10 @@ public class LocalAppTest {
         TCPServeur tcpServeurLocal = new TCPServeur(port_local_tcp,convManLocal);
         TCPServeur tcpServeurDistant = new TCPServeur(port_distant_tcp,convManDistant);
         chavManDistant.connectToApp(userDistant);
-        chavManLocal.connectToApp(userLocal); // on dirait qu'il reçoit ses propres messages
-        //convManDistant.openConversation(1);
-        //convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
-       // convManLocal.getSendData(2).envoyer(new TCPMessage("eh salut toi"));
-        //convManLocal a pas la conv
+        chavManLocal.connectToApp(userLocal);
+        convManDistant.openConversation(1);
+        convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
+        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi"));
     }
 
 

@@ -78,25 +78,30 @@ public class ConversationManager implements Consumer<Socket> {
                 LOGGER.trace("j'attends que le destinataire id de la conv soit set");
                 conversation.wait();
             }
-
             LOGGER.trace("je continue mon exécution");
+            int destinataireId = conversation.getDestinataireId();
             synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
-                if (mapConversations.containsKey(conversation.getDestinataireId())) {
-                    throw new ConversationAlreadyExists(conversation.getDestinataireId());
+                if (mapConversations.containsKey(destinataireId)) {
+                    throw new ConversationAlreadyExists(destinataireId);
                 }
             }
             TCPSendData sendData = new TCPSendData(socket);
-            this.addConv(conversation.getDestinataireId(), conversation);
-            this.addReceiveData(conversation.getDestinataireId(), receiveData);
-            this.addSendData(conversation.getDestinataireId(), sendData);
-            LOGGER.trace("la conversation avec " + conversation.getDestinataireId() + " a bien été créée ");
+            this.addConv(destinataireId, conversation);
+            this.addReceiveData(destinataireId, receiveData);
+            this.addSendData(destinataireId, sendData);
+            LOGGER.trace("la conversation avec " + destinataireId + " a bien été créée ");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException {
+    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationAlreadyExists {
+        synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
+            if (mapConversations.containsKey(destinataireId)) {
+                throw new ConversationAlreadyExists(destinataireId);
+            }
+        }
         Conversation conversation = new Conversation(destinataireId);
         Socket socket = TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
         TCPReceiveData tcpReceiveData = new TCPReceiveData(socket, conversation);
@@ -142,10 +147,8 @@ public class ConversationManager implements Consumer<Socket> {
     public void accept(Socket socket) {
         try {
             this.createConversation(socket);
-        } catch (ConversationAlreadyExists | ConversationException e) {
+        } catch (ConversationAlreadyExists | ConversationException | InterruptedException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

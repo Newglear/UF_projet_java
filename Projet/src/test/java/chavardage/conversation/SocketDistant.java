@@ -16,8 +16,8 @@ public class SocketDistant extends Thread{
         try{
             Socket socketEnvoi = new Socket(InetAddress.getLocalHost(),4987);
             TCPSendData sendData = new TCPSendData(socketEnvoi);
-            sendData.envoyer(new TCPMessage(6, 3, TCPType.OuvertureSession));
-            sendData.envoyer(new TCPMessage(6,3, "enfin ça marche" ));
+            sendData.envoyer(new TCPMessage(3, 6, TCPType.OuvertureSession));
+            sendData.envoyer(new TCPMessage(3,6, "enfin ça marche" ));
         } catch (IOException | WrongConstructorException e) {
             e.printStackTrace();
         }
