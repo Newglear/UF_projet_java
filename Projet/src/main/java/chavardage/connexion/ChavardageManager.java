@@ -31,7 +31,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
 
     public static ChavardageManager getInstance(){return instance;}
 
-    public void ConnectToApp(UserItem mySelf) throws InterruptedException {
+    public void connectToApp(UserItem mySelf) throws InterruptedException {
         UDPMessage demandeConnexion = new UDPMessage(UDPControlType.DemandeConnexion,mySelf);
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){

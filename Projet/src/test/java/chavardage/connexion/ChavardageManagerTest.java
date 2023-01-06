@@ -4,7 +4,6 @@ import chavardage.networkManager.UDPServeur;
 import chavardage.userList.IllegalConstructorException;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ChavardageManagerTest {
@@ -27,6 +26,6 @@ public class ChavardageManagerTest {
         GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local, chavManDistant);
         UDPServeur udpServeurLocal = new UDPServeur(port_local,gestionUDPMessageLocal);
         UDPServeur udpServeurDistant= new UDPServeur(port_distant,gestionUDPMessageDistant);
-        chavManDistant.ConnectToApp(userDistant);
+        chavManDistant.connectToApp(userDistant);
     }
 }

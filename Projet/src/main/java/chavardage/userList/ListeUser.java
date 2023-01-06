@@ -91,6 +91,11 @@ public class ListeUser{
         this.myPseudo=user.getPseudo();
     }
 
+    public synchronized void setMyself(int id, String pseudo){
+        this.myId = id;
+        this.myPseudo=pseudo;
+    }
+
     public synchronized int getMyId() throws AssignationProblemException {
         if (myId==-1){
             throw new AssignationProblemException("ListeUser", "myId");
