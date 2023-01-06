@@ -26,20 +26,9 @@ public class Conversation implements Consumer<TCPMessage> {
         LOGGER.trace("création d'une conversation avec un destinataire par défaut");
     }
 
+
     @Override
     public void accept(TCPMessage message) {
-        try {
-            if (message.getDestinataireId()!=ListeUser.getInstance().getMyId()){
-                ConversationException e = new ConversationException("Un message destiné à un autre utilisateur a été reçu");
-                LOGGER.error(e.getMessage());
-                e.printStackTrace();
-                return;
-            }
-        } catch (AssignationProblemException e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-
         switch (message.getType()) {
             case UserData:
                 // TODO faire des trucs avec la DB

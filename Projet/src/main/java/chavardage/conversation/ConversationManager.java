@@ -2,6 +2,9 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
+import chavardage.message.TCPMessage;
+import chavardage.message.TCPType;
+import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.TCPConnect;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
@@ -77,29 +80,31 @@ public class ConversationManager implements Consumer<Socket> {
             }
 
             LOGGER.trace("je continue mon exécution");
-            if (conversation.getDestinataireId() == listeUser.getMyId()){
-                throw new ConversationException("vous ne pouvez pas créer de conversation avec vous-même");
-            }
             synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
                 if (mapConversations.containsKey(conversation.getDestinataireId())) {
                     throw new ConversationAlreadyExists(conversation.getDestinataireId());
                 }
             }
             TCPSendData sendData = new TCPSendData(socket);
-            getInstance().addConv(conversation.getDestinataireId(), conversation);
-            getInstance().addReceiveData(conversation.getDestinataireId(), receiveData);
-            getInstance().addSendData(conversation.getDestinataireId(), sendData);
+            this.addConv(conversation.getDestinataireId(), conversation);
+            this.addReceiveData(conversation.getDestinataireId(), receiveData);
+            this.addSendData(conversation.getDestinataireId(), sendData);
             LOGGER.trace("la conversation avec " + conversation.getDestinataireId() + " a bien été créée ");
-        } catch (IOException | AssignationProblemException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException {
+    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException {
         Conversation conversation = new Conversation(destinataireId);
-        addConv(destinataireId,conversation);
-        TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
+        Socket socket = TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
+        TCPReceiveData tcpReceiveData = new TCPReceiveData(socket, conversation);
+        TCPSendData tcpSendData = new TCPSendData(socket);
+        this.addConv(destinataireId,conversation);
+        this.addReceiveData(destinataireId,tcpReceiveData);
+        this.addSendData(destinataireId,tcpSendData);
+        tcpSendData.envoyer(new TCPMessage(destinataireId,TCPType.OuvertureSession,listeUser.getMyId()));
     }
 
     public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
@@ -136,7 +141,7 @@ public class ConversationManager implements Consumer<Socket> {
     @Override
     public void accept(Socket socket) {
         try {
-            getInstance().createConversation(socket);
+            this.createConversation(socket);
         } catch (ConversationAlreadyExists | ConversationException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -151,8 +156,8 @@ public class ConversationManager implements Consumer<Socket> {
         // fermeture thread reception
         LOGGER.trace("fermeture de la conversation avec " + destinataireId);
         try {
-            getInstance().getReceiveData(destinataireId).interrupt();
-            getInstance().getSendData(destinataireId).close();
+            this.getReceiveData(destinataireId).interrupt();
+            this.getSendData(destinataireId).close();
         } catch (ConversationDoesNotExist e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

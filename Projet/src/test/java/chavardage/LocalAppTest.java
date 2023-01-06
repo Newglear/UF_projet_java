@@ -2,7 +2,10 @@ package chavardage;
 
 import chavardage.connexion.ChavardageManager;
 import chavardage.connexion.GestionUDPMessage;
+import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
+import chavardage.message.TCPMessage;
+import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
@@ -10,11 +13,13 @@ import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException {
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist {
         int port_local_udp = 9473;
         int port_distant_udp = 9474;
         int port_local_tcp = 9475;
@@ -37,5 +42,6 @@ public class LocalAppTest {
         TCPServeur tcpServeurDistant = new TCPServeur(port_distant_tcp,convManDistant);
         chavManDistant.connectToApp(userDistant);
         convManDistant.openConversation(1);
+        convManDistant.getSendData(1).envoyer(new TCPMessage(1,"coucou"));
     }
 }
