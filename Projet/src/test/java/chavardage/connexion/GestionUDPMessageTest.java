@@ -1,7 +1,6 @@
 package chavardage.connexion;
 
-import chavardage.connexion.GestionUDPMessage;
-import chavardage.message.UDPControlType;
+import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
@@ -25,14 +24,14 @@ public class GestionUDPMessageTest {
         UDPServeur udpServeur = new UDPServeur(port, GestionUDPMessage.getInstance());
         UserItem distant = new UserItem(3,"romain");
         // demande de connexion
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.DemandeConnexion, distant),port);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.DemandeConnexion, distant),port);
         // le nouvel user a pu avoir son pseudo et se connecte
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.NewUser, distant),port);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.NewUser, distant),port);
         // test changement pseudo
         distant.setPseudo("gwen");
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.ChangementPseudo, distant),port);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.ChangementPseudo, distant),port);
         // test de la déconnexion
-         UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.Deconnexion,distant),port);
+         UDPSend.envoyerBroadcast(new UDPMessage(UDPType.Deconnexion,distant),port);
     }
 
 }

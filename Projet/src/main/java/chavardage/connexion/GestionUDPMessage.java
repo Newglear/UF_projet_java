@@ -1,6 +1,6 @@
 package chavardage.connexion;
 
-import chavardage.message.UDPControlType;
+import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
@@ -30,7 +30,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
         this.chavardageManager = ChavardageManager.getInstance();
     }
 
-    /** constructeur protected pour les tests, envoi sur port au lieu du port UDP par défaut*/
+    /** constructeur public pour les tests, envoi sur port au lieu du port UDP par défaut*/
     public GestionUDPMessage(ListeUser listeUser, int port, ChavardageManager chavardageManager){
         this.listeUser = listeUser;
         this.port = port;
@@ -44,18 +44,22 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
 
 
     @Override
-    /* tout s'envoie sur le port UDP par défaut */
     public void accept(UDPMessage udpMessage) {
         try {
             if(udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
+                        if (listeUser.contains(udpMessage.getEnvoyeur())){
+                            LOGGER.trace("envoi d'un already connected");
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AlreadyConnected,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            break;
+                        }
                         if (listeUser.pseudoDisponible(udpMessage.getEnvoyeur().getPseudo())){
                             LOGGER.trace("envoi d'un AckPseudoOk");
-                            UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.AckPseudoOk, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoOk, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
                         }else{
                             LOGGER.trace("envoi d'un AckPseudoPasOk");
-                            UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.AckPseudoPasOK, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoPasOK, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
                         }
                         break;
                     case Deconnexion:
@@ -72,9 +76,11 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         }
                         nbAcks++;
                         break;
+                    case AlreadyConnected:
+                        chavardageManager.accept(udpMessage);
                     case NewUser:
                         listeUser.addUser(udpMessage.getEnvoyeur());
-                        LOGGER.trace("ajout de " + udpMessage.getEnvoyeur().getPseudo() + " dans la liste user");
+                        LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         break;
                     case ChangementPseudo:
                         listeUser.modifyUserPseudo(udpMessage.getEnvoyeur().getId(), udpMessage.getEnvoyeur().getPseudo());

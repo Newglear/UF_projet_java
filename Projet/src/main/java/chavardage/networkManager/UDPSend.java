@@ -42,7 +42,7 @@ public class UDPSend {
             sendPacket.setAddress(BROADCAST_ADDRESS);
             sendPacket.setPort(port);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast sur le port " + port);
+            LOGGER.trace(message + " envoyé en broadcast sur le port " + port);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());
@@ -62,7 +62,7 @@ public class UDPSend {
             sendPacket.setAddress(receiverAddress);
             sendPacket.setPort(port);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress + " : " + port);
+            LOGGER.trace(message + " envoyé à " + receiverAddress + ":" + port);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());
@@ -83,7 +83,7 @@ public class UDPSend {
             sendPacket.setAddress(BROADCAST_ADDRESS);
             sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast");
+            LOGGER.trace(message + " envoyé en broadcast sur le port " + UDPServeur.DEFAULT_PORT_UDP);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());
@@ -103,7 +103,7 @@ public class UDPSend {
             sendPacket.setAddress(receiverAddress);
             sendPacket.setPort(UDPServeur.DEFAULT_PORT_UDP);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress);
+            LOGGER.trace(message + " envoyé à " + receiverAddress + ":" + UDPServeur.DEFAULT_PORT_UDP);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());

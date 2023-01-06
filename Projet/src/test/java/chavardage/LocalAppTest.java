@@ -19,7 +19,7 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist {
+    public void localTest() throws IllegalConstructorException, InterruptedException {
         int port_local_udp = 9473;
         int port_distant_udp = 9474;
         int port_local_tcp = 9475;
@@ -41,9 +41,25 @@ public class LocalAppTest {
         TCPServeur tcpServeurLocal = new TCPServeur(port_local_tcp,convManLocal);
         TCPServeur tcpServeurDistant = new TCPServeur(port_distant_tcp,convManDistant);
         chavManDistant.connectToApp(userDistant);
-        convManDistant.openConversation(1);
-        convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
+        chavManLocal.connectToApp(userLocal); // on dirait qu'il reçoit ses propres messages
+        //convManDistant.openConversation(1);
+        //convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
        // convManLocal.getSendData(2).envoyer(new TCPMessage("eh salut toi"));
-        // TODO convManLocal a pas la conv, vérifier dans les logs si elle se créé bien
+        //convManLocal a pas la conv
+    }
+
+
+    @Test
+    public void localTestAppSeule() throws IllegalConstructorException, InterruptedException {
+        int port_local_udp = 9477;
+        int port_distant_udp = 9478;
+        UserItem userLocal = new UserItem(1,"Aude");
+        ListeUser listeLocal = new ListeUser(true);
+        listeLocal.setMyself(userLocal);
+        ChavardageManager chavManLocal= new ChavardageManager(port_distant_udp);
+        GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
+        UDPServeur udpServeurLocal = new UDPServeur(port_local_udp,gestionUDPMessageLocal);
+        chavManLocal.connectToApp(userLocal);
+
     }
 }

@@ -1,6 +1,6 @@
 package chavardage.connexion;
 
-import chavardage.message.UDPControlType;
+import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
@@ -17,14 +17,14 @@ public class SetPseudo {
         ListeUser listeUser = ListeUser.getInstance();
         try{
             UserItem identity= listeUser.getMySelf();
-            UDPMessage demandeConnexion = new UDPMessage(UDPControlType.DemandeConnexion,identity);
+            UDPMessage demandeConnexion = new UDPMessage(UDPType.DemandeConnexion,identity);
             UDPSend.envoyerBroadcast(demandeConnexion);
             Thread.sleep(TIMEOUT);
             if(ackPasOkRecu){
                 ackPasOkRecu = false;
                 return false;
             }else{
-                UDPMessage newUserConnected = new UDPMessage(UDPControlType.NewUser, identity);
+                UDPMessage newUserConnected = new UDPMessage(UDPType.NewUser, identity);
                 UDPSend.envoyerBroadcast(newUserConnected);
                 connexionEtablie = true;
                 return true;
@@ -43,9 +43,9 @@ public class SetPseudo {
                 listeUser.setMyPseudo(newPseudo);
                 UserItem newIdentity= new UserItem(listeUser.getMyId(),listeUser.getMyPseudo());
                 if(connexionEtablie){
-                    pseudoConnexion = new UDPMessage(UDPControlType.ChangementPseudo,newIdentity);
+                    pseudoConnexion = new UDPMessage(UDPType.ChangementPseudo,newIdentity);
                 }else{
-                    pseudoConnexion = new UDPMessage(UDPControlType.NewUser,newIdentity);
+                    pseudoConnexion = new UDPMessage(UDPType.NewUser,newIdentity);
                 }
                 UDPSend.envoyerBroadcast(pseudoConnexion, UDPServeur.DEFAULT_PORT_UDP);
                 return true;

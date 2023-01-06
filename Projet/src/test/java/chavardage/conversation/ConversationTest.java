@@ -36,7 +36,7 @@ public class ConversationTest {
         Conversation defaultConv = new Conversation();
         assertEquals(0, defaultConv.getDestinataireId());
         defaultConv.accept(new TCPMessage(5,3, TCPType.OuvertureSession));
-        assertEquals(6, defaultConv.getDestinataireId());
+        assertEquals(3, defaultConv.getDestinataireId());
     }
 
 

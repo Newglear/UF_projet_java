@@ -1,6 +1,6 @@
 package chavardage.networkManager;
 
-import chavardage.message.UDPControlType;
+import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.userList.UserItem;
 import org.junit.Test;
@@ -12,11 +12,11 @@ public class UDPSendTest {
 
     @Test
     public void envoyerBroadcastTest(){
-        UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.DemandeConnexion, new UserItem(3, "aude")), 2345);
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.DemandeConnexion, new UserItem(3, "aude")), 2345);
     }
 
     @Test
     public void envoyerUnicastTest() throws UnknownHostException {
-        UDPSend.envoyerUnicast(new UDPMessage(UDPControlType.DemandeConnexion, new UserItem(3, "aude")), InetAddress.getLocalHost(), 2345);
+        UDPSend.envoyerUnicast(new UDPMessage(UDPType.DemandeConnexion, new UserItem(3, "aude")), InetAddress.getLocalHost(), 2345);
     }
 }

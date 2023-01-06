@@ -1,6 +1,6 @@
 package chavardage.connexion;
 
-import chavardage.message.UDPControlType;
+import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
@@ -14,7 +14,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
 
     private static final Logger LOGGER = LogManager.getLogger(ChavardageManager.class);
     private final static int TIMEOUT = 10000;
-    private UDPControlType received;
+    private UDPType received;
     private final int port;
 
     /** singleton */
@@ -32,7 +32,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
     public static ChavardageManager getInstance(){return instance;}
 
     public void connectToApp(UserItem mySelf) throws InterruptedException {
-        UDPMessage demandeConnexion = new UDPMessage(UDPControlType.DemandeConnexion,mySelf);
+        UDPMessage demandeConnexion = new UDPMessage(UDPType.DemandeConnexion,mySelf);
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){ // si le ack n'a pas encore été reçu
             synchronized (this) {
@@ -44,8 +44,11 @@ public class ChavardageManager implements Consumer<UDPMessage> {
             switch (received){
                 case AckPseudoOk:
                     LOGGER.trace("mon pseudo est ok, j'envoie le NewUser");
-                    UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.NewUser, mySelf),port);
+                    UDPSend.envoyerBroadcast(new UDPMessage(UDPType.NewUser, mySelf),port);
                     LOGGER.info("connexion au réseau réussie");
+                    break;
+                case AlreadyConnected:
+                    LOGGER.trace("j'étais déjà connecté au réseau, tout va bien");
                     break;
                 case AckPseudoPasOK:
                     // TODO redemander un pseudo via l'interface

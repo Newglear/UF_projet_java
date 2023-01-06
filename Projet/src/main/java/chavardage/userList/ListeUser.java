@@ -122,9 +122,13 @@ public class ListeUser{
         return new UserItem(myId,myPseudo);
     }
 
-    public void affiche(){
+    public synchronized void affiche(){
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             System.out.println(entry.getValue());
         }
+    }
+
+    public synchronized boolean contains(UserItem user){
+        return tabItems.containsKey(user.getId());
     }
 }
