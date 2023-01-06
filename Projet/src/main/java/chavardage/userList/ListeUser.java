@@ -22,6 +22,13 @@ public class ListeUser{
     /** Private constructor to prevent anybody from invoking it. */
     private ListeUser() {}
 
+    /** constructeur public pour des tests*/
+    public ListeUser(boolean test) throws IllegalConstructorException {
+        if (!test){
+            throw new IllegalConstructorException();
+        }
+    }
+
     protected Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
 
@@ -77,6 +84,11 @@ public class ListeUser{
 
     public synchronized void setMyPseudo(String pseudo){
         myPseudo=pseudo;
+    }
+
+    public synchronized void setMyself(UserItem user){
+        this.myId = user.getId();
+        this.myPseudo=user.getPseudo();
     }
 
     public synchronized int getMyId() throws AssignationProblemException {

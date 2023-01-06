@@ -42,7 +42,7 @@ public class UDPSend {
             sendPacket.setAddress(BROADCAST_ADDRESS);
             sendPacket.setPort(port);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast");
+            LOGGER.trace("le message UDP " + message + " a été envoyé en broadcast sur le port " + port);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());
@@ -62,7 +62,7 @@ public class UDPSend {
             sendPacket.setAddress(receiverAddress);
             sendPacket.setPort(port);
             socketSend.send(sendPacket);
-            LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress);
+            LOGGER.trace("le message UDP " + message + " a été envoyé à " + receiverAddress + " : " + port);
             socketSend.close();
         }catch (Exception e){
             LOGGER.error(e.getMessage());

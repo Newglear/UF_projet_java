@@ -50,7 +50,7 @@ public class UDPServeur extends Thread{
         setSubscriber(consumer);
         try {
             receiveSocket = new DatagramSocket(port);
-            LOGGER.trace("création du serveur UDP");
+            LOGGER.trace("création du serveur UDP sur le port " + port);
             start();
         } catch (SocketException e) {
             LOGGER.error(e.getMessage());
