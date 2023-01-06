@@ -1,5 +1,6 @@
 package chavardage.networkManager;
 
+import chavardage.message.TCPMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,19 @@ public class TCPServeur extends Thread {
 
     /** crée le serveur sur le port par défaut*/
     public TCPServeur() {
+        try {
+            serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /** serveur avec le consumer direct*/
+    public TCPServeur(Consumer<Socket> consumer){
+        this.subscriber=consumer;
         try {
             serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
             LOGGER.trace("création du serveur TCP");

@@ -75,7 +75,7 @@ public class UDPServeur extends Thread{
         LOGGER.trace("le subscriber a été set à " + subscriber);
     }
 
-    public void run(){ // même si c'est tentant, pour une raison que j'ignore le run en synchronized il est pas fan fan
+    public void run(){
         if (this.subscriber==null){
             this.subscriber=(msg) -> LOGGER.trace("default subscriber : "+msg);
         }

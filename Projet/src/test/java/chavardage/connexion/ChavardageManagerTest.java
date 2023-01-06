@@ -10,10 +10,6 @@ import org.junit.Test;
 public class ChavardageManagerTest {
 
 
-    @Before
-    public void init(){
-
-    }
 
     @Test
     public void ConnectToAppTest() throws IllegalConstructorException, InterruptedException {

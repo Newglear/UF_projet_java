@@ -17,6 +17,8 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     private static final Logger LOGGER = LogManager.getLogger(GestionUDPMessage.class);
     private static final GestionUDPMessage instance = new GestionUDPMessage();
 
+    private static int nbAcks = 0;
+
     private final ListeUser listeUser;
     private final int port;
     private final ChavardageManager chavardageManager;
@@ -62,8 +64,13 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                     case AckPseudoOk:
                     case AckPseudoPasOK:
-                        LOGGER.trace("ack reçu, je passe au chavardage manager");
-                        chavardageManager.accept(udpMessage);
+                        LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
+                        listeUser.addUser(udpMessage.getEnvoyeur());
+                        if (nbAcks==0){
+                            LOGGER.trace("premier ack reçu, je passe au chavardage manager");
+                            chavardageManager.accept(udpMessage);
+                        }
+                        nbAcks++;
                         break;
                     case NewUser:
                         listeUser.addUser(udpMessage.getEnvoyeur());
