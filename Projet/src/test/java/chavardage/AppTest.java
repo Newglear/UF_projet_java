@@ -29,5 +29,6 @@ public class AppTest {
         listeUser.setMyself(1,"Aude");
         chavardageManager.connectToApp(listeUser.getMySelf());
         listeUser.affiche();
+
     }
 }
