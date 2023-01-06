@@ -2,11 +2,10 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
-import chavardage.message.TCPMessage;
-import chavardage.message.TCPType;
 import chavardage.networkManager.TCPConnect;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
+import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
@@ -21,15 +20,25 @@ import java.util.function.Consumer;
 
 public class ConversationManager implements Consumer<Socket> {
 
+    private final ListeUser listeUser;
+    private final int port ;
+
+
     /**singleton*/
-    private ConversationManager() {}
+    private ConversationManager() {
+        this.listeUser=ListeUser.getInstance();
+        this.port = TCPServeur.DEFAULT_PORT_TCP;
+    }
 
     /**constructeur public pour tests*/
-    public ConversationManager(boolean test) throws IllegalConstructorException {
+    public ConversationManager(boolean test, ListeUser listeUser, int port) throws IllegalConstructorException {
         if (!test){
             throw new IllegalConstructorException();
         }
+        this.listeUser=listeUser;
+        this.port = port;
     }
+
 
     private static final ConversationManager instance = new ConversationManager();
     private static final int TIMEOUT = 100;
@@ -68,7 +77,7 @@ public class ConversationManager implements Consumer<Socket> {
             }
 
             LOGGER.trace("je continue mon exécution");
-            if (conversation.getDestinataireId() == ListeUser.getInstance().getMyId()){
+            if (conversation.getDestinataireId() == listeUser.getMyId()){
                 throw new ConversationException("vous ne pouvez pas créer de conversation avec vous-même");
             }
             synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
@@ -90,7 +99,7 @@ public class ConversationManager implements Consumer<Socket> {
     public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException {
         Conversation conversation = new Conversation(destinataireId);
         addConv(destinataireId,conversation);
-        TCPConnect.connectTo(ListeUser.getInstance().getUser(destinataireId).getAddress());
+        TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
     }
 
     public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {

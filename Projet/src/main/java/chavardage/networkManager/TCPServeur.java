@@ -35,7 +35,7 @@ public class TCPServeur extends Thread {
 
     /** serveur avec le consumer direct*/
     public TCPServeur(Consumer<Socket> consumer){
-        this.subscriber=consumer;
+        setSubscriber(consumer);
         try {
             serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
             LOGGER.trace("création du serveur TCP");
@@ -49,6 +49,19 @@ public class TCPServeur extends Thread {
 
     /** crée le serveur sur le port donné*/
     public TCPServeur(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /** crée le serveur sur le port donné avec le subscriber*/
+    public TCPServeur(int port, Consumer<Socket> cons) {
+        setSubscriber(cons);
         try {
             serverSocket = new ServerSocket(port);
             LOGGER.trace("création du serveur TCP");
