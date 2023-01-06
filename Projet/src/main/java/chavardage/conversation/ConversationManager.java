@@ -44,7 +44,7 @@ public class ConversationManager implements Consumer<Socket> {
 
 
     private static final ConversationManager instance = new ConversationManager();
-    private static final int TIMEOUT = 100;
+
     public static ConversationManager getInstance() {
         return instance;
     }

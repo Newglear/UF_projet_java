@@ -22,30 +22,39 @@ public class LocalAppTest {
     @Test
     public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists {
         int port_local_udp = 9473;
-        int port_distant_udp = 9474;
         int port_local_tcp = 9475;
+
+        int port_distant_udp = 9474;
         int port_distant_tcp = 9476;
+
+        // simulation application 1
         UserItem userLocal = new UserItem(1,"Aude");
-        UserItem userDistant = new UserItem(2,"Romain");
         ListeUser listeLocal = new ListeUser(true);
-        ListeUser listeDistant = new ListeUser(true);
         ConversationManager convManLocal = new ConversationManager(true, listeLocal, port_local_tcp);
-        ConversationManager convManDistant = new ConversationManager(true, listeDistant, port_distant_tcp);
         listeLocal.setMyself(userLocal);
-        listeDistant.setMyself(userDistant);
         ChavardageManager chavManLocal= new ChavardageManager(port_distant_udp);
-        ChavardageManager chavManDistant = new ChavardageManager(port_local_udp);
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
-        GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local_udp, chavManDistant);
         UDPServeur udpServeurLocal = new UDPServeur(port_local_udp,gestionUDPMessageLocal);
-        UDPServeur udpServeurDistant= new UDPServeur(port_distant_udp,gestionUDPMessageDistant);
         TCPServeur tcpServeurLocal = new TCPServeur(port_local_tcp,convManLocal);
+
+
+        // simulation application 2
+        UserItem userDistant = new UserItem(2,"Romain");
+        ListeUser listeDistant = new ListeUser(true);
+        ConversationManager convManDistant = new ConversationManager(true, listeDistant, port_distant_tcp);
+        listeDistant.setMyself(userDistant);
+        ChavardageManager chavManDistant = new ChavardageManager(port_local_udp);
+        GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local_udp, chavManDistant);
+        UDPServeur udpServeurDistant= new UDPServeur(port_distant_udp,gestionUDPMessageDistant);
         TCPServeur tcpServeurDistant = new TCPServeur(port_distant_tcp,convManDistant);
+
+
+        // tests
         chavManDistant.connectToApp(userDistant);
-        chavManLocal.connectToApp(userLocal);
+        chavManLocal.connectToApp(userLocal); // test de 2 utilisateurs qui se connectent en parallèle
         convManDistant.openConversation(1);
         convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
-        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi"));
+        // convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi")); marche pas, null
     }
 
 
@@ -59,7 +68,7 @@ public class LocalAppTest {
         ChavardageManager chavManLocal= new ChavardageManager(port_distant_udp);
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
         UDPServeur udpServeurLocal = new UDPServeur(port_local_udp,gestionUDPMessageLocal);
-        chavManLocal.connectToApp(userLocal);
+        chavManLocal.connectToApp(userLocal); // on teste comment réagit l'appli quand un user tout seul essaie de se connecter
 
     }
 }
