@@ -120,4 +120,10 @@ public class ListeUser{
     public synchronized UserItem getMySelf() {
         return new UserItem(myId,myPseudo);
     }
+
+    public void affiche(){
+        for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
+            System.out.println(entry.getValue());
+        }
+    }
 }

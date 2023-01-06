@@ -28,5 +28,6 @@ public class AppTest {
         UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
         listeUser.setMyself(1,"Aude");
         chavardageManager.connectToApp(listeUser.getMySelf());
+        listeUser.affiche();
     }
 }

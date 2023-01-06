@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class ChavardageManager implements Consumer<UDPMessage> {
 
     private static final Logger LOGGER = LogManager.getLogger(ChavardageManager.class);
-
+    private final static int TIMEOUT = 10000;
     private UDPControlType received;
     private final int port;
 
@@ -34,24 +34,27 @@ public class ChavardageManager implements Consumer<UDPMessage> {
     public void connectToApp(UserItem mySelf) throws InterruptedException {
         UDPMessage demandeConnexion = new UDPMessage(UDPControlType.DemandeConnexion,mySelf);
         UDPSend.envoyerBroadcast(demandeConnexion,port);
-        if (received==null){
+        if (received==null){ // si le ack n'a pas encore été reçu
             synchronized (this) {
                 LOGGER.trace("j'attends");
-                wait();
+                wait(TIMEOUT);
             }
         }
-        switch (received){
-            case AckPseudoOk:
-                LOGGER.trace("mon pseudo est ok, j'envoie le NewUser");
-                UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.NewUser, mySelf),port);
-                break;
-            case AckPseudoPasOK:
-                // TODO redemander un pseudo via l'interface
-                LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
-                break;
+        if (received!=null) { // on a bien reçu un ack
+            switch (received){
+                case AckPseudoOk:
+                    LOGGER.trace("mon pseudo est ok, j'envoie le NewUser");
+                    UDPSend.envoyerBroadcast(new UDPMessage(UDPControlType.NewUser, mySelf),port);
+                    LOGGER.info("connexion au réseau réussie");
+                    break;
+                case AckPseudoPasOK:
+                    // TODO redemander un pseudo via l'interface
+                    LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
+                    break;
+            }
+        } else { // bah on est seul sur le réseau
+            LOGGER.info("aucun autre utilisateur pour le moment");
         }
-
-
 
     }
 

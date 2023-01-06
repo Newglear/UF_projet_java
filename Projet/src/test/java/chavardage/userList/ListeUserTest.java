@@ -124,6 +124,9 @@ public class ListeUserTest{
         assertFalse(listeUser.pseudoDisponible("romain"));
     }
 
-
+    @Test
+    public void afficheTest(){
+        ListeUser.getInstance().affiche();
+    }
 
 }
