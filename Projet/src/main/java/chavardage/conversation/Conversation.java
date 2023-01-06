@@ -27,7 +27,7 @@ public class Conversation implements Consumer<TCPMessage> {
     }
 
     @Override
-    public synchronized void accept(TCPMessage message) {
+    public void accept(TCPMessage message) {
         try {
             if (message.getDestinataireId()!=ListeUser.getInstance().getMyId()){
                 ConversationException e = new ConversationException("Un message destiné à un autre utilisateur a été reçu");
@@ -50,7 +50,9 @@ public class Conversation implements Consumer<TCPMessage> {
                     try {
                         this.destinataireId=message.getEnvoyeurId();
                         LOGGER.trace("le destinataireId a été set à " + this.destinataireId + ", je notifie");
-                        notifyAll(); // c'est bon, le destinataire id a été set
+                        synchronized (this){ // je locke pour pouvoir notifier
+                            this.notify(); // c'est bon, le destinataire id a été set
+                        }
                     } catch (AssignationProblemException e) {
                         LOGGER.error(e.getMessage());
                         e.printStackTrace();

@@ -48,21 +48,24 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
-    protected synchronized void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException, InterruptedException {
+    protected void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException, InterruptedException {
         LOGGER.trace("appel de createConversation");
         Conversation conversation = new Conversation();
         TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
-            if (conversation.getDestinataireId()==Conversation.DEFAULT_DESTINATAIRE){
+            synchronized (conversation){ // je locke la conversation pour pouvoir l'attendre
                 LOGGER.trace("j'attends que le destinataire id de la conv soit set");
-                wait(TIMEOUT);
+                conversation.wait();
             }
+
             LOGGER.trace("je continue mon exécution");
             if (conversation.getDestinataireId() == ListeUser.getInstance().getMyId()){
                 throw new ConversationException("vous ne pouvez pas créer de conversation avec vous-même");
             }
-            if (mapConversations.containsKey(conversation.getDestinataireId())){
-                throw new ConversationAlreadyExists(conversation.getDestinataireId());
+            synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
+                if (mapConversations.containsKey(conversation.getDestinataireId())) {
+                    throw new ConversationAlreadyExists(conversation.getDestinataireId());
+                }
             }
             TCPSendData sendData = new TCPSendData(socket);
             getInstance().addConv(conversation.getDestinataireId(), conversation);
