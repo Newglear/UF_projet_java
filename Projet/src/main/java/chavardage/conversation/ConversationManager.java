@@ -4,9 +4,11 @@ import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
+import chavardage.networkManager.TCPConnect;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -85,6 +87,11 @@ public class ConversationManager implements Consumer<Socket> {
         }
     }
 
+    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException {
+        Conversation conversation = new Conversation(destinataireId);
+        addConv(destinataireId,conversation);
+        TCPConnect.connectTo(ListeUser.getInstance().getUser(destinataireId).getAddress());
+    }
 
     public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
         try {
@@ -121,7 +128,6 @@ public class ConversationManager implements Consumer<Socket> {
     public void accept(Socket socket) {
         try {
             getInstance().createConversation(socket);
-            // TODO se démerder avec le socket pour la réception ah ah bon courage
         } catch (ConversationAlreadyExists | ConversationException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
