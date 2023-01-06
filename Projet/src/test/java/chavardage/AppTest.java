@@ -26,8 +26,7 @@ public class AppTest {
         GestionUDPMessage gestionUDPMessage = GestionUDPMessage.getInstance();
         TCPServeur tcpServeur = new TCPServeur(conversationManager);
         UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
-        listeUser.setMyself(1,"Aude");
-        chavardageManager.connectToApp(listeUser.getMySelf());
-        listeUser.affiche();
+        listeUser.setMyself(2,"Romain");
+        Thread.sleep(30000);
     }
 }
