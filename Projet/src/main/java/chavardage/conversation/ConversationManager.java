@@ -104,7 +104,7 @@ public class ConversationManager implements Consumer<Socket> {
         this.addConv(destinataireId,conversation);
         this.addReceiveData(destinataireId,tcpReceiveData);
         this.addSendData(destinataireId,tcpSendData);
-        tcpSendData.envoyer(new TCPMessage(destinataireId,TCPType.OuvertureSession,listeUser.getMyId()));
+        tcpSendData.envoyer(new TCPMessage(TCPType.OuvertureSession,listeUser.getMyId()));
     }
 
     public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {

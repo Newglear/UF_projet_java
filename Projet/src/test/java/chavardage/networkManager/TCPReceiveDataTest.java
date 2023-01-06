@@ -1,17 +1,12 @@
 package chavardage.networkManager;
 
 import chavardage.message.TCPMessage;
-import chavardage.message.TCPType;
-import chavardage.message.WrongConstructorException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class TCPReceiveDataTest {
 
@@ -24,9 +19,9 @@ public class TCPReceiveDataTest {
         Socket socketReception = serverSocket.accept();
         TCPReceiveData receiveData = new TCPReceiveData(socketReception);
         TCPSendData sendData = new TCPSendData(socketEnvoi);
-        sendData.envoyer(new TCPMessage(3,"coucou"));
+        sendData.envoyer(new TCPMessage("coucou"));
         receiveData.setSubscriber((mess)->System.out.println(mess.getData()));
-        sendData.envoyer(new TCPMessage(3, "t'es la meilleure"));
+        sendData.envoyer(new TCPMessage("t'es la meilleure"));
     }
 
 

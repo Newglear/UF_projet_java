@@ -12,8 +12,10 @@ public class TCPSendData {
 
     private static final Logger LOGGER = LogManager.getLogger(TCPSendData.class);
     private final ObjectOutputStream out;
+    private final Socket socket;
 
     public TCPSendData(Socket socket) throws IOException {
+        this.socket = socket;
         OutputStream outputStream = socket.getOutputStream();
         this.out = new ObjectOutputStream(outputStream);
         LOGGER.trace("création d'un objet d'envoi sur le socket " + socket);
@@ -23,7 +25,7 @@ public class TCPSendData {
     public void envoyer(TCPMessage message) {
         try {
             out.writeObject(message);
-            LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
+            LOGGER.trace("Message envoyé à " + socket  + " : " + message.getType() + " : " + message.getData());
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

@@ -42,6 +42,8 @@ public class LocalAppTest {
         TCPServeur tcpServeurDistant = new TCPServeur(port_distant_tcp,convManDistant);
         chavManDistant.connectToApp(userDistant);
         convManDistant.openConversation(1);
-        convManDistant.getSendData(1).envoyer(new TCPMessage(1,"coucou"));
+        convManDistant.getSendData(1).envoyer(new TCPMessage("coucou"));
+        // convManLocal.getSendData(2).envoyer(new TCPMessage("eh salut toi"));
+        // TODO convManLocal a pas la conv, vérifier dans les logs si elle se créé bien
     }
 }

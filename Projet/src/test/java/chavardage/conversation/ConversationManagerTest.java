@@ -27,7 +27,7 @@ public class ConversationManagerTest {
         socketDistant.start();
         Socket socketReception = serverSocket.accept();
         convManager.createConversation(socketReception);
-        convManager.getSendData(6).envoyer(new TCPMessage(6,"coucou"));
+        convManager.getSendData(6).envoyer(new TCPMessage("coucou"));
         convManager.fermerConversation(6);
     }
 
