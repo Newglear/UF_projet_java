@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class TCPMessage implements Serializable { // TODO ajouter date et heure
 
+    // TODO rajouter dest et envoyeur id dans tous les messages
     private final int envoyeurId;
     private final TCPType type;
     private final String data;
