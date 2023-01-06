@@ -25,17 +25,17 @@ public class ConversationTest {
         Conversation conversation = new Conversation(5); // je crée une conversation avec 5
         conversation.sendMessage("coucou");
         assertEquals(5, conversation.getDestinataireId());
-        conversation.accept(new TCPMessage("hola"));
+        conversation.accept(new TCPMessage(5,3, "hola"));
         // on teste que les exceptions se lancent bien quand il faut
         System.out.println("2 conversationException sont attendues : ");
-        conversation.accept(new TCPMessage(TCPType.OuvertureSession, 6));
-        conversation.accept(new TCPMessage(TCPType.OuvertureSession, 6));
-        conversation.accept(new TCPMessage("ahah"));
+        conversation.accept(new TCPMessage(5, 3, TCPType.OuvertureSession));
+        conversation.accept(new TCPMessage(5, 3, TCPType.OuvertureSession));
+        conversation.accept(new TCPMessage(5,3, "ahah" ));
         /* conversation.accept(new TCPMessage(3, TCPType.FermetureSession));
         conversation.accept(new TCPMessage(3, TCPType.FermetureSession));*/ // ça fait tout buguer à cause du conv manager
         Conversation defaultConv = new Conversation();
         assertEquals(0, defaultConv.getDestinataireId());
-        defaultConv.accept(new TCPMessage(TCPType.OuvertureSession, 6));
+        defaultConv.accept(new TCPMessage(5,3, TCPType.OuvertureSession));
         assertEquals(6, defaultConv.getDestinataireId());
     }
 
@@ -51,7 +51,7 @@ public class ConversationTest {
         receiveData.setSubscriber(conversation);
         assertEquals(0,conversation.getDestinataireId());
         TCPSendData sendData = new TCPSendData(socketEnvoi);
-        sendData.envoyer(new TCPMessage(TCPType.OuvertureSession,6));
+        sendData.envoyer(new TCPMessage(6, 3, TCPType.OuvertureSession));
     }
 
 }

@@ -6,29 +6,26 @@ import java.io.Serializable;
 
 public class TCPMessage implements Serializable { // TODO ajouter date et heure
 
-    // TODO rajouter dest et envoyeur id dans tous les messages
     private final int envoyeurId;
+    private final int destinataireId;
     private final TCPType type;
     private final String data;
 
 
-    public TCPMessage(TCPType type) throws WrongConstructorException {
-        if (type!=TCPType.FermetureSession) throw new WrongConstructorException();
-        this.type=type;
-        this.envoyeurId=-1;
-        this.data="";
-    }
 
-    public TCPMessage(TCPType type, int envoyeurId) throws WrongConstructorException {
-        if (type!=TCPType.OuvertureSession) throw new WrongConstructorException();
+    /** creates a control TCP message (open or close conversation) without data*/
+    public TCPMessage(int destinataireId, int envoyeurId, TCPType type) throws WrongConstructorException {
+        this.destinataireId = destinataireId;
         this.type=type;
         this.envoyeurId=envoyeurId;
         this.data="";
     }
 
-    public TCPMessage(String data){
+    /** creates an user TCP message (type : UserData) with user text message*/
+    public TCPMessage(int destinataireId, int envoyeurId, String data){
+        this.destinataireId = destinataireId;
         this.type=TCPType.UserData;
-        this.envoyeurId=-1;
+        this.envoyeurId=envoyeurId;
         this.data=data;
     }
 
@@ -41,7 +38,20 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
     }
 
     public int getEnvoyeurId() throws AssignationProblemException {
-        if (this.envoyeurId==-1) throw new AssignationProblemException("TCPMessage", "envoyeurId");
         return envoyeurId;
+    }
+
+    public int getDestinataireId() {
+        return destinataireId;
+    }
+
+
+    public String toString(){
+        return "TCPMessage {" +
+                "destinataireId='" + destinataireId + '\'' +
+                ", envoyeurId='" + envoyeurId + '\'' +
+                ", type='" + type + '\'' +
+                ", data='" + data + '\'' +
+                '}';
     }
 }

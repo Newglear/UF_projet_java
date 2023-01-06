@@ -25,7 +25,7 @@ public class TCPSendData {
     public void envoyer(TCPMessage message) {
         try {
             out.writeObject(message);
-            LOGGER.trace("Message envoyé à " + socket  + " : " + message.getType() + " : " + message.getData());
+            LOGGER.trace(message + "envoyé à "+socket);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

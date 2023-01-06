@@ -32,7 +32,7 @@ public class Conversation implements Consumer<TCPMessage> {
         switch (message.getType()) {
             case UserData:
                 // TODO faire des trucs avec la DB
-                LOGGER.trace("message reçu : " + message.getData() + ", traitement du message en cours"); break;
+                LOGGER.trace("message reçu : " + message + ", traitement du message en cours"); break;
             case OuvertureSession:
                 if (!isOpen){
                     this.isOpen=true;
@@ -66,7 +66,6 @@ public class Conversation implements Consumer<TCPMessage> {
 
 
     public void sendMessage(String data) {
-
         // TODO : faire des trucs avec la database
     }
 

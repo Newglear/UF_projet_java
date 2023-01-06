@@ -15,9 +15,9 @@ public class TCPSendDataTest {
         TCPServeur tcpServeur = new TCPServeur(9876);
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost(),9876);
         TCPSendData sendData = new TCPSendData(socket);
-        sendData.envoyer(new TCPMessage("hola"));
-        sendData.envoyer(new TCPMessage("coucou"));
-        sendData.envoyer(new TCPMessage("encore un message"));
+        sendData.envoyer(new TCPMessage(1,2, "hola" ));
+        sendData.envoyer(new TCPMessage(1,2, "coucou"));
+        sendData.envoyer(new TCPMessage(1,2, "encore un message" ));
         sendData.close();
         tcpServeur.interrupt();
     }

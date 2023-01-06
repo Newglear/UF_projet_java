@@ -19,9 +19,9 @@ public class TCPReceiveDataTest {
         Socket socketReception = serverSocket.accept();
         TCPReceiveData receiveData = new TCPReceiveData(socketReception);
         TCPSendData sendData = new TCPSendData(socketEnvoi);
-        sendData.envoyer(new TCPMessage("coucou"));
+        sendData.envoyer(new TCPMessage(1,2, "coucou" ));
         receiveData.setSubscriber((mess)->System.out.println(mess.getData()));
-        sendData.envoyer(new TCPMessage("t'es la meilleure"));
+        sendData.envoyer(new TCPMessage(1,2, "t'es la meilleure"));
     }
 
 
