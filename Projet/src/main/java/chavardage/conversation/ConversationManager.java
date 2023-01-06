@@ -1,6 +1,7 @@
 package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
+import chavardage.IllegalConstructorException;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
 import chavardage.networkManager.TCPReceiveData;
@@ -18,8 +19,14 @@ import java.util.function.Consumer;
 
 public class ConversationManager implements Consumer<Socket> {
 
-    // constructeur privé car personne ne doit pouvoir l'appeler (singleton)
-    private ConversationManager() {
+    /**singleton*/
+    private ConversationManager() {}
+
+    /**constructeur public pour tests*/
+    public ConversationManager(boolean test) throws IllegalConstructorException {
+        if (!test){
+            throw new IllegalConstructorException();
+        }
     }
 
     private static final ConversationManager instance = new ConversationManager();

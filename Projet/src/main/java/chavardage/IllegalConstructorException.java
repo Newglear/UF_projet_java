@@ -1,4 +1,4 @@
-package chavardage.userList;
+package chavardage;
 
 public class IllegalConstructorException extends Exception {
 }

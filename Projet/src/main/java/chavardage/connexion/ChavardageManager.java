@@ -23,7 +23,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
     }
 
     /** protected constructor for test, envoi sur port au lieu du port par défaut*/
-    protected ChavardageManager(int port){
+    public ChavardageManager(int port){
         this.port=port;
     }
 

@@ -31,7 +31,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     }
 
     /** constructeur protected pour les tests, envoi sur port au lieu du port UDP par défaut*/
-    protected GestionUDPMessage(ListeUser listeUser, int port, ChavardageManager chavardageManager){
+    public GestionUDPMessage(ListeUser listeUser, int port, ChavardageManager chavardageManager){
         this.listeUser = listeUser;
         this.port = port;
         this.chavardageManager=chavardageManager;

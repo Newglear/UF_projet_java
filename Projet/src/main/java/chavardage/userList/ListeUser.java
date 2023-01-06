@@ -1,6 +1,7 @@
 package chavardage.userList;
 
 import chavardage.AssignationProblemException;
+import chavardage.IllegalConstructorException;
 
 import java.net.InetAddress;
 import java.util.Collections;
