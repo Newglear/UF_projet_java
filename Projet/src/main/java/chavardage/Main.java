@@ -63,7 +63,7 @@ public class Main {
 
 
 
-        listeUser.setMyself(2,"Romain");
+        listeUser.setMyself(1,"Aude");
 
         try {
             chavardageManager.connectToApp(listeUser.getMySelf());
@@ -71,12 +71,14 @@ public class Main {
             e.printStackTrace();
         }
 
-
+        changePseudo("Aude mais mieux");
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
 
         /*try {
             conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
@@ -89,6 +91,8 @@ public class Main {
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
         }*/
+
+
         closeApp();
 
     }
