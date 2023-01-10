@@ -4,7 +4,6 @@ import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
-import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.TCPConnect;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
@@ -100,7 +99,7 @@ public class ConversationManager implements Consumer<Socket> {
         }
     }
 
-    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationAlreadyExists {
+    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, ConversationAlreadyExists {
         synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
             if (mapConversations.containsKey(destinataireId)) {
                 throw new ConversationAlreadyExists(destinataireId);

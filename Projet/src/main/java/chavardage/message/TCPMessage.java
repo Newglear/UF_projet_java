@@ -3,24 +3,25 @@ package chavardage.message;
 import chavardage.AssignationProblemException;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TCPMessage implements Serializable { // TODO ajouter date et heure
+public class TCPMessage implements Serializable {
 
     private final int envoyeurId;
     private final int destinataireId;
     private final TCPType type;
-    private final String data;
+    private final String texte;
     private final Date date;
 
 
 
     /** creates a control TCP message (open or close conversation) without data*/
-    public TCPMessage(int destinataireId, int envoyeurId, TCPType type) throws WrongConstructorException {
+    public TCPMessage(int destinataireId, int envoyeurId, TCPType type) {
         this.destinataireId = destinataireId;
         this.type=type;
         this.envoyeurId=envoyeurId;
-        this.data="";
+        this.texte ="";
         date = new Date();
     }
 
@@ -29,12 +30,12 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
         this.destinataireId = destinataireId;
         this.type=TCPType.UserData;
         this.envoyeurId=envoyeurId;
-        this.data=data;
+        this.texte =data;
         date = new Date();
     }
 
-    public String getData(){
-        return this.data;
+    public String getTexte(){
+        return this.texte;
     }
 
     public TCPType getType() {
@@ -49,13 +50,17 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
         return destinataireId;
     }
 
+    public String getDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return formatter.format(this.date);
+    }
 
     public String toString(){
         return "TCPMessage {" +
                 "destinataireId='" + destinataireId + '\'' +
                 ", envoyeurId='" + envoyeurId + '\'' +
                 ", type='" + type + '\'' +
-                ", data='" + data + '\'' +
+                ", data='" + texte + '\'' +
                 '}';
     }
 }

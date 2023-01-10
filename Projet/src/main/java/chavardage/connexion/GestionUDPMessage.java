@@ -77,8 +77,6 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                     case AckPseudoOk:
                     case AckPseudoPasOK:
-                    case AlreadyConnected:
-                    case Usurpateur:
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         listeUser.addUser(udpMessage.getEnvoyeur());
                         if (nbAcks==0){
@@ -86,6 +84,15 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                             chavardageManager.accept(udpMessage);
                         }
                         nbAcks++;
+                        break;
+                    case AlreadyConnected:
+                        LOGGER.trace("tout va bien, j'étais connecté");
+                        chavardageManager.accept(udpMessage);
+                        nbAcks++;
+                        break;
+                    case Usurpateur:
+                        LOGGER.trace("je suis un usurpateur, oups, je passe au chavardageManager");
+                        chavardageManager.accept(udpMessage);
                         break;
                     case NewUser:
                         listeUser.addUser(udpMessage.getEnvoyeur());

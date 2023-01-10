@@ -8,12 +8,13 @@ import chavardage.conversation.ConversationAlreadyExists;
 import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
 import chavardage.message.TCPMessage;
-import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,7 +23,8 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
+        // Configurator.setRootLevel(Level.INFO);
         int port_local_udp = 9473;
         int port_local_tcp = 9475;
 
@@ -53,7 +55,6 @@ public class LocalAppTest {
 
         // tests
         chavManDistant.connectToApp(userDistant);
-        chavManLocal.connectToApp(userLocal); // test de 2 utilisateurs qui se connectent en parallèle
         convManDistant.openConversation(1);
         convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
         convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi"));

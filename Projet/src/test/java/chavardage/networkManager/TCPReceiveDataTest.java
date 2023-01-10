@@ -20,7 +20,7 @@ public class TCPReceiveDataTest {
         TCPReceiveData receiveData = new TCPReceiveData(socketReception);
         TCPSendData sendData = new TCPSendData(socketEnvoi);
         sendData.envoyer(new TCPMessage(1,2, "coucou" ));
-        receiveData.setSubscriber((mess)->System.out.println(mess.getData()));
+        receiveData.setSubscriber((mess)->System.out.println(mess.getTexte()));
         sendData.envoyer(new TCPMessage(1,2, "t'es la meilleure"));
     }
 

@@ -14,18 +14,26 @@ public class ChavardageManagerTest {
     public void ConnectToAppTest() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
         int port_local = 9473;
         int port_distant= 9474;
+
+        // simulation appli 1
         UserItem userLocal = new UserItem(1,"Aude");
-        UserItem userDistant = new UserItem(2,"Romain");
         ListeUser listeLocal = new ListeUser(true);
-        ListeUser listeDistant = new ListeUser(true);
         listeLocal.setMyself(userLocal);
-        listeDistant.setMyself(userDistant);
         ChavardageManager chavManLocal= new ChavardageManager(port_distant);
-        ChavardageManager chavManDistant = new ChavardageManager(port_local);
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant,chavManLocal);
-        GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local, chavManDistant);
         UDPServeur udpServeurLocal = new UDPServeur(port_local,gestionUDPMessageLocal);
+
+        // simulation appli 2
+        UserItem userDistant = new UserItem(2,"Romain");
+        ListeUser listeDistant = new ListeUser(true);
+        listeDistant.setMyself(userDistant);
+        ChavardageManager chavManDistant = new ChavardageManager(port_local);
+        GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local, chavManDistant);
         UDPServeur udpServeurDistant= new UDPServeur(port_distant,gestionUDPMessageDistant);
+
+        // test
         chavManDistant.connectToApp(userDistant);
+        chavManLocal.connectToApp(userLocal); // test de 2 utilisateurs qui se connectent en parallèle
+
     }
 }

@@ -3,8 +3,10 @@ package chavardage.conversation;
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.message.TCPMessage;
-import chavardage.message.WrongConstructorException;
+import chavardage.message.TCPType;
+import chavardage.networkManager.TCPSend;
 import chavardage.networkManager.TCPSendData;
+import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserNotFoundException;
 import org.junit.Before;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ConversationManagerTest {
 
@@ -38,7 +41,7 @@ public class ConversationManagerTest {
     }
 
     @Test
-    public void openConversationTest() throws IOException, IllegalConstructorException, UserNotFoundException, AssignationProblemException, ConversationAlreadyExists, WrongConstructorException, ConversationDoesNotExist {
+    public void openConversationTest() throws IOException, IllegalConstructorException, UserNotFoundException, AssignationProblemException, ConversationAlreadyExists, ConversationDoesNotExist {
         int port = 5784;
         ListeUser liste = new ListeUser(true);
         ConversationManager conversationManager = new ConversationManager(true,liste,port);
@@ -49,10 +52,6 @@ public class ConversationManagerTest {
         conversationManager.getSendData(3).envoyer(new TCPMessage(3,1,"coucou"));
     }
 
-    @Test
-    public void acceptTest() {
-        // TODO mettre le accept en suscripteur du serveur
-    }
 
     @Test
     public void getSendDataTest() throws IOException, ConversationDoesNotExist {

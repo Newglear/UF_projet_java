@@ -2,7 +2,6 @@ package chavardage.conversation;
 
 import chavardage.message.TCPMessage;
 import chavardage.message.TCPType;
-import chavardage.message.WrongConstructorException;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
@@ -20,7 +19,7 @@ public class ConversationTest {
 
 
     @Test
-    public void conversationTest() throws WrongConstructorException {
+    public void conversationTest() {
         ListeUser.getInstance().setMyId(3); // j'ai l'id 3
         Conversation conversation = new Conversation(5); // je crée une conversation avec 5
         conversation.sendMessage("coucou");
@@ -41,7 +40,7 @@ public class ConversationTest {
 
 
     @Test
-    public synchronized void acceptTest() throws IOException, WrongConstructorException {
+    public void acceptTest() throws IOException {
         ListeUser.getInstance().setMyId(3);
         ServerSocket serverSocket = new ServerSocket(8476);
         Conversation conversation = new Conversation();

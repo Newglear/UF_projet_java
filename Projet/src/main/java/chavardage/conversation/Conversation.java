@@ -32,6 +32,7 @@ public class Conversation implements Consumer<TCPMessage> {
         switch (message.getType()) {
             case UserData:
                 // TODO faire des trucs avec la DB
+                LOGGER.info("message : " + message.getTexte());
                 LOGGER.trace("message reçu : " + message + ", traitement du message en cours"); break;
             case OuvertureSession:
                 if (!isOpen){
