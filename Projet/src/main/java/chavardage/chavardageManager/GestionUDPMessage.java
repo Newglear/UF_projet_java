@@ -1,11 +1,10 @@
-package chavardage.connexion;
+package chavardage.chavardageManager;
 
 import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
-import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,7 +1,7 @@
-package chavardage.connexion;
+package chavardage.chavardageManager;
 
-import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
+import chavardage.message.UDPType;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.UserItem;
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class ChavardageManager implements Consumer<UDPMessage> {
 
     private static final Logger LOGGER = LogManager.getLogger(ChavardageManager.class);
-    private final static int TIMEOUT = 10000;
+    private final static int TIMEOUT = 10000; // si personne n'a répondu au bout de 10s, on considère qu'on est seul
     private UDPType received;
     private final int port;
 
@@ -55,14 +55,17 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     /* regarder dans liste user les pseudos pour checker en local
                     le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
-                    throw new AlreadyUsedPseudoException();
+                    throw new AlreadyUsedPseudoException(mySelf.getPseudo());
                 case Usurpateur:
                     throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau
             LOGGER.info("aucun autre utilisateur pour le moment");
         }
+    }
 
+    public void notifyChangePseudo(UserItem userItem){
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.ChangementPseudo,userItem),port);
     }
 
 

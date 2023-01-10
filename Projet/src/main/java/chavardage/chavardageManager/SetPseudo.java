@@ -1,4 +1,4 @@
-package chavardage.connexion;
+package chavardage.chavardageManager;
 
 import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;

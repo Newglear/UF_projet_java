@@ -1,10 +1,6 @@
 package chavardage;
 
-import chavardage.connexion.ChavardageManager;
-import chavardage.connexion.GestionUDPMessage;
 import chavardage.conversation.ConversationManager;
-import chavardage.networkManager.TCPServeur;
-import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +15,7 @@ public class AppTest {
     }
 
     @Test
-    public void InitTest() throws InterruptedException {
+    public void InitTest() {
         /*ConversationManager conversationManager = ConversationManager.getInstance();
         ListeUser listeUser = ListeUser.getInstance();
         ChavardageManager chavardageManager = ChavardageManager.getInstance();

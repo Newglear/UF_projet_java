@@ -1,4 +1,4 @@
-package chavardage.connexion;
+package chavardage.chavardageManager;
 
 public class UsurpateurException extends Exception {
 

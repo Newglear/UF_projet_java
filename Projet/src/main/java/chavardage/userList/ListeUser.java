@@ -2,6 +2,7 @@ package chavardage.userList;
 
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -83,7 +84,10 @@ public class ListeUser{
         myId=id;
     }
 
-    public synchronized void setMyPseudo(String pseudo){
+    public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException {
+        if (!pseudoDisponible(pseudo)){
+            throw new AlreadyUsedPseudoException(pseudo);
+        }
         myPseudo=pseudo;
     }
 
@@ -127,6 +131,8 @@ public class ListeUser{
             System.out.println(entry.getValue());
         }
     }
+
+
 
     public synchronized boolean contains(int userId){
         return tabItems.containsKey(userId);

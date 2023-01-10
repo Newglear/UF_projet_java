@@ -1,6 +1,7 @@
 package chavardage.userList;
 
 import chavardage.AssignationProblemException;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,7 +111,7 @@ public class ListeUserTest{
     }
 
     @Test
-    public void getPseudoTest() throws AssignationProblemException {
+    public void getPseudoTest() throws AssignationProblemException, AlreadyUsedPseudoException {
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.setMyPseudo("moi");
         String id = listeUser.getMyPseudo();

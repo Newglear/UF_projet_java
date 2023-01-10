@@ -1,9 +1,9 @@
 package chavardage;
 
-import chavardage.connexion.AlreadyUsedPseudoException;
-import chavardage.connexion.ChavardageManager;
-import chavardage.connexion.GestionUDPMessage;
-import chavardage.connexion.UsurpateurException;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
+import chavardage.chavardageManager.ChavardageManager;
+import chavardage.chavardageManager.GestionUDPMessage;
+import chavardage.chavardageManager.UsurpateurException;
 import chavardage.conversation.ConversationAlreadyExists;
 import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
@@ -13,8 +13,6 @@ import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.Test;
 
 import java.io.IOException;

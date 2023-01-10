@@ -1,4 +1,4 @@
-package chavardage.connexion;
+package chavardage.chavardageManager;
 
 import chavardage.networkManager.UDPServeur;
 import chavardage.IllegalConstructorException;

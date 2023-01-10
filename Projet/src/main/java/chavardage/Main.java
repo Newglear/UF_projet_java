@@ -1,7 +1,8 @@
 package chavardage;
 
-import chavardage.connexion.ChavardageManager;
-import chavardage.connexion.GestionUDPMessage;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
+import chavardage.chavardageManager.ChavardageManager;
+import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
@@ -16,17 +17,29 @@ public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
+    private static final ListeUser listeUser = ListeUser.getInstance();
+    private static final ConversationManager conversationManager = ConversationManager.getInstance();
+    private static final ChavardageManager chavardageManager = ChavardageManager.getInstance();
+    private static final GestionUDPMessage gestionUDPMessage = GestionUDPMessage.getInstance();
+
+    private static void changePseudo(String pseudo){
+        try{
+            listeUser.setMyPseudo(pseudo);
+        } catch (AlreadyUsedPseudoException e) {
+            LOGGER.error(e.getMessage());
+            // TODO boucle avec interface
+        }
+        chavardageManager.notifyChangePseudo(listeUser.getMySelf());
+    }
+
+
+
     public static void main(String[] args){
         Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
-        ListeUser listeUser = ListeUser.getInstance();
-        ConversationManager conversationManager = ConversationManager.getInstance();
-        ChavardageManager chavardageManager = ChavardageManager.getInstance();
-        GestionUDPMessage gestionUDPMessage = GestionUDPMessage.getInstance();
+
         UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
         TCPServeur tcpServeur = new TCPServeur(conversationManager);
-
-
     }
 
 }
