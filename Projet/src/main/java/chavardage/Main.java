@@ -78,7 +78,7 @@ public class Main {
             e.printStackTrace();
         }
 
-
+        // TODO comprendre pourquoi j'ai des erreurs de socket alors que je voulais les restreindre aux couches inférieures
 
         /*try {
             conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
