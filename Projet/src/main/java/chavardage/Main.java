@@ -4,16 +4,22 @@ import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.chavardageManager.UsurpateurException;
+import chavardage.conversation.ConversationAlreadyExists;
+import chavardage.conversation.ConversationDoesNotExist;
+import chavardage.chavardageManager.UsurpateurException;
 import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
 import chavardage.message.TCPMessage;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+
+import java.io.IOException;
 
 
 public class Main {

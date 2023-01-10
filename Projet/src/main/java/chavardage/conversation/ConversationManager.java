@@ -100,6 +100,9 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, ConversationAlreadyExists {
+        if (!listeUser.contains(destinataireId)){
+            throw new UserNotFoundException(destinataireId);
+        }
         synchronized (this) { // localiser les synchronized là où c'est strictement nécessaire pour éviter les deadlock
             if (mapConversations.containsKey(destinataireId)) {
                 throw new ConversationAlreadyExists(destinataireId);
@@ -149,15 +152,12 @@ public class ConversationManager implements Consumer<Socket> {
 
 
 
-    public synchronized void fermerConversation(int destinataireId){
+    public synchronized void fermerConversation(int destinataireId) throws ConversationDoesNotExist {
         // fermeture thread reception
+
+        this.getReceiveData(destinataireId).interrupt();
+        this.getSendData(destinataireId).close();
+
         LOGGER.trace("fermeture de la conversation avec " + destinataireId);
-        try {
-            this.getReceiveData(destinataireId).interrupt();
-            this.getSendData(destinataireId).close();
-        } catch (ConversationDoesNotExist e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
     }
 }
