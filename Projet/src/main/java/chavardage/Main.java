@@ -3,7 +3,10 @@ package chavardage;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
+import chavardage.chavardageManager.UsurpateurException;
+import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
+import chavardage.message.TCPMessage;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
@@ -32,14 +35,40 @@ public class Main {
         chavardageManager.notifyChangePseudo(listeUser.getMySelf());
     }
 
+    private static void clear(){
+        listeUser.clear();
+        conversationManager.clear();
+    }
 
 
     public static void main(String[] args){
+        clear();
         Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
 
         UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
         TCPServeur tcpServeur = new TCPServeur(conversationManager);
+
+        listeUser.setMyself(2,"Romain");
+
+        try {
+            chavardageManager.connectToApp(listeUser.getMySelf());
+        } catch (InterruptedException | UsurpateurException | AlreadyUsedPseudoException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
+        } catch (ConversationDoesNotExist conversationDoesNotExist) {
+            conversationDoesNotExist.printStackTrace();
+        }
     }
 
 }

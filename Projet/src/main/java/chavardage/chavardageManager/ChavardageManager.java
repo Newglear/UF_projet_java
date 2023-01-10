@@ -60,7 +60,8 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau
-            LOGGER.info("aucun autre utilisateur pour le moment");
+            LOGGER.info("connexion au réseau réussie");
+            LOGGER.trace("aucun autre utilisateur pour le moment, timeout expiré");
         }
     }
 

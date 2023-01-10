@@ -116,29 +116,18 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     public synchronized Conversation getConv(int destinataireId) throws ConversationDoesNotExist {
-        try {
-            return mapConversations.get(destinataireId);
-        }catch (Exception e){
-            throw new ConversationDoesNotExist(destinataireId);
-        }
+        if (!mapConversations.containsKey(destinataireId)) throw new ConversationDoesNotExist(destinataireId);
+        return mapConversations.get(destinataireId);
     }
 
     public synchronized TCPSendData getSendData(int destinataireId) throws ConversationDoesNotExist {
-        try {
-            TCPSendData sendData = sendDataMap.get(destinataireId);
-            LOGGER.debug("get send data " + destinataireId + " : " + sendData);
-            return sendData;
-        }catch (Exception e){
-            throw new ConversationDoesNotExist(destinataireId);
-        }
+        if (!sendDataMap.containsKey(destinataireId)) throw new ConversationDoesNotExist(destinataireId);
+        return sendDataMap.get(destinataireId);
     }
 
     private synchronized TCPReceiveData getReceiveData(int destinataireId) throws ConversationDoesNotExist {
-        try {
-            return receiveDataMap.get(destinataireId);
-        }catch (Exception e){
-            throw new ConversationDoesNotExist(destinataireId);
-        }
+        if (!receiveDataMap.containsKey(destinataireId)) throw new ConversationDoesNotExist(destinataireId);
+        return receiveDataMap.get(destinataireId);
     }
 
     public synchronized void clear() {
