@@ -5,6 +5,7 @@ import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,9 +32,9 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     }
 
     /** constructeur public pour les tests, envoi sur port au lieu du port UDP par défaut*/
-    public GestionUDPMessage(ListeUser listeUser, int port, ChavardageManager chavardageManager){
+    public GestionUDPMessage(ListeUser listeUser, int portDistant, ChavardageManager chavardageManager){
         this.listeUser = listeUser;
-        this.port = port;
+        this.port = portDistant;
         this.chavardageManager=chavardageManager;
     }
 
@@ -49,15 +50,23 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
             if(udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
-                        if (listeUser.contains(udpMessage.getEnvoyeur())){
-                            LOGGER.trace("envoi d'un already connected");
-                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AlreadyConnected,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                        if (listeUser.contains(udpMessage.getEnvoyeur().getId())){ // l'id est déjà dans la liste
+                            if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())){
+                                // même id, même pseudo : already connected
+                                LOGGER.trace("envoi d'un already connected");
+                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.AlreadyConnected,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            }else{ // même id, pseudo différent
+                                LOGGER.trace("détection d'un usurpateur");
+                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            }
                             break;
                         }
                         if (listeUser.pseudoDisponible(udpMessage.getEnvoyeur().getPseudo())){
+                            // nouvel user, pseudo dispo
                             LOGGER.trace("envoi d'un AckPseudoOk");
                             UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoOk, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
                         }else{
+                            // nouvel user, pseudo pas dispo
                             LOGGER.trace("envoi d'un AckPseudoPasOk");
                             UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoPasOK, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
                         }
@@ -68,6 +77,8 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                     case AckPseudoOk:
                     case AckPseudoPasOK:
+                    case AlreadyConnected:
+                    case Usurpateur:
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         listeUser.addUser(udpMessage.getEnvoyeur());
                         if (nbAcks==0){
@@ -76,8 +87,6 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         }
                         nbAcks++;
                         break;
-                    case AlreadyConnected:
-                        chavardageManager.accept(udpMessage);
                     case NewUser:
                         listeUser.addUser(udpMessage.getEnvoyeur());
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");

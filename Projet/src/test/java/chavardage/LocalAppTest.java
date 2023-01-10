@@ -1,7 +1,9 @@
 package chavardage;
 
+import chavardage.connexion.AlreadyUsedPseudoException;
 import chavardage.connexion.ChavardageManager;
 import chavardage.connexion.GestionUDPMessage;
+import chavardage.connexion.UsurpateurException;
 import chavardage.conversation.ConversationAlreadyExists;
 import chavardage.conversation.ConversationDoesNotExist;
 import chavardage.conversation.ConversationManager;
@@ -12,8 +14,6 @@ import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,8 +22,7 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists {
-        Configurator.setRootLevel(Level.DEBUG); // only show DEBUG message in the application
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
         int port_local_udp = 9473;
         int port_local_tcp = 9475;
 
@@ -33,7 +32,7 @@ public class LocalAppTest {
         // simulation application 1
         UserItem userLocal = new UserItem(1,"Aude");
         ListeUser listeLocal = new ListeUser(true);
-        ConversationManager convManLocal = new ConversationManager(true, listeLocal, port_local_tcp);
+        ConversationManager convManLocal = new ConversationManager(true,listeLocal,port_distant_tcp);
         listeLocal.setMyself(userLocal);
         ChavardageManager chavManLocal= new ChavardageManager(port_distant_udp);
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
@@ -44,7 +43,7 @@ public class LocalAppTest {
         // simulation application 2
         UserItem userDistant = new UserItem(2,"Romain");
         ListeUser listeDistant = new ListeUser(true);
-        ConversationManager convManDistant = new ConversationManager(true, listeDistant, port_distant_tcp);
+        ConversationManager convManDistant = new ConversationManager(true, listeDistant, port_local_tcp);
         listeDistant.setMyself(userDistant);
         ChavardageManager chavManDistant = new ChavardageManager(port_local_udp);
         GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local_udp, chavManDistant);
@@ -55,15 +54,14 @@ public class LocalAppTest {
         // tests
         chavManDistant.connectToApp(userDistant);
         chavManLocal.connectToApp(userLocal); // test de 2 utilisateurs qui se connectent en parallèle
-        // convManDistant.openConversation(1); // TODO gérer deux ouvertures de conv en parallèle
-        convManLocal.openConversation(2);
+        convManDistant.openConversation(1);
         convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
-        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi")); // marche pas, null
+        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi"));
     }
 
 
     @Test
-    public void localTestAppSeule() throws IllegalConstructorException, InterruptedException {
+    public void localTestAppSeule() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
         int port_local_udp = 9477;
         int port_distant_udp = 9478;
         UserItem userLocal = new UserItem(1,"Aude");

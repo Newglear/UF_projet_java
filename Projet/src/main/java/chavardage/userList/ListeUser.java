@@ -128,7 +128,7 @@ public class ListeUser{
         }
     }
 
-    public synchronized boolean contains(UserItem user){
-        return tabItems.containsKey(user.getId());
+    public synchronized boolean contains(int userId){
+        return tabItems.containsKey(userId);
     }
 }

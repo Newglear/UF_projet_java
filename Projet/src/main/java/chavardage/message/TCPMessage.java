@@ -3,6 +3,7 @@ package chavardage.message;
 import chavardage.AssignationProblemException;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class TCPMessage implements Serializable { // TODO ajouter date et heure
 
@@ -10,6 +11,7 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
     private final int destinataireId;
     private final TCPType type;
     private final String data;
+    private final Date date;
 
 
 
@@ -19,6 +21,7 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
         this.type=type;
         this.envoyeurId=envoyeurId;
         this.data="";
+        date = new Date();
     }
 
     /** creates an user TCP message (type : UserData) with user text message*/
@@ -27,6 +30,7 @@ public class TCPMessage implements Serializable { // TODO ajouter date et heure
         this.type=TCPType.UserData;
         this.envoyeurId=envoyeurId;
         this.data=data;
+        date = new Date();
     }
 
     public String getData(){

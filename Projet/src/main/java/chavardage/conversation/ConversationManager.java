@@ -34,12 +34,12 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     /**constructeur public pour tests*/
-    public ConversationManager(boolean test, ListeUser listeUser, int port) throws IllegalConstructorException {
+    public ConversationManager(boolean test, ListeUser listeUser, int portDistant) throws IllegalConstructorException {
         if (!test){
             throw new IllegalConstructorException();
         }
         this.listeUser=listeUser;
-        this.port = port;
+        this.port = portDistant;
     }
 
 
@@ -50,6 +50,7 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     private static final Logger LOGGER = LogManager.getLogger(ConversationManager.class);
+
 
     protected Map<Integer, Conversation> mapConversations = Collections.synchronizedMap(new HashMap<>());
     protected Map<Integer, TCPSendData> sendDataMap = Collections.synchronizedMap(new HashMap<>());
@@ -88,6 +89,7 @@ public class ConversationManager implements Consumer<Socket> {
             }
             TCPSendData sendData = new TCPSendData(socket);
             this.addConv(destinataireId, conversation);
+            LOGGER.debug("add conv " + destinataireId + " : " + conversation);
             this.addReceiveData(destinataireId, receiveData);
             this.addSendData(destinataireId, sendData);
             LOGGER.debug("add send data " + destinataireId + " : " + sendData);

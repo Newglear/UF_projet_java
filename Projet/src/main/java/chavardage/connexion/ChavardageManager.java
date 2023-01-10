@@ -22,16 +22,16 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         this.port= UDPServeur.DEFAULT_PORT_UDP;
     }
 
-    /** protected constructor for test, envoi sur port au lieu du port par défaut*/
-    public ChavardageManager(int port){
-        this.port=port;
+    /** protected constructor for test, envoi sur port au lieu du port par défaut  */
+    public ChavardageManager(int portDistant){
+        this.port= portDistant;
     }
 
     private static final ChavardageManager instance = new ChavardageManager();
 
     public static ChavardageManager getInstance(){return instance;}
 
-    public void connectToApp(UserItem mySelf) throws InterruptedException {
+    public void connectToApp(UserItem mySelf) throws InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
         UDPMessage demandeConnexion = new UDPMessage(UDPType.DemandeConnexion,mySelf);
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){ // si le ack n'a pas encore été reçu
@@ -55,8 +55,9 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     /* regarder dans liste user les pseudos pour checker en local
                     le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
-                    break;
-                    // TODO type usurpateur
+                    throw new AlreadyUsedPseudoException();
+                case Usurpateur:
+                    throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau
             LOGGER.info("aucun autre utilisateur pour le moment");
