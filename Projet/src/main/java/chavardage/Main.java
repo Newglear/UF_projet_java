@@ -55,7 +55,7 @@ public class Main {
         UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
         TCPServeur tcpServeur = new TCPServeur(conversationManager);
 
-        listeUser.setMyself(2,"Romain");
+        listeUser.setMyself(1,"Aude");
 
         try {
             chavardageManager.connectToApp(listeUser.getMySelf());
@@ -63,6 +63,11 @@ public class Main {
             e.printStackTrace();
         }
 
+        try {
+            conversationManager.openConversation(2);
+        } catch (UserNotFoundException | AssignationProblemException | ConversationAlreadyExists | IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             Thread.sleep(10000);
@@ -70,11 +75,21 @@ public class Main {
             e.printStackTrace();
         }
 
+
         try {
-            conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
+            conversationManager.getSendData(2).envoyer(new TCPMessage(1,2,"hello"));
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
         }
+
+        try {
+            conversationManager.fermerConversation(2);
+        } catch (ConversationDoesNotExist conversationDoesNotExist) {
+            conversationDoesNotExist.printStackTrace();
+        }
+
+        chavardageManager.disconnect(listeUser.getMySelf());
+
     }
 
 }
