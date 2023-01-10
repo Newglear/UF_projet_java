@@ -75,6 +75,12 @@ public class Main {
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
         }
+
+        try {
+            conversationManager.fermerConversation(1);
+        } catch (ConversationDoesNotExist conversationDoesNotExist) {
+            conversationDoesNotExist.printStackTrace();
+        }
     }
 
 }
