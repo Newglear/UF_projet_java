@@ -14,24 +14,12 @@ public class TCPConnect {
 
     private static final Logger LOGGER = LogManager.getLogger(TCPConnect.class);
 
-    // TODO attention à qui utilise ça
-    /*public static void envoyer(InetAddress address, TCPMessage message) throws IOException {
-        Socket socket = new Socket(address, TCPServeur.PORT_TCP);
-        OutputStream outputStream = socket.getOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(outputStream);
-        out.writeObject(message);
-        LOGGER.trace("Message envoyé à " + message.getDestinataireId() + " : " + message.getData());
-        out.close();
-        socket.close();
-    }*/
 
     /** se connecte sur le port TCP par défaut*/
     public static Socket connectTo(InetAddress address){
         try {
             Socket socket = new Socket(address, TCPServeur.DEFAULT_PORT_TCP);
             LOGGER.trace("Connection réalisée avec " + address + " sur le socket " + socket);
-            // envoi du message de demande d'ouverture session TODO trouver où le faire ça
-            // TCPSend.envoyer(new TCPMessage(address, TCPType.OuvertureSession), );
             return socket;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -45,8 +33,6 @@ public class TCPConnect {
         try {
             Socket socket = new Socket(address, port);
             LOGGER.trace("Connection réalisée avec " + address + " sur le socket " + socket);
-            // envoi du message de demande d'ouverture session TODO trouver où le faire ça
-            // TCPSend.envoyer(new TCPMessage(address, TCPType.OuvertureSession), );
             return socket;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

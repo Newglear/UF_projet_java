@@ -12,6 +12,8 @@ import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class LocalAppTest {
 
     @Test
     public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, WrongConstructorException, ConversationDoesNotExist, ConversationAlreadyExists {
+        Configurator.setRootLevel(Level.DEBUG); // only show DEBUG message in the application
         int port_local_udp = 9473;
         int port_local_tcp = 9475;
 
@@ -52,9 +55,10 @@ public class LocalAppTest {
         // tests
         chavManDistant.connectToApp(userDistant);
         chavManLocal.connectToApp(userLocal); // test de 2 utilisateurs qui se connectent en parallèle
-        convManDistant.openConversation(1);
+        // convManDistant.openConversation(1); // TODO gérer deux ouvertures de conv en parallèle
+        convManLocal.openConversation(2);
         convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
-        // convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi")); marche pas, null
+        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi")); // marche pas, null
     }
 
 
@@ -69,6 +73,5 @@ public class LocalAppTest {
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
         UDPServeur udpServeurLocal = new UDPServeur(port_local_udp,gestionUDPMessageLocal);
         chavManLocal.connectToApp(userLocal); // on teste comment réagit l'appli quand un user tout seul essaie de se connecter
-
     }
 }

@@ -60,7 +60,8 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
-    private synchronized void addSendData(int destinataireId, TCPSendData sendData) {
+    /* en protected pour les tests*/
+    protected synchronized void addSendData(int destinataireId, TCPSendData sendData) {
         sendDataMap.put(destinataireId, sendData);
     }
 
@@ -89,6 +90,7 @@ public class ConversationManager implements Consumer<Socket> {
             this.addConv(destinataireId, conversation);
             this.addReceiveData(destinataireId, receiveData);
             this.addSendData(destinataireId, sendData);
+            LOGGER.debug("add send data " + destinataireId + " : " + sendData);
             LOGGER.trace("la conversation avec " + destinataireId + " a bien été créée ");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -122,13 +124,15 @@ public class ConversationManager implements Consumer<Socket> {
 
     public synchronized TCPSendData getSendData(int destinataireId) throws ConversationDoesNotExist {
         try {
-            return sendDataMap.get(destinataireId);
+            TCPSendData sendData = sendDataMap.get(destinataireId);
+            LOGGER.debug("get send data " + destinataireId + " : " + sendData);
+            return sendData;
         }catch (Exception e){
             throw new ConversationDoesNotExist(destinataireId);
         }
     }
 
-    public synchronized TCPReceiveData getReceiveData(int destinataireId) throws ConversationDoesNotExist {
+    private synchronized TCPReceiveData getReceiveData(int destinataireId) throws ConversationDoesNotExist {
         try {
             return receiveDataMap.get(destinataireId);
         }catch (Exception e){

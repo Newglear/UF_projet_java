@@ -42,4 +42,10 @@ public class TCPSendData {
         }
     }
 
+    public String toString(){
+        return "TCPSendData {" +
+                "socket='" + socket + '\'' +
+                '}';
+    }
+
 }

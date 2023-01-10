@@ -52,8 +52,11 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     break;
                 case AckPseudoPasOK:
                     // TODO redemander un pseudo via l'interface
+                    /* regarder dans liste user les pseudos pour checker en local
+                    le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
                     break;
+                    // TODO type usurpateur
             }
         } else { // bah on est seul sur le réseau
             LOGGER.info("aucun autre utilisateur pour le moment");
