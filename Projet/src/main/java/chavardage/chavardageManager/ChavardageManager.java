@@ -69,6 +69,11 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         UDPSend.envoyerBroadcast(new UDPMessage(UDPType.ChangementPseudo,userItem),port);
     }
 
+    public void disconnect(UserItem userItem){
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.Deconnexion,userItem),port);
+
+    }
+
 
     @Override
     public synchronized void accept(UDPMessage udpMessage) {

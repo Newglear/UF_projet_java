@@ -77,10 +77,13 @@ public class Main {
         }
 
         try {
-            conversationManager.fermerConversation(1);
+            conversationManager.fermerConversation(2);
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
         }
+
+        chavardageManager.disconnect(listeUser.getMySelf());
+
     }
 
 }
