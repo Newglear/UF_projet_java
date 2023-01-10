@@ -25,21 +25,25 @@ public class DatabaseManager {
 
     public static DatabaseManager getInstance() {return instance;}
 
+    //Permet d'obtenir l'ensemble des messages d'une conversation entre deux utilisateurs
     public synchronized ResultSet getMessages(int idUserLocal, int idUserDistant) throws SQLException{
-        Statement retriveMessage = database.createStatement();
+        String sql = "SELECT date,sentBy,message FROM message AS m JOIN conversation AS c ON c.userId1=? AND c.userId2=? AND c.idConversation=m.convId;";
+        PreparedStatement retriveMessage = database.prepareStatement(sql);
         int minId = Math.min(idUserLocal,idUserDistant);
         int maxId = Math.max(idUserLocal,idUserDistant);
-        ResultSet result = retriveMessage.executeQuery("SELECT date,sentBy,message FROM conversation AS c JOIN message as m ON c.userId1=" + minId  + "AND c.userId2=" + maxId + " AND c.idConversation=m.convId;");
+        retriveMessage.setInt(1,minId);
+        retriveMessage.setInt(2,maxId);
+        ResultSet result = retriveMessage.executeQuery();
         return result;
     }
 
-    //TODO appeller quand nouvel utilisateur se connecte (insère dans la database s'il n'existe pas déjà)
+    //TODO appeller quand nouvel utilisateur se connecte (insère dans la database l'userId s'il n'existe pas déjà)
     public synchronized  void insertNewUser(int idUser) throws  SQLException{
-        statement.executeQuery("INSERT INTO user SELECT " + idUser + " WHERE NOT EXISTS(SELECT * FROM user where idUser=" + idUser +");");
+        statement.execute("INSERT INTO user SELECT " + idUser + " WHERE NOT EXISTS(SELECT * FROM user where idUser=" + idUser +");");
     }
 
-    //TODO Insérer message dans la table
-    public synchronized  void insertMessage(int idUserLocal, int idUserDistant, String message, LocalDateTime dateTime, int sentBy) throws SQLException{
+    //Permet d'insérer un message dans la database, elle crée aussi la conversation si elle n'existe pas déjà
+    public synchronized  void insertMessage(int idUserLocal, int idUserDistant, String message, Timestamp date, int sentBy) throws SQLException{
 
         int minId= Math.min(idUserLocal,idUserDistant);
         int maxId= Math.max(idUserLocal,idUserDistant);
@@ -49,22 +53,28 @@ public class DatabaseManager {
 
 
         if(!convAlreadyExist.next()){
-                statement.executeQuery("INSERT INTO conversation  (userId1,userId2) VALUES (" + minId + "," + maxId +");");
+                statement.execute("INSERT INTO conversation  (userId1,userId2) VALUES (" + minId + "," + maxId +");");
         }
 
         convAlreadyExist.close();
 
-        convIdQuerry = statement.executeQuery("SELECT conversationId FROM conversation as c WHERE c.userId1=" + minId + " AND userId2=" + maxId + ";");
+        convIdQuerry = statement.executeQuery("SELECT idConversation FROM conversation as c WHERE c.userId1=" + minId + " AND userId2=" + maxId + ";");
         convIdQuerry.next();
         convId = convIdQuerry.getInt("idconversation");
         convIdQuerry.close();
 
-        statement.executeQuery("INSERT INTO message (convId,date,sentBy,Message) VALUES " +
-                "(" + convId + "," + dateTime + "," + sentBy + "," + message + ");");
+        String sql = "INSERT INTO message (convId,date,sentBy,Message) VALUES (?,?,?,?);";
+        PreparedStatement pst = database.prepareStatement(sql);
+        pst.setInt(1,convId);
+        pst.setTimestamp(2,date);
+        pst.setInt(3,sentBy);
+        pst.setString(4,message);
+        pst.executeUpdate();
+        pst.close();
     }
 
     public synchronized boolean isInDatabase(int userId) throws  SQLException{
-        ResultSet resultat = statement.executeQuery("SELECT userId FROM user WHERE userId=" + userId + ";");
+        ResultSet resultat = statement.executeQuery("SELECT idUser FROM user WHERE idUser=" + userId + ";");
         if(!resultat.next()){
             resultat.close();
             return false;
@@ -75,8 +85,8 @@ public class DatabaseManager {
     }
 
     public synchronized void clearDatabase() throws  SQLException{
-        statement.executeQuery("DELETE FROM message");
-        statement.executeQuery("DELETE FROM conversation");
-        statement.executeQuery("DELETE FROM user");
+        statement.execute("DELETE FROM message");
+        statement.execute("DELETE FROM conversation");
+        statement.execute("DELETE FROM user");
     }
 }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class DatabaseManagerTest {
 
@@ -32,14 +32,23 @@ public class DatabaseManagerTest {
     @Test
     public void insertMessageTest() throws  SQLException{
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-        LocalDateTime now = LocalDateTime.now();
-        Timestamp timestamp = Timestamp.valueOf(now);
-        databaseManager.insertMessage(1,2,"Test",now,1);
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        databaseManager.insertMessage(1,2,"Test#1",timestamp,1);
+        databaseManager.insertMessage(1,2,"Test#2",timestamp,2);
         ResultSet result = databaseManager.getMessages(1,2);
+
         result.next();
-        assertEquals("Test",result.getString("message"));
+
+        assertEquals("Test#1",result.getString("message"));
         assertEquals(timestamp, result.getTimestamp("date"));
         assertEquals(1,result.getInt("sentBy"));
+
+        result.next();
+
+        assertEquals("Test#2",result.getString("message"));
+        assertEquals(timestamp, result.getTimestamp("date"));
+        assertEquals(2,result.getInt("sentBy"));
         result.close();
     }
 
