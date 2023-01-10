@@ -2,6 +2,7 @@ package com.example.javafxtest;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,7 +11,6 @@ import java.io.IOException;
 
 public class LogIn {
 
-    public LogIn(){}
 
     @FXML
     private Label Error;
@@ -33,7 +33,7 @@ public class LogIn {
         else {
             try {
                 int idUser = Integer.parseInt(id.getText());
-                m.changeScene("loged.fxml");
+                m.changeScene("loged.fxml",1300,700);
             }catch (NumberFormatException e){
                 Error.setText("Veuillez saisir un nombre valide pour l'ID");
 

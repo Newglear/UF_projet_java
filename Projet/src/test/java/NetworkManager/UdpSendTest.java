@@ -1,3 +1,4 @@
+/*
 package NetworkManager;
 
 import java.io.ByteArrayOutputStream;
@@ -35,7 +36,7 @@ public class UdpSendTest extends Thread{
             sleep(2000);
             this.adresseClient = InitUdpSendTest.adresseClient;
             UdpSend.envoyerUnicast(message,adresseClient);
-           */
+
 
             sleep(2000);
             System.out.println("#################################");
@@ -47,3 +48,4 @@ public class UdpSendTest extends Thread{
         }catch (Exception e){e.printStackTrace();}
     }
 }
+*/

@@ -62,4 +62,21 @@ public class DatabaseManager {
         statement.executeQuery("INSERT INTO message (convId,date,sentBy,Message) VALUES " +
                 "(" + convId + "," + dateTime + "," + sentBy + "," + message + ");");
     }
+
+    public synchronized boolean isInDatabase(int userId) throws  SQLException{
+        ResultSet resultat = statement.executeQuery("SELECT userId FROM user WHERE userId=" + userId + ";");
+        if(!resultat.next()){
+            resultat.close();
+            return false;
+        }else {
+            resultat.close();
+            return true;
+        }
+    }
+
+    public synchronized void clearDatabase() throws  SQLException{
+        statement.executeQuery("DELETE FROM message");
+        statement.executeQuery("DELETE FROM conversation");
+        statement.executeQuery("DELETE FROM user");
+    }
 }
