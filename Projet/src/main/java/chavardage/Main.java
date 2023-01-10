@@ -30,6 +30,9 @@ public class Main {
     private static final ConversationManager conversationManager = ConversationManager.getInstance();
     private static final ChavardageManager chavardageManager = ChavardageManager.getInstance();
     private static final GestionUDPMessage gestionUDPMessage = GestionUDPMessage.getInstance();
+    private static final UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
+    private static final TCPServeur tcpServeur = new TCPServeur(conversationManager);
+
 
     private static void changePseudo(String pseudo){
         try{
@@ -46,14 +49,19 @@ public class Main {
         conversationManager.clear();
     }
 
+    private static void closeApp(){
+        // TODO fermer toutes les conversations en cours
+        chavardageManager.disconnect(listeUser.getMySelf());
+        udpServeur.interrupt();
+        tcpServeur.interrupt();
+    }
 
     public static void main(String[] args){
         clear();
-        Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
+        // Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
 
-        UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
-        TCPServeur tcpServeur = new TCPServeur(conversationManager);
+
 
         listeUser.setMyself(2,"Romain");
 
@@ -70,19 +78,18 @@ public class Main {
             e.printStackTrace();
         }
 
-        try {
+        /*try {
             conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
         }
 
         try {
-            conversationManager.fermerConversation(2);
+            conversationManager.fermerConversation(1);
         } catch (ConversationDoesNotExist conversationDoesNotExist) {
             conversationDoesNotExist.printStackTrace();
-        }
-
-        chavardageManager.disconnect(listeUser.getMySelf());
+        }*/
+        closeApp();
 
     }
 
