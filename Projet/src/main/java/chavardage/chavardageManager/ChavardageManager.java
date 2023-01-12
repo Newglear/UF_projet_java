@@ -60,12 +60,18 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau
-            LOGGER.info("aucun autre utilisateur pour le moment");
+            LOGGER.info("connexion au réseau réussie");
+            LOGGER.trace("aucun autre utilisateur pour le moment, timeout expiré");
         }
     }
 
     public void notifyChangePseudo(UserItem userItem){
         UDPSend.envoyerBroadcast(new UDPMessage(UDPType.ChangementPseudo,userItem),port);
+    }
+
+    public void disconnect(UserItem userItem){
+        UDPSend.envoyerBroadcast(new UDPMessage(UDPType.Deconnexion,userItem),port);
+
     }
 
 

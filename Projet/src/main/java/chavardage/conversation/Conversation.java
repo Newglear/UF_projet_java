@@ -54,7 +54,12 @@ public class Conversation implements Consumer<TCPMessage> {
                 }
                 break;
             case FermetureSession:
-                ConversationManager.getInstance().fermerConversation(destinataireId);
+                try {
+                    ConversationManager.getInstance().fermerConversation(destinataireId);
+                } catch (ConversationDoesNotExist conversationDoesNotExist) {
+                    LOGGER.error(conversationDoesNotExist.getMessage());
+                    conversationDoesNotExist.printStackTrace();
+                }
                 break;
         }
     }
