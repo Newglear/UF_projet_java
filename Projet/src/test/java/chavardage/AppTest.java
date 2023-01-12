@@ -27,8 +27,7 @@ public class AppTest {
         app1.conversationManager.openConversation(2);
         app1.conversationManager.getSendData(2).envoyer(new TCPMessage(2,1,"yo"));
         app2.conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"coucouuuuuuuuu"));
-        app1.conversationManager.closeConversation(2);
-
+        app1.closeApp();
     }
 
 

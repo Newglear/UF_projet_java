@@ -38,7 +38,7 @@ public class Application {
     }
 
     private void closeApp(){
-        // TODO fermer toutes les conversations en cours
+        conversationManager.closeAll();
         chavardageManager.disconnect(listeUser.getMySelf());
         udpServeur.interrupt();
         tcpServeur.interrupt();

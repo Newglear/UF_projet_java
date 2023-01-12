@@ -72,7 +72,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                     case Deconnexion:
                         listeUser.removeUser(udpMessage.getEnvoyeur().getId());
-                        LOGGER.trace(udpMessage.getEnvoyeur().getPseudo() + " s'est déconnecté");
+                        LOGGER.trace(udpMessage.getEnvoyeur().getPseudo() + " s'est déconnecté-e");
                         break;
                     case AckPseudoOk:
                     case AckPseudoPasOK:
@@ -85,7 +85,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         nbAcks++;
                         break;
                     case AlreadyConnected:
-                        LOGGER.trace("tout va bien, j'étais connecté");
+                        LOGGER.trace("tout va bien, j'étais connecté-e");
                         chavardageManager.accept(udpMessage);
                         nbAcks++;
                         break;

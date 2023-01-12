@@ -9,6 +9,7 @@ import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
 import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -188,6 +189,14 @@ public class ConversationManager implements Consumer<Socket> {
             fermerConversation(destinataireId);
         } catch (ConversationDoesNotExist | AssignationProblemException e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+
+    /** fermer toutes les conversations*/
+    public void closeAll(){
+        for (Map.Entry<Integer, Conversation> entry : mapConversations.entrySet()){
+            closeConversation(entry.getValue().getDestinataireId());
         }
     }
 }

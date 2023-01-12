@@ -53,7 +53,7 @@ public class AppOnPort {
     }
 
     public void closeApp(){
-        // TODO fermer toutes les conversations en cours
+        conversationManager.closeAll();
         chavardageManager.disconnect(listeUser.getMySelf());
         udpServeur.interrupt();
         tcpServeur.interrupt();
@@ -68,20 +68,6 @@ public class AppOnPort {
             e.printStackTrace();
         }
 
-
-        // TODO comprendre pourquoi j'ai des erreurs de socket alors que je voulais les restreindre aux couches inférieures
-
-        /*try {
-            conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
-        } catch (ConversationDoesNotExist conversationDoesNotExist) {
-            conversationDoesNotExist.printStackTrace();
-        }
-
-        try {
-            conversationManager.fermerConversation(1);
-        } catch (ConversationDoesNotExist conversationDoesNotExist) {
-            conversationDoesNotExist.printStackTrace();
-        }*/
 
 
 
