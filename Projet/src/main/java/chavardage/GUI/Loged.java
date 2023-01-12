@@ -19,12 +19,16 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Loged {
-
+    //TODO Implémenter un listener pour quand j'appuye sur Entrée
+    //TODO Fonction delete User
+    //TODO Mettre une limite de taille pour les messages à envoyer
     @FXML
     private Label username;
     @FXML
@@ -42,18 +46,25 @@ public class Loged {
     @FXML
     private VBox vboxChat;
 
+    private HashMap<Integer,User> userControllerMap = new HashMap<Integer,User>();
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
     private ListeUser listeUser = ListeUser.getInstance();
 
+    private int destinataireId;
+
+    public Label getUsername(){return username;}
     public void addUserConnected(String Pseudo, int id) {
         try{
+
             FXMLLoader userLoader = new FXMLLoader(getClass().getResource("user.fxml"));
             User controllerUser = new User();
             userLoader.setController(controllerUser);
             Node userConnected = userLoader.load();
             controllerUser.getUsername().setText(Pseudo);
             controllerUser.getId().setText("#" + Integer.toString(id));
+            controllerUser.getLastMessage().setText(getLastMessage(id));
+            userControllerMap.put(id,controllerUser);
             userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -65,6 +76,7 @@ public class Loged {
                         sendButton.setVisible(true);
                         sendButton.setDisable(false);
                         userDest.setText(Pseudo);
+                        destinataireId = id;
                     }catch (Exception e){e.printStackTrace();}
                 }
             });
@@ -114,6 +126,20 @@ public class Loged {
                 vboxChat.getChildren().add(hbox);
             }
         }
+        listeMessages.close();
+    }
+
+    public String getLastMessage(int idUserConnected) throws Exception{
+        ResultSet listeMessage = databaseManager.getMessages(listeUser.getMyId(),idUserConnected);
+        if(listeMessage.last()){
+            if(listeMessage.getInt("sentBy")==listeUser.getMyId()) {
+                return ("You : " + listeMessage.getString("message"));
+            }else {
+                return(listeMessage.getString("message"));
+            }
+        }else{
+            return "";
+        }
     }
 
     public void envoiMessage(ActionEvent event){
@@ -137,6 +163,10 @@ public class Loged {
 
             HBox hbox = new HBox(messageEnvoye);
             hbox.setAlignment(Pos.BASELINE_RIGHT);
+
+            databaseManager.insertMessage(listeUser.getMyId(),destinataireId,message,listeUser.getMyId());
+            User userController = userControllerMap.get(destinataireId);
+            userController.getLastMessage().setText("You : " + message);
             vboxChat.getChildren().add(hbox);
 
         }catch (Exception e){e.printStackTrace();}
@@ -159,6 +189,9 @@ public class Loged {
 
             controllerMessage.getText().setText(message);
             controllerMessage.getDate().setText(dateFormat.format(date));
+
+            User userController = userControllerMap.get(destinataireId);
+            userController.getLastMessage().setText(message);
 
             HBox hbox = new HBox(messageReceive);
             HBox.setHgrow(messageReceive,Priority.NEVER);

@@ -1,5 +1,6 @@
 package chavardage.GUI;
 
+import chavardage.database.DatabaseManager;
 import chavardage.userList.ListeUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,21 +22,28 @@ public class LogIn {
     @FXML
     private TextField id;
 
-    public void userLogin(ActionEvent event) throws IOException{
+    private DatabaseManager databaseManager = DatabaseManager.getInstance();
+    public void userLogin(ActionEvent event) throws Exception{
         checkLogin();
     }
 
-    private void checkLogin() throws IOException {
+    private void checkLogin() throws Exception {
         Main m = new Main();
         if(username.getText().isEmpty() || id.getText().isEmpty()){
             Error.setText("Veuillez saisir un Username et votre ID");
         }
         else {
             try {
-                int idUser = Integer.parseInt(id.getText());
-                ListeUser listeUser = ListeUser.getInstance();
-                listeUser.setMyId(idUser);
-                m.changeScene("loged.fxml",1300,700);
+                if(username.getText().length()>15){
+                    Error.setText("Username trop long (Max 15 caractères)");
+                }else {
+                    int idUser = Integer.parseInt(id.getText());
+                    ListeUser listeUser = ListeUser.getInstance();
+                    listeUser.setMyId(idUser);
+                    listeUser.setMyPseudo(username.getText());
+                    databaseManager.insertNewUser(idUser);
+                    m.loggedScene();
+                }
             }catch (NumberFormatException e){
                 Error.setText("Veuillez saisir un nombre valide pour l'ID");
 
