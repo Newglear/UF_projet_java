@@ -57,7 +57,7 @@
                   <Font name="Broadway" size="12.0" />
                </font>
             </Button>
-            <TextArea fx:id="textSend" layoutX="45.0" layoutY="636.0" prefHeight="52.0" prefWidth="754.0" promptText="Veuillez saisir votre message" style="-fx-control-inner-background: #333333;" wrapText="true" />
+            <TextArea fx:id="textSend" disable="true" layoutX="45.0" layoutY="636.0" prefHeight="52.0" prefWidth="754.0" promptText="Veuillez saisir votre message" style="-fx-control-inner-background: #333333; -fx-text-fill: #ffffff; -fx-prompt-text-fill: #ffffff;" wrapText="true" />
          </children>
       </AnchorPane>
    </right>
