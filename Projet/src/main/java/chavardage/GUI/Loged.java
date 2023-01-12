@@ -44,12 +44,12 @@ public class Loged {
             userLoader.setController(controllerUser);
             Node userConnected = userLoader.load();
             controllerUser.getUsername().setText(Pseudo);
-            controllerUser.getId().setText("#" + Integer.toString(id));
+            controllerUser.getId().setText("#" + id);
             vboxConnect.getChildren().add(userConnected);
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public void disconnect(ActionEvent event) throws IOException {
+    public void disconnect(ActionEvent event) {
         //Main m = new Main();
         //m.changeScene("login.fxml",680,400);
         addUserConnected("Romain",1);
