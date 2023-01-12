@@ -3,7 +3,6 @@ package chavardage;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
-import chavardage.chavardageManager.UsurpateurException;
 import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
@@ -11,8 +10,8 @@ import chavardage.userList.ListeUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Application {
-    private static final Logger LOGGER = LogManager.getLogger(Application.class);
+public class App {
+    private static final Logger LOGGER = LogManager.getLogger(App.class);
 
     private final ListeUser listeUser = ListeUser.getInstance();
     private final ConversationManager conversationManager = ConversationManager.getInstance();
