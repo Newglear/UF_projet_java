@@ -27,7 +27,7 @@ public class LogIn {
         checkLogin();
     }
 
-    private void checkLogin() throws Exception {
+    protected void checkLogin() throws Exception {
         Main m = new Main();
         if(username.getText().isEmpty() || id.getText().isEmpty()){
             Error.setText("Veuillez saisir un Username et votre ID");

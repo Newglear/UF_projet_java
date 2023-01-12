@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -26,9 +27,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Loged {
-    //TODO Implémenter un listener pour quand j'appuye sur Entrée
-    //TODO Fonction delete User
-    //TODO Mettre une limite de taille pour les messages à envoyer
     @FXML
     private Label username;
     @FXML
@@ -45,10 +43,12 @@ public class Loged {
     private VBox vboxConnect;
     @FXML
     private VBox vboxChat;
-
+    @FXML
+    private Label errorMessage;
     private HashMap<Integer,User> userControllerMap = new HashMap<Integer,User>();
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
+    public static boolean textSendActive = false;
     private ListeUser listeUser = ListeUser.getInstance();
 
     private int destinataireId;
@@ -75,6 +75,7 @@ public class Loged {
                         textSend.setDisable(false);
                         sendButton.setVisible(true);
                         sendButton.setDisable(false);
+                        textSendActive = true;
                         userDest.setText(Pseudo);
                         destinataireId = id;
                     }catch (Exception e){e.printStackTrace();}
@@ -84,9 +85,20 @@ public class Loged {
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public void disconnect(ActionEvent event) throws IOException {
+    public void unFocusTextArea(){
+        textSend.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ESCAPE){
+                vboxChat.requestFocus();
+            }
+        });
+    }
+    public void deleteUserConnected(int id){
+        userControllerMap.remove(id);
+    }
+
+    public void disconnect(ActionEvent event) throws Exception {
         //Main m = new Main();
-        //m.changeScene("login.fxml",680,400);
+        //m.loginScene();
         addUserConnected("Romain",3);
         addUserConnected("Aude",2);
     }
@@ -142,13 +154,29 @@ public class Loged {
         }
     }
 
-    public void envoiMessage(ActionEvent event){
+    public void envoyerMessage(ActionEvent buttonPressed){
+        envoiMessage();
+    }
+    public void envoiMessage(){
         try{
+
+            String message = textSend.getText();
+
+            if(message.length() == 0){
+                errorMessage.setText("Veuillez saisir un message non vide.");
+                return;
+            }
+            if(message.length() > databaseManager.messageLengthMax){
+                errorMessage.setText("Le message est trop long (maximum " + databaseManager.messageLengthMax + ").");
+                return;
+            }
+
+            errorMessage.setText("");
 
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date = new Date();
 
-            String message = textSend.getText();
+
             textSend.setText("");
             SentMessage controllerMessage = new SentMessage();
             FXMLLoader loaderEnvoi = new FXMLLoader(getClass().getResource("sentMessage.fxml"));

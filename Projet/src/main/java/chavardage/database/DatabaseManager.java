@@ -15,6 +15,7 @@ public class DatabaseManager {
 
     private Statement statement;
 
+    public final int messageLengthMax = 100;
     private DatabaseManager(){
         try {
             database = DriverManager.getConnection(urlDatabase,userName,password);

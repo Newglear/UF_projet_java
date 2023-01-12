@@ -34,8 +34,8 @@ public class DatabaseManagerTest {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
-        databaseManager.insertMessage(1,2,"Test#1",1);
-        databaseManager.insertMessage(1,2,"Test#2",2);
+        databaseManager.insertMessage(1,2,"Test#1",timestamp,1);
+        databaseManager.insertMessage(1,2,"Test#2",timestamp,2);
         ResultSet result = databaseManager.getMessages(1,2);
 
         result.next();
