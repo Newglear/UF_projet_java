@@ -45,38 +45,6 @@ public class Application {
     }
 
     public void start(){
-        clear();
-        // Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
-        LOGGER.info("démarrage de l'application");
-        listeUser.setMyself(1,"Aude");
-        try {
-            chavardageManager.connectToApp(listeUser.getMySelf());
-        } catch (InterruptedException | UsurpateurException | AlreadyUsedPseudoException e) {
-            e.printStackTrace();
-        }
-        changePseudo("Aude mais mieux");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // TODO comprendre pourquoi j'ai des erreurs de socket alors que je voulais les restreindre aux couches inférieures
-
-        /*try {
-            conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"si ça marche, je suis forte"));
-        } catch (ConversationDoesNotExist conversationDoesNotExist) {
-            conversationDoesNotExist.printStackTrace();
-        }
-
-        try {
-            conversationManager.fermerConversation(1);
-        } catch (ConversationDoesNotExist conversationDoesNotExist) {
-            conversationDoesNotExist.printStackTrace();
-        }*/
-
-
-        closeApp();
 
     }
 }

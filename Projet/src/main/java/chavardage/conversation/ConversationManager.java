@@ -69,6 +69,7 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
 
+    /** créer une conversation quand une demande d'ouverture de session a été reçue*/
     protected void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException{
         LOGGER.trace("appel de createConversation");
         Conversation conversation = new Conversation(this);
@@ -99,6 +100,8 @@ public class ConversationManager implements Consumer<Socket> {
         }
     }
 
+
+    /** ouvrir une conversation avec un user distant*/
     public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, ConversationAlreadyExists {
         if (!listeUser.contains(destinataireId)){
             throw new UserNotFoundException(destinataireId);
@@ -165,8 +168,8 @@ public class ConversationManager implements Consumer<Socket> {
         receiveDataMap.remove(destinataireId);
     }
 
-
-    public void fermerConversation(int destinataireId){
+    /** fermer la conversation quand un message de fermeture de session a été reçu ou après avoir envoyé ledit message*/
+    protected void fermerConversation(int destinataireId){
         // fermeture thread reception
         LOGGER.trace("fermeture de la conversation avec " + destinataireId);
         try {
@@ -174,6 +177,16 @@ public class ConversationManager implements Consumer<Socket> {
             this.getSendData(destinataireId).close();
             safeRemove(destinataireId);
         } catch (ConversationDoesNotExist | NetworkException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    /** inicier la demande de fermeture de session*/
+    public void closeConversation(int destinataireId){
+        try {
+            this.getSendData(destinataireId).envoyer(new TCPMessage(destinataireId,listeUser.getMyId(),TCPType.FermetureSession));
+            fermerConversation(destinataireId);
+        } catch (ConversationDoesNotExist | AssignationProblemException e) {
             LOGGER.error(e.getMessage());
         }
     }

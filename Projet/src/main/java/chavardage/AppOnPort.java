@@ -8,23 +8,25 @@ import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AppOnPort {
     private static final Logger LOGGER = LogManager.getLogger(AppOnPort.class);
 
-    private ListeUser listeUser;
-    private ConversationManager conversationManager;
+    protected ListeUser listeUser;
+    protected ConversationManager conversationManager;
     private ChavardageManager chavardageManager;
     private GestionUDPMessage gestionUDPMessage;
     private UDPServeur udpServeur;
     private TCPServeur tcpServeur;
 
 
-    public AppOnPort(int udpPort, int tcpPort, int udpPortDistant, int tcpPortDistant){
+    public AppOnPort(int udpPort, int tcpPort, int udpPortDistant, int tcpPortDistant, UserItem myself){
         try{
             listeUser=new ListeUser(true);
+            listeUser.setMyself(myself);
             conversationManager=new ConversationManager(true,listeUser,tcpPortDistant);
             chavardageManager=new ChavardageManager(udpPortDistant);
             gestionUDPMessage=new GestionUDPMessage(listeUser,udpPortDistant,chavardageManager);
@@ -35,7 +37,7 @@ public class AppOnPort {
         }
     }
 
-    private void changePseudo(String pseudo){
+    public void changePseudo(String pseudo){
         try{
             listeUser.setMyPseudo(pseudo);
         } catch (AlreadyUsedPseudoException e) {
@@ -45,12 +47,12 @@ public class AppOnPort {
         chavardageManager.notifyChangePseudo(listeUser.getMySelf());
     }
 
-    private void clear(){
+    public void clear(){
         listeUser.clear();
         conversationManager.clear();
     }
 
-    private void closeApp(){
+    public void closeApp(){
         // TODO fermer toutes les conversations en cours
         chavardageManager.disconnect(listeUser.getMySelf());
         udpServeur.interrupt();
@@ -58,21 +60,14 @@ public class AppOnPort {
     }
 
     public void start(){
-        clear();
         // Configurator.setRootLevel(Level.INFO); // only show INFO message in the application (debug are ignored)
         LOGGER.info("démarrage de l'application");
-        listeUser.setMyself(1,"Aude");
         try {
             chavardageManager.connectToApp(listeUser.getMySelf());
         } catch (InterruptedException | UsurpateurException | AlreadyUsedPseudoException e) {
             e.printStackTrace();
         }
-        changePseudo("Aude mais mieux");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
         // TODO comprendre pourquoi j'ai des erreurs de socket alors que je voulais les restreindre aux couches inférieures
 
@@ -89,7 +84,6 @@ public class AppOnPort {
         }*/
 
 
-        closeApp();
 
     }
 }

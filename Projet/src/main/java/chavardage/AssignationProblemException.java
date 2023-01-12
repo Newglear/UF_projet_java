@@ -12,7 +12,7 @@ public class AssignationProblemException extends Exception {
     }
 
     @Override
-    public String toString(){
+    public String getMessage(){
         return ("la variable "+ nomVariable + " de la classe " + nomClasse + "n'a pas été assignée correctement") ;
     }
 }

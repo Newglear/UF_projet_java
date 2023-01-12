@@ -3,6 +3,9 @@ package chavardage.userList;
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
+import chavardage.chavardageManager.GestionUDPMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -13,6 +16,9 @@ public class ListeUser{
 
     private String myPseudo = "";
     private int myId = -1;
+
+    private static final Logger LOGGER = LogManager.getLogger(ListeUser.class);
+
 
     // The ONLY instance of UserList
     private static final ListeUser instance = new ListeUser();
@@ -73,6 +79,7 @@ public class ListeUser{
 
     public synchronized void setMyId(int id){
         myId=id;
+        LOGGER.debug("id set à " + id);
     }
 
     public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException {
@@ -84,11 +91,13 @@ public class ListeUser{
 
     public synchronized void setMyself(UserItem user){
         this.myId = user.getId();
+        LOGGER.debug("id set à " + user.getId());
         this.myPseudo=user.getPseudo();
     }
 
     public synchronized void setMyself(int id, String pseudo){
         this.myId = id;
+        LOGGER.debug("id set à " + id);
         this.myPseudo=pseudo;
     }
 
@@ -109,6 +118,7 @@ public class ListeUser{
 
     public synchronized void clear(){
         this.myId = -1;
+        LOGGER.debug("id reset");
         this.myPseudo = "";
         this.tabItems.clear();
     }
