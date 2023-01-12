@@ -101,7 +101,6 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, ConversationAlreadyExists {
-    public void openConversation(int destinataireId) throws UserNotFoundException, AssignationProblemException, IOException, ConversationAlreadyExists {
         if (!listeUser.contains(destinataireId)){
             throw new UserNotFoundException(destinataireId);
         }
@@ -157,7 +156,6 @@ public class ConversationManager implements Consumer<Socket> {
             this.createConversation(socket);
         } catch (ConversationAlreadyExists | ConversationException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
         }
     }
 
