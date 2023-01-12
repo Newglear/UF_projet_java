@@ -13,7 +13,6 @@ import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashMap;
@@ -72,7 +71,7 @@ public class ConversationManager implements Consumer<Socket> {
 
     protected void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException{
         LOGGER.trace("appel de createConversation");
-        Conversation conversation = new Conversation();
+        Conversation conversation = new Conversation(this);
         TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
             synchronized (conversation){ // je locke la conversation pour pouvoir l'attendre
@@ -110,7 +109,7 @@ public class ConversationManager implements Consumer<Socket> {
             }
         }
         try {
-            Conversation conversation = new Conversation(destinataireId);
+            Conversation conversation = new Conversation(destinataireId, this);
             Socket socket = TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
             TCPReceiveData tcpReceiveData = new TCPReceiveData(socket, conversation);
             TCPSendData tcpSendData = new TCPSendData(socket);

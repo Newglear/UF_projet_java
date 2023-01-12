@@ -5,6 +5,7 @@ import chavardage.message.TCPType;
 import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,11 +18,15 @@ import static org.junit.Assert.assertEquals;
 public class ConversationTest {
 
 
+    @Before
+    public void menage(){
+        ConversationManager.getInstance().clear();
+    }
 
     @Test
     public void conversationTest() {
         ListeUser.getInstance().setMyId(3); // j'ai l'id 3
-        Conversation conversation = new Conversation(5); // je crée une conversation avec 5
+        Conversation conversation = new Conversation(5, ConversationManager.getInstance()); // je crée une conversation avec 5
         conversation.sendMessage("coucou");
         assertEquals(5, conversation.getDestinataireId());
         conversation.accept(new TCPMessage(5,3, "hola"));
@@ -32,7 +37,7 @@ public class ConversationTest {
         conversation.accept(new TCPMessage(5,3, "ahah" ));
         /* conversation.accept(new TCPMessage(3, TCPType.FermetureSession));
         conversation.accept(new TCPMessage(3, TCPType.FermetureSession));*/ // ça fait tout buguer à cause du conv manager
-        Conversation defaultConv = new Conversation();
+        Conversation defaultConv = new Conversation( ConversationManager.getInstance());
         assertEquals(0, defaultConv.getDestinataireId());
         defaultConv.accept(new TCPMessage(5,3, TCPType.OuvertureSession));
         assertEquals(3, defaultConv.getDestinataireId());
@@ -43,7 +48,7 @@ public class ConversationTest {
     public void acceptTest() throws IOException, NetworkException {
         ListeUser.getInstance().setMyId(3);
         ServerSocket serverSocket = new ServerSocket(8476);
-        Conversation conversation = new Conversation();
+        Conversation conversation = new Conversation( ConversationManager.getInstance());
         Socket socketEnvoi = new Socket(InetAddress.getLocalHost(), 8476);
         Socket socketReception = serverSocket.accept();
         TCPReceiveData receiveData = new TCPReceiveData(socketReception);

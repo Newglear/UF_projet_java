@@ -3,21 +3,16 @@ package chavardage.conversation;
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.message.TCPMessage;
-import chavardage.message.TCPType;
-import chavardage.networkManager.TCPSend;
 import chavardage.networkManager.TCPSendData;
-import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class ConversationManagerTest {
 
@@ -69,7 +64,7 @@ public class ConversationManagerTest {
     @Test (expected = ConversationDoesNotExist.class)
     public void removeTest() throws ConversationDoesNotExist {
         ConversationManager conversationManager = ConversationManager.getInstance();
-        conversationManager.addConv(3,new Conversation(3));
+        conversationManager.addConv(3,new Conversation(3,conversationManager ));
         conversationManager.safeRemove(3);
         conversationManager.getConv(3);
     }

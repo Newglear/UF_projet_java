@@ -1,28 +1,23 @@
 package chavardage;
 
-import chavardage.conversation.ConversationManager;
-import chavardage.userList.ListeUser;
-import org.junit.Before;
 import org.junit.Test;
 
 public class AppTest {
 
+    int udp1 = 6584;
+    int udp2 = 8974;
+    int tcp1 = 8478;
+    int tcp2 = 7493;
 
-    @Before
-    public void clean(){
-        ListeUser.getInstance().clear();
-        ConversationManager.getInstance().clear();
-    }
 
     @Test
-    public void InitTest() {
-        /*ConversationManager conversationManager = ConversationManager.getInstance();
-        ListeUser listeUser = ListeUser.getInstance();
-        ChavardageManager chavardageManager = ChavardageManager.getInstance();
-        GestionUDPMessage gestionUDPMessage = GestionUDPMessage.getInstance();
-        TCPServeur tcpServeur = new TCPServeur(conversationManager);
-        UDPServeur udpServeur = new UDPServeur(gestionUDPMessage);
-        listeUser.setMyself(2,"Romain");
-        Thread.sleep(30000);*/
+    public void appTest(){
+        AppOnPort app1 = new AppOnPort(udp1,tcp1, udp2, tcp2);
+        AppOnPort app2 = new AppOnPort(udp2,tcp2,udp1,tcp2);
+        app1.start();
+        app2.start();
+
     }
+
+
 }

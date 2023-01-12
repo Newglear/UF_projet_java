@@ -2,11 +2,9 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.message.TCPMessage;
-import chavardage.userList.ListeUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.function.Consumer;
 
 public class Conversation implements Consumer<TCPMessage> {
@@ -16,13 +14,17 @@ public class Conversation implements Consumer<TCPMessage> {
     private int destinataireId;
     private boolean isOpen = false;
 
-    protected Conversation(int destinataireId) {
+    private final ConversationManager conversationManager;
+
+    protected Conversation(int destinataireId, ConversationManager conversationManager) {
         this.destinataireId = destinataireId;
+        this.conversationManager = conversationManager;
         LOGGER.trace("création d'une conversation avec " + destinataireId);
     }
 
-    protected Conversation(){
+    protected Conversation(ConversationManager conversationManager){
         this.destinataireId = DEFAULT_DESTINATAIRE;
+        this.conversationManager = conversationManager;
         LOGGER.trace("création d'une conversation avec un destinataire par défaut");
     }
 
@@ -54,19 +56,14 @@ public class Conversation implements Consumer<TCPMessage> {
                 }
                 break;
             case FermetureSession:
-                try {
-                    ConversationManager.getInstance().fermerConversation(destinataireId);
-                } catch (ConversationDoesNotExist conversationDoesNotExist) {
-                    LOGGER.error(conversationDoesNotExist.getMessage());
-                    conversationDoesNotExist.printStackTrace();
-                }
+                conversationManager.fermerConversation(destinataireId);
                 break;
         }
     }
 
 
 
-    public int getDestinataireId() {
+    public synchronized int getDestinataireId() {
         return this.destinataireId;
     }
 
