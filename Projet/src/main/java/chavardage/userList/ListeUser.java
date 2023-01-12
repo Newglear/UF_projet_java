@@ -44,27 +44,18 @@ public class ListeUser{
 
 
     public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
-       try{
-            tabItems.get(id).setPseudo(newPseudo);
-       } catch (Exception e) {
-            throw new UserNotFoundException(id);
-       }
+        if (tabItems.get(id)==null) throw new UserNotFoundException(id);
+        tabItems.get(id).setPseudo(newPseudo);
     }
 
-    public synchronized void removeUser(int id) throws UserNotFoundException {
-        try {
-            tabItems.remove(id);
-        } catch (Exception e){
-            throw new UserNotFoundException(id);
-        }
+    public synchronized void removeUser(int id) {
+        tabItems.remove(id);
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {
-        try{
-            return tabItems.get(id);
-        }catch (Exception e){
-            throw new UserNotFoundException(id);
-        }
+        if (tabItems.get(id)==null) throw new UserNotFoundException(id);
+        return tabItems.get(id);
+
     }
 
     public synchronized int getTailleListe(){

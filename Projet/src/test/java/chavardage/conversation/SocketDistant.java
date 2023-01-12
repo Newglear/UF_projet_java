@@ -17,7 +17,7 @@ public class SocketDistant extends Thread{
             TCPSendData sendData = new TCPSendData(socketEnvoi);
             sendData.envoyer(new TCPMessage(3, 6, TCPType.OuvertureSession));
             sendData.envoyer(new TCPMessage(3,6, "enfin ça marche" ));
-        } catch (IOException e) {
+        } catch (IOException | NetworkException e) {
             e.printStackTrace();
         }
 

@@ -1,5 +1,6 @@
 package chavardage.networkManager;
 
+import chavardage.conversation.NetworkException;
 import chavardage.message.TCPMessage;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class TCPReceiveDataTest {
 
 
     @Test
-    public void threadTest() throws IOException {
+    public void threadTest() throws IOException, NetworkException {
         ServerSocket serverSocket = new ServerSocket(3876);
         Socket socketEnvoi = new Socket(InetAddress.getLocalHost(), 3876);
         Socket socketReception = serverSocket.accept();

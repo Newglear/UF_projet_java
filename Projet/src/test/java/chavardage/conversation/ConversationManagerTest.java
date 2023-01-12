@@ -12,6 +12,7 @@ import chavardage.userList.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -29,7 +30,7 @@ public class ConversationManagerTest {
 
 
     @Test
-    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, InterruptedException, ConversationDoesNotExist {
+    public void createConvTest() throws IOException, ConversationAlreadyExists, ConversationException, ConversationDoesNotExist {
         ConversationManager convManager = ConversationManager.getInstance();
         ServerSocket serverSocket = new ServerSocket(4987);
         SocketDistant socketDistant = new SocketDistant();
@@ -54,7 +55,7 @@ public class ConversationManagerTest {
 
 
     @Test
-    public void getSendDataTest() throws IOException, ConversationDoesNotExist {
+    public void getSendDataTest() throws IOException, ConversationDoesNotExist, NetworkException {
         int port = 9387;
         ConversationManager conversationManager = ConversationManager.getInstance();
         ServerSocket serverSocket = new ServerSocket(port);
@@ -63,6 +64,14 @@ public class ConversationManagerTest {
         TCPSendData sendData = new TCPSendData(socket);
         conversationManager.addSendData(1,sendData);
         conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"coucou"));
+    }
+
+    @Test (expected = ConversationDoesNotExist.class)
+    public void removeTest() throws ConversationDoesNotExist {
+        ConversationManager conversationManager = ConversationManager.getInstance();
+        conversationManager.addConv(3,new Conversation(3));
+        conversationManager.safeRemove(3);
+        conversationManager.getConv(3);
     }
 
 

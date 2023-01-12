@@ -60,7 +60,7 @@ public class TCPReceiveData extends Thread {
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
+            this.interrupt();
         }
     }
 

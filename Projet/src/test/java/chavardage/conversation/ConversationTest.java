@@ -40,7 +40,7 @@ public class ConversationTest {
 
 
     @Test
-    public void acceptTest() throws IOException {
+    public void acceptTest() throws IOException, NetworkException {
         ListeUser.getInstance().setMyId(3);
         ServerSocket serverSocket = new ServerSocket(8476);
         Conversation conversation = new Conversation();

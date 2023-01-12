@@ -1,5 +1,6 @@
 package chavardage.networkManager;
 
+import chavardage.conversation.NetworkException;
 import chavardage.message.TCPMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,28 +17,26 @@ public class TCPConnect {
 
 
     /** se connecte sur le port TCP par défaut*/
-    public static Socket connectTo(InetAddress address){
+    public static Socket connectTo(InetAddress address) throws NetworkException {
         try {
             Socket socket = new Socket(address, TCPServeur.DEFAULT_PORT_TCP);
             LOGGER.trace("Connection réalisée avec " + address + " sur le socket " + socket);
             return socket;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
+            throw new NetworkException("TCPConnect");
         }
-        return null;
     }
 
     /** se connecte sur le port donné*/
-    public static Socket connectTo(InetAddress address, int port){
+    public static Socket connectTo(InetAddress address, int port) throws NetworkException {
         try {
             Socket socket = new Socket(address, port);
             LOGGER.trace("Connection réalisée avec " + address + " sur le socket " + socket);
             return socket;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
+            throw new NetworkException("TCPConnect");
         }
-        return null;
     }
 }
