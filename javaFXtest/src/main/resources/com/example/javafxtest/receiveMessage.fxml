@@ -6,15 +6,14 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="90.0" maxWidth="200.0" prefHeight="27.0" prefWidth="119.0" style="-fx-background-color: #cc25b3;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxtest.ReceiveMessage">
+<AnchorPane maxHeight="100.0" maxWidth="450.0" style="-fx-background-color: #cc25b3;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="messageReceive" layoutX="9.0" layoutY="10.0" maxHeight="100.0" maxWidth="400.0" text="Ceci est un test" textFill="WHITE" wrapText="true" AnchorPane.topAnchor="5.0">
+      <Label fx:id="messageReceive" layoutX="9.0" layoutY="10.0" maxHeight="100.0" maxWidth="400.0" minHeight="28.0" minWidth="0.0" textFill="WHITE" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0">
          <font>
-            <Font name="Broadway" size="12.0" />
-         </font>
-      </Label>
-      <Polygon fill="#cc25b3" layoutX="-33.0" layoutY="48.0" points="44.20001220703125, -33.600006103515625, 44.20002365112305, -20.999988555908203, 73.00001525878906, -33.59999465942383" stroke="#ffffff00" strokeType="INSIDE" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="0.0" />
+            <Font size="17.0" />
+         </font></Label>
+      <Polygon fill="#cc25b3" layoutX="-33.0" layoutY="48.0" points="44.20001220703125, -33.600006103515625, 44.198455810546875, -23.200000762939453, 73.00001525878906, -33.59999465942383" stroke="#ffffff00" strokeType="INSIDE" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="0.0" />
+      <Label fx:id="receiveDate" textFill="#b5b5b5" AnchorPane.bottomAnchor="-20.0" AnchorPane.rightAnchor="-15.0" />
    </children>
    <padding>
       <Insets right="10.0" />

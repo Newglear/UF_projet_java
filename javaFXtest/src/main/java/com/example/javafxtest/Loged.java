@@ -7,11 +7,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Loged {
 
@@ -20,7 +25,7 @@ public class Loged {
     @FXML
     private Label userDest;
     @FXML
-    private TextField textSend;
+    private TextArea textSend;
     @FXML
     private Button deco;
     @FXML
@@ -30,45 +35,34 @@ public class Loged {
     @FXML
     private VBox vboxConnect;
     @FXML
-    private VBox vboxSent;
-
-    @FXML
-    private VBox vboxReceive;
+    private VBox vboxChat;
 
 
-
-    public void disconnect(ActionEvent event) throws IOException {
-        Main m = new Main();
-        m.changeScene("login.fxml",680,400);
+    public void addUserConnected(String Pseudo, int id) {
+        try{
+            FXMLLoader userLoader = new FXMLLoader(getClass().getResource("user.fxml"));
+            User controllerUser = new User();
+            userLoader.setController(controllerUser);
+            Node userConnected = userLoader.load();
+            controllerUser.getUsername().setText(Pseudo);
+            controllerUser.getId().setText("#" + Integer.toString(id));
+            vboxConnect.getChildren().add(userConnected);
+        }catch (Exception e){e.printStackTrace();}
     }
 
-    public void test(ActionEvent event){
-        try{
-            String message = textSend.getText();
-            textSend.setText("");
-            SentMessage controllerMessage = new SentMessage();
-           // FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("sentMessage.fxml"));
-
-            loader.setController(controllerMessage);
-            //loaderReceive.setController(controllerReceive);
-
-            //Node newN = loaderReceive.load();
-            Node n = loader.load();
-
-            controllerMessage.getText().setText(message);
-            //controllerReceive.getText().setText(message);
-
-            vboxSent.getChildren().add(n);
-            //vboxReceive.getChildren().add(newN);
-
-
-        }catch (Exception e){e.printStackTrace();}
-
+    public void disconnect(ActionEvent event) throws IOException {
+        //Main m = new Main();
+        //m.changeScene("login.fxml",680,400);
+        addUserConnected("Romain",1);
+        addUserConnected("Aude",2);
     }
 
     public void envoiMessage(ActionEvent event){
         try{
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = new Date();
+
             String message = textSend.getText();
             textSend.setText("");
             SentMessage controllerMessage = new SentMessage();
@@ -80,23 +74,38 @@ public class Loged {
             Node messageEnvoye = loaderEnvoi.load();
 
             controllerMessage.getText().setText(message);
-            HBox hbox = new HBox();
-            hbox.getChildren().add(messageEnvoye);
+            controllerMessage.getDate().setText(dateFormat.format(date));
+
+            HBox hbox = new HBox(messageEnvoye);
             hbox.setAlignment(Pos.BASELINE_RIGHT);
 
-            vboxSent.getChildren().add(hbox);
-            
+            vboxChat.getChildren().add(hbox);
         }catch (Exception e){e.printStackTrace();}
 
     }
 
     public void messageRecu(ActionEvent event){
         try{
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = new Date();
+
+            String message = textSend.getText();
+            textSend.setText("");
+
+            ReceiveMessage controllerMessage = new ReceiveMessage();
             FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
+            loaderReceive.setController(controllerMessage);
 
             Node messageReceive = loaderReceive.load();
 
-            vboxSent.getChildren().add(messageReceive);
+            controllerMessage.getText().setText(message);
+            controllerMessage.getDate().setText(dateFormat.format(date));
+
+            HBox hbox = new HBox(messageReceive);
+            HBox.setHgrow(messageReceive,Priority.NEVER);
+
+            vboxChat.getChildren().add(hbox);
+
         }catch (Exception e){e.printStackTrace();}
     }
 }

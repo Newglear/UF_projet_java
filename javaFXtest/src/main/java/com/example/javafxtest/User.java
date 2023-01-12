@@ -15,5 +15,5 @@ public class User {
 
     public Label getId(){return id;}
 
-    public Label getLastMessage(){return lastMessage;}
+    //public Label getLastMessage(){return lastMessage;}
 }

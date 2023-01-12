@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane accessibleRole="BUTTON" prefHeight="100.0" prefWidth="330.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxtest.User">
+<AnchorPane accessibleRole="BUTTON" prefHeight="100.0" prefWidth="330.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="username" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="254.0" text="Connected User" textFill="WHITE">
          <font>

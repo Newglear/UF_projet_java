@@ -7,7 +7,10 @@ public class ReceiveMessage {
 
     @FXML
     private Label messageReceive;
-
+    @FXML
+    private Label receiveDate;
     public Label getText(){return messageReceive;}
+
+    public Label getDate(){return receiveDate;}
 
 }

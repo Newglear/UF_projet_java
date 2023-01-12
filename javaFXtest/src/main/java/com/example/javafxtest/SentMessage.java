@@ -8,6 +8,10 @@ public class SentMessage {
     @FXML
     private Label messageSent;
 
+    @FXML
+    private Label sentDate;
+
     public Label getText(){return messageSent;}
 
+    public Label getDate(){return sentDate;}
 }
