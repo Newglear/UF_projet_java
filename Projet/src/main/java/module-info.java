@@ -1,8 +1,11 @@
-/*module com.example.javafxtest {
+module com.example.javafxtest {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.apache.logging.log4j;
+    requires java.sql;
+    requires org.apache.logging.log4j.core;
 
 
-    opens com.example.javafxtest to javafx.fxml;
-    exports com.example.javafxtest;
-}*/
+    opens chavardage.GUI to javafx.fxml;
+    exports chavardage.GUI;
+}

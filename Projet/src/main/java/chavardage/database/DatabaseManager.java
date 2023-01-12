@@ -27,7 +27,7 @@ public class DatabaseManager {
 
     //Permet d'obtenir l'ensemble des messages d'une conversation entre deux utilisateurs
     public synchronized ResultSet getMessages(int idUserLocal, int idUserDistant) throws SQLException{
-        String sql = "SELECT date,sentBy,message FROM message AS m JOIN conversation AS c ON c.userId1=? AND c.userId2=? AND c.idConversation=m.convId;";
+        String sql = "SELECT date,sentBy,message FROM message AS m JOIN conversation AS c ON c.idConversation=m.convId AND c.userId1=? AND c.userId2=?;";
         PreparedStatement retriveMessage = database.prepareStatement(sql);
         int minId = Math.min(idUserLocal,idUserDistant);
         int maxId = Math.max(idUserLocal,idUserDistant);

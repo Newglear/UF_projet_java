@@ -1,5 +1,6 @@
 package chavardage.GUI;
 
+import chavardage.userList.ListeUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,6 +33,8 @@ public class LogIn {
         else {
             try {
                 int idUser = Integer.parseInt(id.getText());
+                ListeUser listeUser = ListeUser.getInstance();
+                listeUser.setMyId(idUser);
                 m.changeScene("loged.fxml",1300,700);
             }catch (NumberFormatException e){
                 Error.setText("Veuillez saisir un nombre valide pour l'ID");
