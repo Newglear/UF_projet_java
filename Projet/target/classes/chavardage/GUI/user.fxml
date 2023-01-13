@@ -4,8 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane accessibleRole="BUTTON" prefHeight="100.0" prefWidth="330.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="background" accessibleRole="BUTTON" onMouseEntered="#hover" onMouseExited="#mouseExited" prefHeight="100.0" prefWidth="330.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="username" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="254.0" text="Connected User" textFill="WHITE">
          <font>
@@ -17,7 +16,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lastMessage" layoutX="14.0" layoutY="56.0" prefHeight="30.0" prefWidth="290.0" text="Last Message of conv" textFill="WHITE">
+      <Label fx:id="lastMessage" layoutX="11.0" layoutY="56.0" prefHeight="30.0" prefWidth="308.0" textFill="WHITE">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
