@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class DatabaseManager {
 
+    //TODO se connecter à la databese centralisé
     private String urlDatabase ="jdbc:mysql://localhost:3306/chavardage";
     private String userName = "root";
     private String password = "root";
