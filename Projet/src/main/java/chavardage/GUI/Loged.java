@@ -1,7 +1,15 @@
 package chavardage.GUI;
 
+import chavardage.AssignationProblemException;
+import chavardage.chavardageManager.ChavardageManager;
+import chavardage.conversation.Conversation;
+import chavardage.conversation.ConversationAlreadyExists;
+import chavardage.conversation.ConversationManager;
 import chavardage.database.DatabaseManager;
+import chavardage.message.TCPMessage;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserItem;
+import chavardage.userList.UserNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,8 +33,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
-public class Loged {
+public class Loged implements Consumer<UserItem> {
     @FXML
     private Label username;
     @FXML
@@ -48,10 +57,18 @@ public class Loged {
     private HashMap<Integer,User> userControllerMap = new HashMap<Integer,User>();
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
+    private Loged(){
+    }
+
+    private static Loged instance = new Loged();
+    public static Loged getInstance(){
+        return instance;
+    }
     public static boolean textSendActive = false;
     private ListeUser listeUser = ListeUser.getInstance();
 
     private int destinataireId;
+
 
     public Label getUsername(){return username;}
     public void addUserConnected(String Pseudo, int id) {
@@ -68,6 +85,11 @@ public class Loged {
             userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
+                    try {
+                        ConversationManager.getInstance().openConversation(id);
+                    } catch (UserNotFoundException | AssignationProblemException | ConversationAlreadyExists ignored) {
+                        ignored.printStackTrace();
+                    }
                     try {
                         vboxChat.getChildren().clear();
                         afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
@@ -97,10 +119,11 @@ public class Loged {
     }
 
     public void disconnect(ActionEvent event) throws Exception {
-        //Main m = new Main();
-        //m.loginScene();
-        addUserConnected("Romain",3);
-        addUserConnected("Aude",2);
+        ConversationManager.getInstance().closeAll();
+        ChavardageManager.getInstance().disconnect(listeUser.getMySelf());
+        Main m = new Main();
+        m.loginScene();
+
     }
 
     public void afficherAncienMessages(ResultSet listeMessages) throws Exception {
@@ -192,6 +215,8 @@ public class Loged {
             HBox hbox = new HBox(messageEnvoye);
             hbox.setAlignment(Pos.BASELINE_RIGHT);
 
+            ConversationManager.getInstance().getSendData(destinataireId).envoyer(new TCPMessage(destinataireId,ListeUser.getInstance().getMyId(), message));
+
             databaseManager.insertMessage(listeUser.getMyId(),destinataireId,message,listeUser.getMyId());
             User userController = userControllerMap.get(destinataireId);
             userController.getLastMessage().setText("You : " + message);
@@ -201,13 +226,12 @@ public class Loged {
 
     }
 
-    public void messageRecu(ActionEvent event){
+    public void messageRecu(TCPMessage tcpMessage){
         try{
+            if (tcpMessage.getEnvoyeurId()!=destinataireId) return;
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date = new Date();
-
-            String message = textSend.getText();
-            textSend.setText("");
+            String message=tcpMessage.getTexte();
 
             ReceiveMessage controllerMessage = new ReceiveMessage();
             FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
@@ -227,5 +251,10 @@ public class Loged {
             vboxChat.getChildren().add(hbox);
 
         }catch (Exception e){e.printStackTrace();}
+    }
+
+    @Override
+    public void accept(UserItem userItem) {
+        addUserConnected(userItem.getPseudo(),userItem.getId());
     }
 }

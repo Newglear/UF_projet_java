@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class ChavardageManager implements Consumer<UDPMessage> {
 
     private static final Logger LOGGER = LogManager.getLogger(ChavardageManager.class);
-    private final static int TIMEOUT = 10000; // si personne n'a répondu au bout de 10s, on considère qu'on est seul
+    private final static int TIMEOUT = 3000; // si personne n'a répondu au bout de 10s, on considère qu'on est seul
     private UDPType received;
     private final int port;
 
@@ -51,7 +51,6 @@ public class ChavardageManager implements Consumer<UDPMessage> {
                     LOGGER.trace("j'étais déjà connecté au réseau, tout va bien");
                     break;
                 case AckPseudoPasOK:
-                    // TODO redemander un pseudo via l'interface
                     /* regarder dans liste user les pseudos pour checker en local
                     le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");

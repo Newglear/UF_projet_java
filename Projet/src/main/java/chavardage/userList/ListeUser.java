@@ -4,6 +4,7 @@ import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.GestionUDPMessage;
+import chavardage.chavardageManager.UsurpateurException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,14 +12,21 @@ import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class ListeUser{
 
     private String myPseudo = "";
     private int myId = -1;
 
+
+    private Consumer<UserItem> observer = (user) -> LOGGER.trace("default subscriber : " + user);
     private static final Logger LOGGER = LogManager.getLogger(ListeUser.class);
 
+
+    public void setObserver(Consumer<UserItem> observer){
+        this.observer=observer;
+    }
 
     // The ONLY instance of UserList
     private static final ListeUser instance = new ListeUser();
@@ -41,11 +49,14 @@ public class ListeUser{
 
 
     public synchronized void addUser(int id, String pseudo, InetAddress address){
-        tabItems.putIfAbsent(id, new UserItem(id, pseudo, address));
+        addUser(new UserItem(id,pseudo,address));
     }
 
     public synchronized void addUser(UserItem userItem){
-        tabItems.putIfAbsent(userItem.getId(), userItem);
+        if (!this.contains(userItem.getId())){
+            tabItems.put(userItem.getId(),userItem);
+            observer.accept(userItem);
+        }
     }
 
 

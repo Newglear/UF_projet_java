@@ -27,7 +27,6 @@ public class ConversationTest {
     public void conversationTest() {
         ListeUser.getInstance().setMyId(3); // j'ai l'id 3
         Conversation conversation = new Conversation(5, ConversationManager.getInstance()); // je crée une conversation avec 5
-        conversation.sendMessage("coucou");
         assertEquals(5, conversation.getDestinataireId());
         conversation.accept(new TCPMessage(5,3, "hola"));
         // on teste que les exceptions se lancent bien quand il faut

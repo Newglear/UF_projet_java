@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1301.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="1301.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxtest.Loged">
    <left>
       <AnchorPane prefHeight="681.0" prefWidth="330.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="username" layoutX="16.0" layoutY="14.0" prefHeight="46.0" prefWidth="300.0" textFill="WHITE">
+            <Label fx:id="username" layoutX="57.0" layoutY="11.0" prefHeight="46.0" prefWidth="230.0" text="Username" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font name="Broadway" size="40.0" />
                </font>
             </Label>
             <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="131.0" prefHeight="577.0" prefWidth="334.0" style="-fx-background-color: #333333;">
                <content>
-                  <VBox fx:id="vboxConnect" prefHeight="575.0" prefWidth="332.0" style="-fx-background-color: #333333;" />
+                  <VBox fx:id="vboxConnect" prefHeight="576.0" prefWidth="332.0" style="-fx-background-color: #333333;" />
                </content>
             </ScrollPane>
             <Button fx:id="deco" layoutX="204.0" layoutY="66.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #03224C;" text="Deconnexion" textFill="WHITE">
@@ -28,7 +28,7 @@
                   <Font name="Broadway" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="changePseudo" layoutX="12.0" layoutY="64.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="186.0" style="-fx-background-color: #03224C;" text="Changement de Pseudo" textFill="WHITE">
+            <Button fx:id="changePseudo" layoutX="12.0" layoutY="64.0" mnemonicParsing="false" onAction="#messageRecu" prefHeight="28.0" prefWidth="186.0" style="-fx-background-color: #03224C;" text="Changement de Pseudo" textFill="WHITE">
                <font>
                   <Font name="Broadway" size="12.0" />
                </font>
@@ -39,7 +39,7 @@
    <right>
       <AnchorPane prefHeight="702.0" prefWidth="1002.0" style="-fx-background-color: #03224C;" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="userDest" layoutX="14.0" layoutY="-16.0" prefHeight="107.0" prefWidth="954.0" textFill="WHITE">
+            <Label fx:id="userDest" layoutX="14.0" layoutY="-16.0" prefHeight="107.0" prefWidth="954.0" text="Username Destination" textFill="WHITE">
                <font>
                   <Font name="Broadway" size="50.0" />
                </font>
@@ -52,13 +52,12 @@
                      </children></AnchorPane>
                </content>
             </ScrollPane>
-            <Button fx:id="sendButton" disable="true" layoutX="816.0" layoutY="634.0" mnemonicParsing="false" onAction="#envoiMessage" prefHeight="56.0" prefWidth="103.0" style="-fx-background-color: #333333;" text="Envoyer" textFill="WHITE" visible="false">
+            <Button fx:id="sendButton" disable="true" layoutX="816.0" layoutY="633.0" mnemonicParsing="false" onAction="#envoiMessage" prefHeight="56.0" prefWidth="103.0" style="-fx-background-color: #333333;" text="Envoyer" textFill="WHITE">
                <font>
                   <Font name="Broadway" size="12.0" />
                </font>
             </Button>
-            <TextArea fx:id="textSend" disable="true" layoutX="48.0" layoutY="637.0" prefHeight="52.0" prefWidth="754.0" promptText="Veuillez saisir votre message" style="-fx-control-inner-background: #333333; -fx-text-fill: #ffffff; -fx-prompt-text-fill: #ffffff;" visible="false" wrapText="true" />
-            <Label fx:id="errorMessage" layoutX="48.0" layoutY="619.0" prefHeight="17.0" prefWidth="870.0" textFill="#d30000" />
+            <TextArea fx:id="textSend" disable="true" layoutX="45.0" layoutY="636.0" prefHeight="52.0" prefWidth="754.0" promptText="Veuillez saisir votre message" style="-fx-control-inner-background: #333333; -fx-text-fill: #ffffff; -fx-prompt-text-fill: #ffffff;" wrapText="true" />
          </children>
       </AnchorPane>
    </right>
