@@ -266,10 +266,6 @@ public class Loged implements Consumer<UserItem> {
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public void testDeleteUser(ActionEvent event){
-        ListeUser.getInstance().removeUser(2);
-        ListeUser.getInstance().affiche();
-    }
     @Override
     public void accept(UserItem userItem) {
         LOGGER.trace("j'accepte " + userItem);

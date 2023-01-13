@@ -59,7 +59,6 @@ public class Main extends Application {
     public void loginScene() throws Exception{
         ListeUser.getInstance().clear();
         ConversationManager.getInstance().clear();
-        ListeUser.getInstance().addUser(new UserItem(2,"Stephou"));
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         LogIn loginController = new LogIn();
         loginLoader.setController(loginController);
