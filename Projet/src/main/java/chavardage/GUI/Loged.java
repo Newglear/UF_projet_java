@@ -24,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -31,11 +33,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Loged implements Consumer<UserItem> {
+    private static final Logger LOGGER = LogManager.getLogger(Loged.class);
+
     @FXML
     private Label username;
     @FXML
@@ -54,7 +57,7 @@ public class Loged implements Consumer<UserItem> {
     private VBox vboxChat;
     @FXML
     private Label errorMessage;
-    private HashMap<Integer,User> userControllerMap = new HashMap<Integer,User>();
+    private Map<Integer,User> userControllerMap = Collections.synchronizedMap(new HashMap<>());
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
     private Loged(){
@@ -81,7 +84,9 @@ public class Loged implements Consumer<UserItem> {
             controllerUser.getUsername().setText(Pseudo);
             controllerUser.getId().setText("#" + Integer.toString(id));
             controllerUser.getLastMessage().setText(getLastMessage(id));
-            userControllerMap.put(id,controllerUser);
+            synchronized (this){
+                userControllerMap.put(id,controllerUser);
+            }
             userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -115,6 +120,14 @@ public class Loged implements Consumer<UserItem> {
         });
     }
     public void deleteUserConnected(int id){
+
+        for (Node child : vboxConnect.getChildren()) {
+            Label label = (Label)child.lookup("#id");
+            if(label.getText().equals("#"+ id)) {
+                vboxConnect.getChildren().remove(child);
+                break;
+            }
+        }
         userControllerMap.remove(id);
     }
 
@@ -253,8 +266,16 @@ public class Loged implements Consumer<UserItem> {
         }catch (Exception e){e.printStackTrace();}
     }
 
+    public void testDeleteUser(ActionEvent event){
+        ListeUser.getInstance().removeUser(2);
+        ListeUser.getInstance().affiche();
+    }
     @Override
     public void accept(UserItem userItem) {
-        addUserConnected(userItem.getPseudo(),userItem.getId());
+        LOGGER.trace("j'accepte " + userItem);
+        if (userItem.isInList()) addUserConnected(userItem.getPseudo(),userItem.getId());
+        else {
+            deleteUserConnected(userItem.getId());
+        }
     }
 }

@@ -40,10 +40,10 @@ public class Main extends Application {
     public void loggedScene() throws Exception{
         FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("loged.fxml"));
         Loged logedController = Loged.getInstance();
-        ListeUser.getInstance().setObserver(logedController); // TODO faire en sorte que les users qui étaient déjà dans la liste soient affichés
         // ou que la liste user soit finie avant de set l'observer
         loggedLoader.setController(logedController);
         Scene newScene = new Scene(loggedLoader.load(),1300,700);
+        ListeUser.getInstance().setObserver(logedController);
         logedController.getUsername().setText(ListeUser.getInstance().getMyPseudo());
         newScene.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode() == KeyCode.ENTER & logedController.textSendActive){
@@ -59,6 +59,7 @@ public class Main extends Application {
     public void loginScene() throws Exception{
         ListeUser.getInstance().clear();
         ConversationManager.getInstance().clear();
+        ListeUser.getInstance().addUser(new UserItem(2,"Stephou"));
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         LogIn loginController = new LogIn();
         loginLoader.setController(loginController);
@@ -80,7 +81,6 @@ public class Main extends Application {
 
         UDPServeur udpServeur = new UDPServeur(GestionUDPMessage.getInstance());
         TCPServeur tcpServeur = new TCPServeur(ConversationManager.getInstance());
-
 
         launch();
 

@@ -1,6 +1,7 @@
 package chavardage.userList;
 
 import chavardage.AssignationProblemException;
+import chavardage.GUI.Loged;
 import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.GestionUDPMessage;
@@ -25,7 +26,12 @@ public class ListeUser{
 
 
     public void setObserver(Consumer<UserItem> observer){
+        LOGGER.trace("je set l'observer");
         this.observer=observer;
+        for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
+            LOGGER.trace("je passe " + entry.getValue() + " à l'observer");
+            observer.accept(entry.getValue());
+        }
     }
 
     // The ONLY instance of UserList
@@ -66,6 +72,8 @@ public class ListeUser{
     }
 
     public synchronized void removeUser(int id) {
+        tabItems.get(id).setInList(false);
+        observer.accept(tabItems.get(id));
         tabItems.remove(id);
     }
 

@@ -9,6 +9,8 @@ import java.net.InetAddress;
 public class UserItem implements Serializable {
 
     private String pseudo;
+
+    private boolean inList=true;
     private InetAddress address;
     private final int id; // id connue des utilisateurs
 
@@ -18,6 +20,7 @@ public class UserItem implements Serializable {
         this.pseudo=pseudo;
         this.address=address;
     }
+
 
     public UserItem(int id, String pseudo){
         this.id=id;
@@ -55,5 +58,13 @@ public class UserItem implements Serializable {
                 ", address=" + address +
                 ", id=" + id +
                 '}';
+    }
+
+    public void setInList(boolean inList) {
+        this.inList = inList;
+    }
+
+    public boolean isInList() {
+        return inList;
     }
 }
