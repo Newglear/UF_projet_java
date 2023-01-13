@@ -1,6 +1,7 @@
 package chavardage.GUI;
 
 import chavardage.AssignationProblemException;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.conversation.Conversation;
 import chavardage.conversation.ConversationAlreadyExists;
@@ -19,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -40,6 +42,10 @@ public class Loged implements Consumer<UserItem> {
     private static final Logger LOGGER = LogManager.getLogger(Loged.class);
 
     @FXML
+    private Button validButton;
+    @FXML
+    private TextField textChangementPsd;
+    @FXML
     private Label username;
     @FXML
     private Label userDest;
@@ -57,6 +63,9 @@ public class Loged implements Consumer<UserItem> {
     private VBox vboxChat;
     @FXML
     private Label errorMessage;
+    @FXML
+    private Label errorChangePseudo;
+
     private Map<Integer,User> userControllerMap = Collections.synchronizedMap(new HashMap<>());
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
@@ -266,6 +275,44 @@ public class Loged implements Consumer<UserItem> {
         }catch (Exception e){e.printStackTrace();}
     }
 
+    public void changePseudo(){
+        pseudoChange.setDisable(true);
+        deco.setDisable(true);
+        pseudoChange.setVisible(false);
+        deco.setVisible(false);
+        textChangementPsd.setVisible(true);
+        textChangementPsd.setDisable(false);
+        validButton.setVisible(true);
+        validButton.setDisable(false);
+
+    }
+
+    public void validerChangement(ActionEvent event){
+        String newPseudo = textChangementPsd.getText();
+        if(newPseudo.length() == 0){
+            errorChangePseudo.setText("Veuillez saisir un pseudo non vide");
+            return;
+        }
+        if(newPseudo.length() >15){
+            errorChangePseudo.setText("Ce pseudo est trop long (Max 15)");
+            return;
+        }
+        try{
+            listeUser.setMyPseudo(newPseudo);
+            username.setText(newPseudo);
+            ChavardageManager.getInstance().notifyChangePseudo(listeUser.getMySelf());        pseudoChange.setDisable(true);
+            deco.setDisable(false);
+            pseudoChange.setDisable(false);
+            pseudoChange.setVisible(true);
+            deco.setVisible(true);
+            textChangementPsd.setVisible(false);
+            textChangementPsd.setDisable(true);
+            validButton.setVisible(false);
+            validButton.setDisable(true);
+        } catch (AlreadyUsedPseudoException e) {
+            errorChangePseudo.setText("Ce pseudo est déjà utilisé");
+        }
+    }
     @Override
     public void accept(UserItem userItem) {
         LOGGER.trace("j'accepte " + userItem);
