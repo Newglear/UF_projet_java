@@ -60,6 +60,7 @@ public class ListeUser{
 
     public synchronized void addUser(UserItem userItem){
         if (!this.contains(userItem.getId())){
+            tabItems.get(userItem.getId()).setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
             observer.accept(userItem);
         }
@@ -68,13 +69,15 @@ public class ListeUser{
 
     public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
+        tabItems.get(id).setNotifyFront(NotifyFront.ChangePseudo);
         tabItems.get(id).setPseudo(newPseudo);
+        observer.accept(tabItems.get(id));
     }
 
     public synchronized void removeUser(int id) {
-        tabItems.get(id).setInList(false);
-        observer.accept(tabItems.get(id));
+        tabItems.get(id).setNotifyFront(NotifyFront.DeleteUser);
         tabItems.remove(id);
+        observer.accept(tabItems.get(id));
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {

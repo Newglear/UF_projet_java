@@ -3,7 +3,6 @@ package chavardage.GUI;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.UsurpateurException;
-import chavardage.conversation.ConversationManager;
 import chavardage.database.DatabaseManager;
 import chavardage.userList.ListeUser;
 import chavardage.userList.UserItem;
@@ -13,13 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
-
 public class LogIn {
 
 
     @FXML
-    private Label Error;
+    private Label error;
+
+    @FXML
+    private Label attente;
+
     @FXML
     private Button  boutton;
     @FXML
@@ -28,6 +29,12 @@ public class LogIn {
     private TextField id;
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
+
+    private LogIn(){}
+
+    private static LogIn instance = new LogIn();
+
+    public static LogIn getInstance(){return instance;}
     public void userLogin(ActionEvent event) throws Exception{
         checkLogin();
     }
@@ -35,13 +42,14 @@ public class LogIn {
     protected void checkLogin() throws Exception {
         // TODO message "en attente de connexion"
         Main m = new Main();
+        error.setText("");
         if(username.getText().isEmpty() || id.getText().isEmpty()){
-            Error.setText("Veuillez saisir un Username et votre ID");
+            error.setText("Veuillez saisir un Username et votre ID");
         }
         else {
             try {
                 if(username.getText().length()>15){
-                    Error.setText("Username trop long (Max 15 caractères)");
+                    error.setText("Username trop long (Max 15 caractères)");
                 }else {
                     int idUser = Integer.parseInt(id.getText());
                     String pseudo = username.getText();
@@ -49,23 +57,25 @@ public class LogIn {
                     ListeUser listeUser = ListeUser.getInstance();
                     listeUser.setMyself(idUser,pseudo);
                     try{
+
                         chavardageManager.connectToApp(new UserItem(idUser,pseudo));
                     } catch (InterruptedException e) {
                     } catch (UsurpateurException e) {
-                        Error.setText("Cet ID est déjà utilisé par un autre User connecté");
+                        error.setText("Cet ID est déjà utilisé par un autre User connecté");
                     } catch (AlreadyUsedPseudoException e) {
-                        Error.setText("Ce pseudo est déjà utilisé par un autre User connecté");
+                        error.setText("Ce pseudo est déjà utilisé par un autre User connecté");
                     }
                     databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
                     m.loggedScene();
                 }
             }catch (NumberFormatException e){
-                Error.setText("Veuillez saisir un nombre valide pour l'ID");
+                error.setText("Veuillez saisir un nombre valide pour l'ID");
 
             }
         }
+    }
 
-
-
+    public Label getAttente() {
+        return attente;
     }
 }
