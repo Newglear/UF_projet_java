@@ -19,7 +19,7 @@ public class DatabaseManager {
         try {
             urlDatabase = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_003";
             userName = "tp_java4ir_003";
-            password = "ptheiy5Wo";
+            password = "theiy5Wo";
             database = DriverManager.getConnection(urlDatabase,userName,password);
             statement = database.createStatement();
         }catch (SQLException e){e.printStackTrace();}
@@ -52,8 +52,7 @@ public class DatabaseManager {
         int maxId = Math.max(idUserLocal,idUserDistant);
         retriveMessage.setInt(1,minId);
         retriveMessage.setInt(2,maxId);
-        ResultSet result = retriveMessage.executeQuery();
-        return result;
+        return retriveMessage.executeQuery();
     }
 
     //TODO appeller quand nouvel utilisateur se connecte (insère dans la database l'userId s'il n'existe pas déjà)

@@ -8,11 +8,5 @@
     <output-test url="file://$MODULE_DIR$/../../target/test-classes" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-controls:linux:19-ea+7" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-fxml:linux:19-ea+7" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" level="project" />
-    <orderEntry type="library" exported="" name="Maven: org.openjfx:javafx-graphics:linux:19-ea+7" level="project" />
   </component>
 </module>
