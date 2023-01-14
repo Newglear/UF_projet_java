@@ -187,7 +187,7 @@ public class ConversationManager implements Consumer<Socket> {
         try {
             this.getSendData(destinataireId).envoyer(new TCPMessage(destinataireId,listeUser.getMyId(),TCPType.FermetureSession));
             fermerConversation(destinataireId);
-        } catch (ConversationDoesNotExist | AssignationProblemException e) {
+        } catch (ConversationDoesNotExist e) {
             LOGGER.error(e.getMessage());
         }
     }

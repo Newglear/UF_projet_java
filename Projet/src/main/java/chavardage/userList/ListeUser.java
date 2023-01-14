@@ -60,7 +60,7 @@ public class ListeUser{
 
     public synchronized void addUser(UserItem userItem){
         if (!this.contains(userItem.getId())){
-            tabItems.get(userItem.getId()).setNotifyFront(NotifyFront.AddUser);
+            userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
             observer.accept(userItem);
         }
@@ -123,10 +123,8 @@ public class ListeUser{
         this.myPseudo=pseudo;
     }
 
-    public synchronized int getMyId() throws AssignationProblemException {
-        if (myId==-1){
-            throw new AssignationProblemException("ListeUser", "myId");
-        }
+    public synchronized int getMyId()  {
+
         return myId;
 
     }
