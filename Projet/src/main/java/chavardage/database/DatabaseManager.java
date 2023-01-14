@@ -1,16 +1,14 @@
 package chavardage.database;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DatabaseManager {
 
     //TODO se connecter à la databese centralisé
-    private String urlDatabase ="jdbc:mysql://localhost:3306/chavardage";
-    private String userName = "root";
-    private String password = "root";
+    private String urlDatabase ="jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_003";
+    private String userName = "tp_java4ir_003";
+    private String password = "theiy5Wo";
 
     private Connection database;
 
