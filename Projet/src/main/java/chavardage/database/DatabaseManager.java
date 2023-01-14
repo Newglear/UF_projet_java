@@ -6,25 +6,41 @@ import java.util.Date;
 public class DatabaseManager {
 
     //TODO se connecter à la databese centralisé
-    private String urlDatabase ="jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_003";
-    private String userName = "tp_java4ir_003";
-    private String password = "theiy5Wo";
+    private String urlDatabase;
+    private String userName;
+    private String password;
 
     private Connection database;
 
     private Statement statement;
 
     public final int messageLengthMax = 100;
-    private DatabaseManager(){
+    /*private DatabaseManager(boolean isTest){
         try {
+            urlDatabase = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_003";
+            userName = "tp_java4ir_003";
+            password = "ptheiy5Wo";
             database = DriverManager.getConnection(urlDatabase,userName,password);
             statement = database.createStatement();
         }catch (SQLException e){e.printStackTrace();}
     }
-
+    */
+    private DatabaseManager(){
+        try {
+            urlDatabase = "jdbc:mysql://localhost:3306/chavardage";
+            userName = "root";
+            password = "root";
+            database = DriverManager.getConnection(urlDatabase,userName,password);
+            statement = database.createStatement();
+        }catch (SQLException e){e.printStackTrace();}
+    }
     private static final DatabaseManager instance = new DatabaseManager();
 
+    //private  static final DatabaseManager instanceTest = new DatabaseManager(true);
+
     public static DatabaseManager getInstance() {return instance;}
+
+    //public static DatabaseManager getInstanceTest() {return instanceTest;}
 
     //Permet d'obtenir l'ensemble des messages d'une conversation entre deux utilisateurs
     public synchronized ResultSet getMessages(int idUserLocal, int idUserDistant) throws SQLException{

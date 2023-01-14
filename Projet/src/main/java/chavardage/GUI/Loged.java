@@ -140,6 +140,16 @@ public class Loged implements Consumer<UserItem> {
         userControllerMap.remove(id);
     }
 
+    public void changePseudoUser(int idUser, String newPseudo){
+        for (Node child : vboxConnect.getChildren()) {
+            Label pseudoUser = (Label)child.lookup("#id");
+            if (pseudoUser.getText().equals("#"+idUser )){
+                pseudoUser.setText(newPseudo);
+                break;
+            }
+        }
+    }
+
     public void disconnect(ActionEvent event) throws Exception {
         ConversationManager.getInstance().closeAll();
         ChavardageManager.getInstance().disconnect(listeUser.getMySelf());
@@ -300,7 +310,8 @@ public class Loged implements Consumer<UserItem> {
         try{
             listeUser.setMyPseudo(newPseudo);
             username.setText(newPseudo);
-            ChavardageManager.getInstance().notifyChangePseudo(listeUser.getMySelf());        pseudoChange.setDisable(true);
+            ChavardageManager.getInstance().notifyChangePseudo(listeUser.getMySelf());
+            errorChangePseudo.setText("");
             deco.setDisable(false);
             pseudoChange.setDisable(false);
             pseudoChange.setVisible(true);
@@ -316,9 +327,16 @@ public class Loged implements Consumer<UserItem> {
     @Override
     public void accept(UserItem userItem) {
         LOGGER.trace("j'accepte " + userItem);
-        if (userItem.isInList()) addUserConnected(userItem.getPseudo(),userItem.getId());
-        else {
-            deleteUserConnected(userItem.getId());
+        switch (userItem.getNotifyFront()){
+            case AddUser:
+                addUserConnected(userItem.getPseudo(),userItem.getId());
+                break;
+            case DeleteUser:
+                deleteUserConnected(userItem.getId());
+                break;
+            case ChangePseudo:
+                changePseudoUser(userItem.getId(),userItem.getPseudo());
+                break;
         }
     }
 }

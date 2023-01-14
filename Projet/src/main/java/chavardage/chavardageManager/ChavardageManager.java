@@ -1,5 +1,6 @@
 package chavardage.chavardageManager;
 
+import chavardage.GUI.LogIn;
 import chavardage.message.UDPMessage;
 import chavardage.message.UDPType;
 import chavardage.networkManager.UDPSend;
@@ -36,6 +37,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){ // si le ack n'a pas encore été reçu
             synchronized (this) {
+                LogIn.getInstance().getAttente().setText("Connexion en cours veuillez patienter...");
                 LOGGER.trace("j'attends");
                 wait(TIMEOUT);
             }

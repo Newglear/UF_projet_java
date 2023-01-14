@@ -60,7 +60,7 @@ public class Main extends Application {
         ListeUser.getInstance().clear();
         ConversationManager.getInstance().clear();
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-        LogIn loginController = new LogIn();
+        LogIn loginController = LogIn.getInstance();
         loginLoader.setController(loginController);
         Scene newScene = new Scene(loginLoader.load(),680,400);
         newScene.setOnKeyPressed(keyEvent -> {

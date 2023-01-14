@@ -10,6 +10,8 @@ public class UserItem implements Serializable {
 
     private String pseudo;
 
+// todo type énuméré notifyFront
+    private NotifyFront notifyFront = NotifyFront.AddUser;
     private boolean inList=true;
     private InetAddress address;
     private final int id; // id connue des utilisateurs
@@ -66,5 +68,13 @@ public class UserItem implements Serializable {
 
     public boolean isInList() {
         return inList;
+    }
+
+    public NotifyFront getNotifyFront() {
+        return notifyFront;
+    }
+
+    public void setNotifyFront(NotifyFront notifyFront) {
+        this.notifyFront = notifyFront;
     }
 }
