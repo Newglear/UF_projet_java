@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class Loged implements EventListener {
+public class Loged implements Consumer<UserItem> {
     private static final Logger LOGGER = LogManager.getLogger(Loged.class);
 
     @FXML
@@ -324,7 +324,7 @@ public class Loged implements EventListener {
             errorChangePseudo.setText("Ce pseudo est déjà utilisé");
         }
     }
-    /*
+
     @Override
     public void accept(UserItem userItem) {
         LOGGER.trace("j'accepte " + userItem);
@@ -341,5 +341,5 @@ public class Loged implements EventListener {
         }
     }
 
-     */
+
 }

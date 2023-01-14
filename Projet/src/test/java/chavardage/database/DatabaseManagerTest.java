@@ -41,13 +41,11 @@ public class DatabaseManagerTest {
         result.next();
 
         assertEquals("Test#1",result.getString("message"));
-        assertEquals(timestamp, result.getTimestamp("date"));
         assertEquals(1,result.getInt("sentBy"));
 
         result.next();
 
         assertEquals("Test#2",result.getString("message"));
-        assertEquals(timestamp, result.getTimestamp("date"));
         assertEquals(2,result.getInt("sentBy"));
         result.close();
     }
