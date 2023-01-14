@@ -1,5 +1,6 @@
 package chavardage.chavardageManager;
 
+import chavardage.AssignationProblemException;
 import chavardage.message.UDPType;
 import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
@@ -46,28 +47,28 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     @Override
     public void accept(UDPMessage udpMessage) {
         try {
-            if(udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
+            if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
-                        if (listeUser.contains(udpMessage.getEnvoyeur().getId())){ // l'id est déjà dans la liste
-                            if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())){
+                        if (listeUser.contains(udpMessage.getEnvoyeur().getId())) { // l'id est déjà dans la liste
+                            if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())) {
                                 // même id, même pseudo : already connected
                                 LOGGER.trace("envoi d'un already connected");
-                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.AlreadyConnected,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
-                            }else{ // même id, pseudo différent
+                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.AlreadyConnected, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
+                            } else { // même id, pseudo différent
                                 LOGGER.trace("détection d'un usurpateur");
-                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur,listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                                UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
                             }
                             break;
                         }
-                        if (listeUser.pseudoDisponible(udpMessage.getEnvoyeur().getPseudo())){
+                        if (listeUser.pseudoDisponible(udpMessage.getEnvoyeur().getPseudo())) {
                             // nouvel user, pseudo dispo
                             LOGGER.trace("envoi d'un AckPseudoOk");
-                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoOk, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
-                        }else{
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoOk, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
+                        } else {
                             // nouvel user, pseudo pas dispo
                             LOGGER.trace("envoi d'un AckPseudoPasOk");
-                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoPasOK, listeUser.getMySelf()),udpMessage.getEnvoyeur().getAddress(),port);
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoPasOK, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
                         }
                         break;
                     case Deconnexion:
@@ -78,7 +79,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                     case AckPseudoPasOK:
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         listeUser.addUser(udpMessage.getEnvoyeur());
-                        if (nbAcks==0){
+                        if (nbAcks == 0) {
                             LOGGER.trace("premier ack reçu, je passe au chavardage manager");
                             chavardageManager.accept(udpMessage);
                         }
@@ -103,6 +104,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                 }
             }
+        }catch (AssignationProblemException e){ // ne pas traiter mon propre message de déconnexion
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();

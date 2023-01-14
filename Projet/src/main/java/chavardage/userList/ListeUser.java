@@ -88,14 +88,16 @@ public class ListeUser{
     }
 
     public synchronized void removeUser(int id) {
-        tabItems.get(id).setNotifyFront(NotifyFront.DeleteUser);
-        tabItems.remove(id);
+        UserItem deleteUser = tabItems.get(id);
+        deleteUser.setNotifyFront(NotifyFront.DeleteUser);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                observer.accept(tabItems.get(id));
+                observer.accept(deleteUser);
             }
         });
+        tabItems.remove(id);
+
 
     }
 
@@ -142,8 +144,8 @@ public class ListeUser{
         this.myPseudo=pseudo;
     }
 
-    public synchronized int getMyId()  {
-
+    public synchronized int getMyId() throws AssignationProblemException {
+        if (myId==-1) throw new AssignationProblemException("ListeUser","myId");
         return myId;
 
     }
