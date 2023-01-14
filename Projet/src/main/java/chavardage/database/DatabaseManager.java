@@ -15,7 +15,7 @@ public class DatabaseManager {
     private Statement statement;
 
     public final int messageLengthMax = 100;
-    /*private DatabaseManager(boolean isTest){
+    private DatabaseManager(){
         try {
             urlDatabase = "jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/tp_java4ir_003";
             userName = "tp_java4ir_003";
@@ -24,7 +24,7 @@ public class DatabaseManager {
             statement = database.createStatement();
         }catch (SQLException e){e.printStackTrace();}
     }
-    */
+    /*
     private DatabaseManager(){
         try {
             urlDatabase = "jdbc:mysql://localhost:3306/chavardage";
@@ -34,6 +34,8 @@ public class DatabaseManager {
             statement = database.createStatement();
         }catch (SQLException e){e.printStackTrace();}
     }
+    */
+
     private static final DatabaseManager instance = new DatabaseManager();
 
     //private  static final DatabaseManager instanceTest = new DatabaseManager(true);
