@@ -5,7 +5,10 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 ## Notre Projet : Chavardage 
 Nous avons développé une application de chat en Java permettant de communiquer sur un réseau local. 
 Cette application inclut notamment une phase de découverte des autres utilisateurs sur le réseau et la possibilité de changer son pseudonyme après s'être connecté.
-Il est également possible d'ouvrir une conversation avec un autre utilisateur, et les messages échangé sont conservés sur une base de données centralisée. 
+Il est également possible d'ouvrir une conversation avec un autre utilisateur, et les messages échangés sont conservés sur une base de données centralisée. 
+
+[TODO] instructions compilation / exécution 
+
   - [Notre code](./Projet/)
   - [Notes sur la présentation du projet](./notes_présentation.md)  
   - [Diagrammes UML de spécification](./UML/Images)  
