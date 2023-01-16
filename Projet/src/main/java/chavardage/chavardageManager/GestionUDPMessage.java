@@ -55,6 +55,10 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
             if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
+                        if (listeUser.getMyPseudo().equals(udpMessage.getEnvoyeur().getPseudo())){
+                            LOGGER.trace("envoi d'un AckPseudoPasOk");
+                            UDPSend.envoyerUnicast(new UDPMessage(UDPType.AckPseudoPasOK, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
+                        }
                         if (listeUser.contains(udpMessage.getEnvoyeur().getId())) { // l'id est déjà dans la liste
                             if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())) {
                                 // même id, même pseudo : already connected

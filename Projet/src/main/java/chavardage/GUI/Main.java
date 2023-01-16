@@ -86,7 +86,7 @@ public class Main extends Application {
         stg.show();
     }
     public static void main(String[] args) {
-        Configurator.setRootLevel(Level.INFO);
+        //Configurator.setRootLevel(Level.INFO);
 
 
         UDPServeur udpServeur = new UDPServeur(GestionUDPMessage.getInstance());
