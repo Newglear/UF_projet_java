@@ -1,4 +1,4 @@
-module com.example.javafxtest {
+module Chavardage {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.logging.log4j;
