@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
 
 public class User {
 
@@ -16,6 +17,10 @@ public class User {
     private Label lastMessage;
     @FXML
     private AnchorPane background;
+    @FXML
+    private Label nbNotification;
+    @FXML
+    private Circle circleNotification;
 
     public Label getUsername(){return username;}
 
@@ -33,4 +38,12 @@ public class User {
         background.setStyle("-fx-background-color:#333333");
     }
     public Label getLastMessage(){return lastMessage;}
+
+    public Circle getCircleNotification() {
+        return circleNotification;
+    }
+
+    public Label getNbNotification() {
+        return nbNotification;
+    }
 }

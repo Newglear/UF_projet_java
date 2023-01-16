@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
@@ -110,6 +111,9 @@ public class Loged implements Consumer<UserItem> {
                         textSendActive = true;
                         userDest.setText(Pseudo);
                         destinataireId = id;
+                        controllerUser.getCircleNotification().setVisible(false);
+                        controllerUser.getNbNotification().setText("0");
+                        controllerUser.getNbNotification().setVisible(false);
                     }catch (Exception e){e.printStackTrace();}
                 }
             });
@@ -274,7 +278,13 @@ public class Loged implements Consumer<UserItem> {
                     Label idUser = (Label)child.lookup("#id");
                     if (idUser.getText().equals("#"+tcpMessage.getEnvoyeurId())){
                         Label lastMessage = (Label)child.lookup("#lastMessage");
+                        Label nbNotification = (Label) child.lookup("#nbNotification");
+                        Circle circleNotif = (Circle) child.lookup("#circleNotification");
                         lastMessage.setText(tcpMessage.getTexte());
+                        int nombreNotif = Integer.parseInt(nbNotification.getText());
+                        nbNotification.setText(Integer.toString(nombreNotif+1));
+                        nbNotification.setVisible(true);
+                        circleNotif.setVisible(true);
                         break;
                     }
                 }
