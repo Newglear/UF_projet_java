@@ -45,23 +45,30 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         if (received!=null) { // on a bien reçu un ack
             switch (received){
                 case AckPseudoOk:
-                    received=null;
+                    synchronized (this){
+                        received=null;
+                    }
                     LOGGER.trace("mon pseudo est ok, j'envoie le NewUser");
                     UDPSend.envoyerBroadcast(new UDPMessage(UDPType.NewUser, mySelf),port);
                     LOGGER.info("connexion au réseau réussie");
                     break;
                 case AlreadyConnected:
-                    received=null;
+                    synchronized (this){
+                        received=null;
+                    }
                     LOGGER.trace("j'étais déjà connecté au réseau, tout va bien");
                     break;
                 case AckPseudoPasOK:
-                    received=null;
-                    /* regarder dans liste user les pseudos pour checker en local
+                    synchronized (this){
+                        received=null;
+                    }                    /* regarder dans liste user les pseudos pour checker en local
                     le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
                     throw new AlreadyUsedPseudoException(mySelf.getPseudo());
                 case Usurpateur:
-                    received=null;
+                    synchronized (this){
+                        received=null;
+                    }
                     throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau
