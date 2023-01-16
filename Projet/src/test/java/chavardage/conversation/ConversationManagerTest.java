@@ -40,7 +40,7 @@ public class ConversationManagerTest {
     public void openConversationTest() throws IOException, IllegalConstructorException, UserNotFoundException, AssignationProblemException, ConversationAlreadyExists, ConversationDoesNotExist {
         int port = 5784;
         ListeUser liste = new ListeUser(true);
-        ConversationManager conversationManager = new ConversationManager(true,liste,port);
+        ConversationManager conversationManager = new ConversationManager(liste,port);
         ServerSocket serverSocket = new ServerSocket(port);
         liste.setMyself(1,"Aude");
         liste.addUser(3,"Romain",InetAddress.getLocalHost());
@@ -64,7 +64,7 @@ public class ConversationManagerTest {
     @Test (expected = ConversationDoesNotExist.class)
     public void removeTest() throws ConversationDoesNotExist {
         ConversationManager conversationManager = ConversationManager.getInstance();
-        conversationManager.addConv(3,new Conversation(3,conversationManager ));
+        conversationManager.addConv(3,new Conversation(3,conversationManager, true));
         conversationManager.safeRemove(3);
         conversationManager.getConv(3);
     }

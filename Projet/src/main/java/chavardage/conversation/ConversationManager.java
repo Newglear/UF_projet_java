@@ -9,7 +9,6 @@ import chavardage.networkManager.TCPReceiveData;
 import chavardage.networkManager.TCPSendData;
 import chavardage.networkManager.TCPServeur;
 import chavardage.userList.ListeUser;
-import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +24,6 @@ public class ConversationManager implements Consumer<Socket> {
     private final ListeUser listeUser;
     private final int port ;
 
-
     /**singleton*/
     private ConversationManager() {
         this.listeUser=ListeUser.getInstance();
@@ -33,10 +31,7 @@ public class ConversationManager implements Consumer<Socket> {
     }
 
     /**constructeur public pour tests*/
-    public ConversationManager(boolean test, ListeUser listeUser, int portDistant) throws IllegalConstructorException {
-        if (!test){
-            throw new IllegalConstructorException();
-        }
+    public ConversationManager(ListeUser listeUser, int portDistant){
         this.listeUser=listeUser;
         this.port = portDistant;
     }
@@ -73,7 +68,7 @@ public class ConversationManager implements Consumer<Socket> {
     /** créer une conversation quand une demande d'ouverture de session a été reçue*/
     protected void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException{
         LOGGER.trace("appel de createConversation");
-        Conversation conversation = new Conversation(this);
+        Conversation conversation = new Conversation(this, true);
         TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
             synchronized (conversation){ // je locke la conversation pour pouvoir l'attendre
@@ -113,7 +108,7 @@ public class ConversationManager implements Consumer<Socket> {
             }
         }
         try {
-            Conversation conversation = new Conversation(destinataireId, this);
+            Conversation conversation = new Conversation(destinataireId, this, true); // TODO trouver le moyen de passer test à false en productiion
             Socket socket = TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
             TCPReceiveData tcpReceiveData = new TCPReceiveData(socket, conversation);
             TCPSendData tcpSendData = new TCPSendData(socket);

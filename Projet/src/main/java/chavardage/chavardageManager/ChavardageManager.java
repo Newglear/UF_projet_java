@@ -37,7 +37,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){ // si le ack n'a pas encore été reçu
             synchronized (this) {
-                LogIn.getInstance().getAttente().setText("Connexion en cours veuillez patienter...");
+                // LogIn.getInstance().getAttente().setText("Connexion en cours veuillez patienter..."); TODO uncomment si on s'en sert
                 LOGGER.trace("j'attends");
                 wait(TIMEOUT);
             }

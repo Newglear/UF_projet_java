@@ -27,7 +27,7 @@ public class AppOnPort {
         try{
             listeUser=new ListeUser(true);
             listeUser.setMyself(myself);
-            conversationManager=new ConversationManager(true,listeUser,tcpPortDistant);
+            conversationManager=new ConversationManager(listeUser,tcpPortDistant);
             chavardageManager=new ChavardageManager(udpPortDistant);
             gestionUDPMessage=new GestionUDPMessage(listeUser,udpPortDistant,chavardageManager);
             udpServeur = new UDPServeur(udpPort,gestionUDPMessage);

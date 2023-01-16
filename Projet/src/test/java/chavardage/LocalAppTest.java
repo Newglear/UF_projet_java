@@ -21,18 +21,18 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, IOException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
         // Configurator.setRootLevel(Level.INFO);
-        int port_local_udp = 9473;
-        int port_local_tcp = 9475;
+        int port_local_udp = 4589;
+        int port_local_tcp = 2164;
 
-        int port_distant_udp = 9474;
-        int port_distant_tcp = 9476;
+        int port_distant_udp = 4965;
+        int port_distant_tcp = 3258;
 
         // simulation application 1
         UserItem userLocal = new UserItem(1,"Aude");
         ListeUser listeLocal = new ListeUser(true);
-        ConversationManager convManLocal = new ConversationManager(true,listeLocal,port_distant_tcp);
+        ConversationManager convManLocal = new ConversationManager(listeLocal,port_distant_tcp);
         listeLocal.setMyself(userLocal);
         ChavardageManager chavManLocal= new ChavardageManager(port_distant_udp);
         GestionUDPMessage gestionUDPMessageLocal = new GestionUDPMessage(listeLocal, port_distant_udp,chavManLocal);
@@ -43,7 +43,7 @@ public class LocalAppTest {
         // simulation application 2
         UserItem userDistant = new UserItem(2,"Romain");
         ListeUser listeDistant = new ListeUser(true);
-        ConversationManager convManDistant = new ConversationManager(true, listeDistant, port_local_tcp);
+        ConversationManager convManDistant = new ConversationManager(listeDistant, port_local_tcp);
         listeDistant.setMyself(userDistant);
         ChavardageManager chavManDistant = new ChavardageManager(port_local_udp);
         GestionUDPMessage gestionUDPMessageDistant = new GestionUDPMessage(listeDistant, port_local_udp, chavManDistant);
@@ -55,7 +55,6 @@ public class LocalAppTest {
         chavManDistant.connectToApp(userDistant);
         convManDistant.openConversation(1);
         convManDistant.getSendData(1).envoyer(new TCPMessage(1,2, "coucou"));
-        convManLocal.getSendData(2).envoyer(new TCPMessage(2,1,"eh salut toi"));
     }
 
 
