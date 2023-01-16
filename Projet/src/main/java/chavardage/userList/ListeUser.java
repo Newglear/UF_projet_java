@@ -116,6 +116,7 @@ public class ListeUser{
     }
 
     public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException, SamePseudoAsOld {
+        if (myPseudo.equals(pseudo)) throw new SamePseudoAsOld();
         if (!pseudoDisponible(pseudo)){
             throw new AlreadyUsedPseudoException(pseudo);
         }
