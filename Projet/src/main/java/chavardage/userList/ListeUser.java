@@ -81,7 +81,8 @@ public class ListeUser{
 
 
     /** enlève un user de la liste et notifie le front*/
-    public synchronized void removeUser(int id) {
+    public synchronized void removeUser(int id) throws UserNotFoundException{
+        if (!this.tabItems.containsKey(id)) throw new UserNotFoundException(id);
         UserItem deleteUser = tabItems.get(id);
         deleteUser.setNotifyFront(NotifyFront.DeleteUser);
         LOGGER.debug("j'enlève "+deleteUser);
@@ -99,8 +100,8 @@ public class ListeUser{
         return tabItems.size();
     }
 
-    public synchronized boolean pseudoDisponible(String pseudo) throws SamePseudoAsOld{ // Return true si le pseudo n'est pas dans la HashMap, false sinon
-        if (!(myPseudo==null) && myPseudo.equals(pseudo)) throw new SamePseudoAsOld();
+    public synchronized boolean pseudoDisponible(String pseudo) { // Return true si le pseudo n'est pas dans la HashMap, false sinon
+        if (myPseudo.equals(pseudo)) return false;
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;

@@ -6,6 +6,7 @@ import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,7 +49,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     @Override
     public void accept(UDPMessage udpMessage) {
         try {
-            if (udpMessage.getEnvoyeur().getId()==listeUser.getMyId() && !udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo())) {
+            if (udpMessage.getEnvoyeur().getId() == listeUser.getMyId() && !udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo())) {
                 // quelqu'un m'a usurpé
                 LOGGER.trace("quelqu'un m'a volé mon id");
                 UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
@@ -110,6 +111,9 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                 }
             }
+
+        }catch (UserNotFoundException e){
+            // on a essayé de retirer de la liste un user qui n'y était plus, ya pas de problème
         }catch (AssignationProblemException e){ // ne pas traiter mon propre message de déconnexion
         }catch (Exception e){
             LOGGER.error(e.getMessage());
