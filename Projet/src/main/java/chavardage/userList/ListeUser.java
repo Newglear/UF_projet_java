@@ -91,6 +91,7 @@ public class ListeUser{
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {
+        if (myId==id) return getMySelf();
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         return tabItems.get(id);
 
@@ -167,6 +168,6 @@ public class ListeUser{
 
 
     public synchronized boolean contains(int userId){
-        return myId==userId || tabItems.containsKey(userId);
+        return ((myId==userId) || (tabItems.containsKey(userId)));
     }
 }

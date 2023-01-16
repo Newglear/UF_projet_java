@@ -57,6 +57,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                 LOGGER.debug("je suis dans le if ");
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
+                        LOGGER.debug("liste user contains : "+ listeUser.contains(udpMessage.getEnvoyeur().getId()));
                         if (listeUser.contains(udpMessage.getEnvoyeur().getId())) { // l'id est déjà dans la liste
                             if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())) {
                                 // même id, même pseudo : already connected
@@ -112,8 +113,10 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
             }
 
         }catch (UserNotFoundException e){
+            LOGGER.error(e.getMessage());
             // on a essayé de retirer de la liste un user qui n'y était plus, ya pas de problème
         }catch (AssignationProblemException e){ // ne pas traiter mon propre message de déconnexion
+            LOGGER.error(e.getMessage());
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();
