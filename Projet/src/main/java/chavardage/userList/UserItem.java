@@ -55,8 +55,8 @@ public class UserItem implements Serializable {
     public String toString() {
         return "UserItem{" +
                 "pseudo='" + pseudo + '\'' +
-                ", address=" + address +
                 ", id=" + id +
+                ", address=" + address +
                 '}';
     }
 

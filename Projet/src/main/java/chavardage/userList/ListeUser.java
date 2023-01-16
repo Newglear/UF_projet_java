@@ -1,15 +1,11 @@
 package chavardage.userList;
 
 import chavardage.AssignationProblemException;
-import chavardage.GUI.Loged;
 import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
-import chavardage.chavardageManager.GestionUDPMessage;
-import chavardage.chavardageManager.UsurpateurException;
 import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.pattern.PlainTextRenderer;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -30,6 +26,7 @@ public class ListeUser{
     public void setObserver(Consumer<UserItem> observer){
         LOGGER.trace("je set l'observer");
         this.observer=observer;
+        // on passe tous les éléments déjà dans la liste à l'observer au moment où on set l'observer
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             LOGGER.trace("je passe " + entry.getValue() + " à l'observer");
             observer.accept(entry.getValue());
@@ -39,6 +36,7 @@ public class ListeUser{
     // The ONLY instance of UserList
     private static final ListeUser instance = new ListeUser();
 
+    /** récupérer l'unique instance de ListeUser*/
     public static ListeUser getInstance() {
         return instance;
     }
@@ -53,6 +51,7 @@ public class ListeUser{
         }
     }
 
+    // hashmap synchronized
     protected Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
 
@@ -60,47 +59,32 @@ public class ListeUser{
         addUser(new UserItem(id,pseudo,address));
     }
 
+    /** rajoute un user dans la liste et notifie le front, ne fait rien si l'user était déjà dans la liste*/
     public synchronized void addUser(UserItem userItem){
         if (!this.contains(userItem.getId())){
             userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
-            LOGGER.trace("j'ajoute " + userItem);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    observer.accept(userItem);
-                }
-            });
+            LOGGER.debug("j'ajoute " + userItem);
+            Platform.runLater(() -> observer.accept(userItem));
         }
     }
 
-
+    /** change le pseudo d'un utilisateur dans la liste et notifie le front, lève une exception si l'user n'existe pas*/
     public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         tabItems.get(id).setNotifyFront(NotifyFront.ChangePseudo);
         tabItems.get(id).setPseudo(newPseudo);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                observer.accept(tabItems.get(id));
-            }
-        });
-
+        Platform.runLater(() -> observer.accept(tabItems.get(id)));
     }
 
+
+    /** enlève un user de la liste et notifie le front*/
     public synchronized void removeUser(int id) {
         UserItem deleteUser = tabItems.get(id);
         deleteUser.setNotifyFront(NotifyFront.DeleteUser);
-        LOGGER.trace("j'enlève "+deleteUser);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                observer.accept(deleteUser);
-            }
-        });
+        LOGGER.debug("j'enlève "+deleteUser);
+        Platform.runLater(() -> observer.accept(deleteUser));
         tabItems.remove(id);
-
-
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {
@@ -175,7 +159,6 @@ public class ListeUser{
             System.out.println(entry.getValue());
         }
     }
-
 
 
     public synchronized boolean contains(int userId){

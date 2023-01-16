@@ -9,7 +9,7 @@ public class UserNotFoundException extends Exception{
     }
 
     @Override
-    public String toString() {
+    public String getMessage() {
         return ("UserNotFound : " + destinataireId);
     }
 }
