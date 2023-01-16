@@ -49,8 +49,12 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     @Override
     public void accept(UDPMessage udpMessage) {
         try {
-
-            if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId() && !udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo())) { // pour pas traiter mes propres messages
+            boolean idEquals = udpMessage.getEnvoyeur().getId()==listeUser.getMyId();
+            boolean pseudoEquals = udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo());
+            LOGGER.debug("idEquals : " + idEquals);
+            LOGGER.debug("pseudoEquals : "+pseudoEquals);
+            if (!idEquals||!pseudoEquals) { // pour pas traiter mes propres messages
+                LOGGER.debug("je suis dans le if ");
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
                         if (listeUser.contains(udpMessage.getEnvoyeur().getId())) { // l'id est déjà dans la liste
