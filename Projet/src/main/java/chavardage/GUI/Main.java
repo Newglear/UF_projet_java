@@ -32,7 +32,6 @@ public class Main extends Application {
     public void loggedScene() throws Exception{
         FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("loged.fxml"));
         Loged logedController = Loged.getInstance();
-        // ou que la liste user soit finie avant de set l'observer
         loggedLoader.setController(logedController);
         Scene newScene = new Scene(loggedLoader.load(),1300,700);
         ListeUser.getInstance().setObserver(logedController);
