@@ -51,6 +51,7 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                 // quelqu'un m'a usurpé
                 LOGGER.trace("quelqu'un m'a volé mon id");
                 UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
+                return;
             }
             if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
