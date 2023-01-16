@@ -1,25 +1,17 @@
 package chavardage.GUI;
 
-import chavardage.App;
 import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.conversation.ConversationManager;
-import chavardage.networkManager.TCPSendData;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
-import chavardage.userList.UserItem;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-
-import javax.security.auth.login.AccountLockedException;
-import java.io.IOException;
 
 public class Main extends Application {
 
@@ -46,7 +38,7 @@ public class Main extends Application {
         ListeUser.getInstance().setObserver(logedController);
         logedController.getUsername().setText(ListeUser.getInstance().getMyPseudo());
         newScene.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER & logedController.textSendActive){
+            if(keyEvent.getCode() == KeyCode.ENTER & Loged.textSendActive){
                 logedController.envoiMessage();
             }
         });

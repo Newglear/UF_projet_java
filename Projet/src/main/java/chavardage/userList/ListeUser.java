@@ -17,6 +17,7 @@ public class ListeUser{
 
     private String myPseudo = "";
     private int myId = -1;
+    private boolean test = true; // si on est en test on ne notifie pas l'observer
 
 
     private Consumer<UserItem> observer = (user) -> LOGGER.trace("default subscriber : " + user);
@@ -31,6 +32,7 @@ public class ListeUser{
             LOGGER.trace("je passe " + entry.getValue() + " à l'observer");
             observer.accept(entry.getValue());
         }
+        test=false;
     }
 
     // The ONLY instance of UserList
@@ -65,7 +67,7 @@ public class ListeUser{
             userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
             LOGGER.debug("j'ajoute " + userItem);
-            Platform.runLater(() -> observer.accept(userItem));
+            if (!test) Platform.runLater(() -> observer.accept(userItem));
         }
     }
 
@@ -74,7 +76,7 @@ public class ListeUser{
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         tabItems.get(id).setNotifyFront(NotifyFront.ChangePseudo);
         tabItems.get(id).setPseudo(newPseudo);
-        Platform.runLater(() -> observer.accept(tabItems.get(id)));
+        if (!test) Platform.runLater(() -> observer.accept(tabItems.get(id)));
     }
 
 
@@ -83,7 +85,7 @@ public class ListeUser{
         UserItem deleteUser = tabItems.get(id);
         deleteUser.setNotifyFront(NotifyFront.DeleteUser);
         LOGGER.debug("j'enlève "+deleteUser);
-        Platform.runLater(() -> observer.accept(deleteUser));
+        if (!test) Platform.runLater(() -> observer.accept(deleteUser));
         tabItems.remove(id);
     }
 
