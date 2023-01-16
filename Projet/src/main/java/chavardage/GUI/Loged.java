@@ -16,10 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -61,7 +58,8 @@ public class Loged implements Consumer<UserItem> {
     private Label errorMessage;
     @FXML
     private Label errorChangePseudo;
-
+    @FXML
+    private ScrollPane scrollPaneMessage;
     private Map<Integer,User> userControllerMap = Collections.synchronizedMap(new HashMap<>());
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
@@ -266,7 +264,9 @@ public class Loged implements Consumer<UserItem> {
             User userController = userControllerMap.get(destinataireId);
             userController.getLastMessage().setText("You : " + message);
             vboxChat.getChildren().add(hbox);
-
+            scrollPaneMessage.applyCss();
+            scrollPaneMessage.layout();
+            scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
         }catch (Exception e){e.printStackTrace();}
 
     }
@@ -310,6 +310,9 @@ public class Loged implements Consumer<UserItem> {
                 HBox.setHgrow(messageReceive,Priority.NEVER);
 
                 vboxChat.getChildren().add(hbox);
+                scrollPaneMessage.applyCss();
+                scrollPaneMessage.layout();
+                scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
             }
         }catch (Exception e){e.printStackTrace();}
     }
