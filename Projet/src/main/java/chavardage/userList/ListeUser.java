@@ -100,6 +100,7 @@ public class ListeUser{
     }
 
     public synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
+        if (myPseudo.equals(pseudo)) return false;
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;
