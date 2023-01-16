@@ -47,6 +47,11 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     @Override
     public void accept(UDPMessage udpMessage) {
         try {
+            if (udpMessage.getEnvoyeur().getId()==listeUser.getMyId() && !udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo())) {
+                // quelqu'un m'a usurpé
+                LOGGER.trace("quelqu'un m'a volé mon id");
+                UDPSend.envoyerUnicast(new UDPMessage(UDPType.Usurpateur, listeUser.getMySelf()), udpMessage.getEnvoyeur().getAddress(), port);
+            }
             if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
