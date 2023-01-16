@@ -6,10 +6,16 @@ import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +32,20 @@ public class Main extends Application {
         stg = stage;
         stage.setResizable(false);
         loginScene();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                ConversationManager conversationManager = ConversationManager.getInstance();
+                ListeUser listeUser = ListeUser.getInstance();
+                ChavardageManager chavardageManager = ChavardageManager.getInstance();
+
+                conversationManager.closeAll();
+                chavardageManager.disconnect(listeUser.getMySelf());
+                listeUser.clear();
+                conversationManager.clear();
+                Platform.exit();
+            }
+        });
     }
 
     //public void setHandler()

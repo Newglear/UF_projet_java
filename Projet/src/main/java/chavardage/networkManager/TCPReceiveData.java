@@ -4,6 +4,7 @@ import chavardage.message.TCPMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -53,7 +54,11 @@ public class TCPReceiveData extends Thread {
                     subscriber.accept(message);
                 }catch (SocketException e){
                     // quand on interromp le thread le socket se ferme pas de suite, c'est pas très grave
-                } catch (Exception e) {
+                } catch (EOFException e){
+                    LOGGER.error(e.getMessage());
+                    e.printStackTrace();
+                    this.interrupt();
+                } catch (ClassNotFoundException e) {
                     LOGGER.error(e.getMessage());
                     e.printStackTrace();
                 }
@@ -65,16 +70,5 @@ public class TCPReceiveData extends Thread {
     }
 
 
-    /*@Override
-    public void interrupt() { // https://codeahoy.com/java/How-To-Stop-Threads-Safely/
-        try {
-            this.socket.close();
-            LOGGER.trace("fermeture du thread de reception");
-        } catch (IOException e) {
-            LOGGER.error(" l'exception que je vais ignorer : " + e.getMessage());
-        } finally {
-            super.interrupt();
-        }
-    }*/
 
 }

@@ -195,6 +195,7 @@ public class ConversationManager implements Consumer<Socket> {
 
     /** fermer toutes les conversations*/
     public void closeAll(){
+        LOGGER.trace("Je clear toutes les conversations");
         for (Map.Entry<Integer, Conversation> entry : mapConversations.entrySet()){
             closeConversation(entry.getValue().getDestinataireId());
         }
