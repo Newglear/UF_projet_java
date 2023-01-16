@@ -1,5 +1,6 @@
 package chavardage.GUI;
 
+import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
@@ -18,6 +19,7 @@ import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 public class Main extends Application {
 
@@ -32,23 +34,19 @@ public class Main extends Application {
         stg = stage;
         stage.setResizable(false);
         loginScene();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                ConversationManager conversationManager = ConversationManager.getInstance();
-                ListeUser listeUser = ListeUser.getInstance();
-                ChavardageManager chavardageManager = ChavardageManager.getInstance();
+        stage.setOnCloseRequest(windowEvent -> {
+            ConversationManager conversationManager = ConversationManager.getInstance();
+            ListeUser listeUser = ListeUser.getInstance();
+            ChavardageManager chavardageManager = ChavardageManager.getInstance();
 
-                conversationManager.closeAll();
-                chavardageManager.disconnect(listeUser.getMySelf());
-                listeUser.clear();
-                conversationManager.clear();
-                Platform.exit();
-            }
+            conversationManager.closeAll();
+            chavardageManager.disconnect(listeUser.getMySelf());
+            listeUser.clear();
+            conversationManager.clear();
+            Platform.exit();
         });
     }
 
-    //public void setHandler()
     public void loggedScene() throws Exception{
         FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("loged.fxml"));
         Loged logedController = Loged.getInstance();
@@ -86,7 +84,7 @@ public class Main extends Application {
         stg.show();
     }
     public static void main(String[] args) {
-       //  Configurator.setRootLevel(Level.INFO);
+        Configurator.setRootLevel(Level.INFO);
 
 
         UDPServeur udpServeur = new UDPServeur(GestionUDPMessage.getInstance());
