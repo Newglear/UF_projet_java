@@ -79,8 +79,8 @@ public class Loged implements Consumer<UserItem> {
 
     public Label getUsername(){return username;}
     public void addUserConnected(String Pseudo, int id) {
+        if (userControllerMap.containsKey(id)) return; // si l'user est déjà affiché, on fait rien
         try{
-
             FXMLLoader userLoader = new FXMLLoader(getClass().getResource("user.fxml"));
             User controllerUser = new User();
             userLoader.setController(controllerUser);
@@ -96,8 +96,9 @@ public class Loged implements Consumer<UserItem> {
                 public void handle(MouseEvent mouseEvent) {
                     try {
                         ConversationManager.getInstance().openConversation(id);
-                    } catch (UserNotFoundException | AssignationProblemException | ConversationAlreadyExists ignored) {
-                        ignored.printStackTrace();
+                    } catch (UserNotFoundException | AssignationProblemException e) {
+                        e.printStackTrace();
+                    } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
                     }
                     try {
                         vboxChat.getChildren().clear();
@@ -141,8 +142,9 @@ public class Loged implements Consumer<UserItem> {
         }
 
         for (Node child : vboxConnect.getChildren()) {
-            Label pseudoUser = (Label)child.lookup("#id");
-            if (pseudoUser.getText().equals("#"+idUser )){
+            Label idUserConnected = (Label)child.lookup("#id");
+            if (idUserConnected.getText().equals("#"+idUser )){
+                Label pseudoUser = (Label) child.lookup("#username");
                 pseudoUser.setText(newPseudo);
                 break;
             }

@@ -64,6 +64,7 @@ public class ListeUser{
         if (!this.contains(userItem.getId())){
             userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
+            LOGGER.trace("j'ajoute " + userItem);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -90,6 +91,7 @@ public class ListeUser{
     public synchronized void removeUser(int id) {
         UserItem deleteUser = tabItems.get(id);
         deleteUser.setNotifyFront(NotifyFront.DeleteUser);
+        LOGGER.trace("j'enlève "+deleteUser);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
