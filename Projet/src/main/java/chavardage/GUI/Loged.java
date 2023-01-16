@@ -17,15 +17,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
@@ -61,7 +59,8 @@ public class Loged implements Consumer<UserItem> {
     private Label errorMessage;
     @FXML
     private Label errorChangePseudo;
-
+    @FXML
+    private ScrollPane scrollPaneMessage;
     private Map<Integer,User> userControllerMap = Collections.synchronizedMap(new HashMap<>());
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
@@ -111,6 +110,9 @@ public class Loged implements Consumer<UserItem> {
                         textSendActive = true;
                         userDest.setText(Pseudo);
                         destinataireId = id;
+                        controllerUser.getCircleNotification().setVisible(false);
+                        controllerUser.getNbNotification().setText("0");
+                        controllerUser.getNbNotification().setVisible(false);
                     }catch (Exception e){e.printStackTrace();}
                 }
             });
@@ -263,7 +265,9 @@ public class Loged implements Consumer<UserItem> {
             User userController = userControllerMap.get(destinataireId);
             userController.getLastMessage().setText("You : " + message);
             vboxChat.getChildren().add(hbox);
-
+            scrollPaneMessage.applyCss();
+            scrollPaneMessage.layout();
+            scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
         }catch (Exception e){e.printStackTrace();}
 
     }
@@ -275,7 +279,13 @@ public class Loged implements Consumer<UserItem> {
                     Label idUser = (Label)child.lookup("#id");
                     if (idUser.getText().equals("#"+tcpMessage.getEnvoyeurId())){
                         Label lastMessage = (Label)child.lookup("#lastMessage");
+                        Label nbNotification = (Label) child.lookup("#nbNotification");
+                        Circle circleNotif = (Circle) child.lookup("#circleNotification");
                         lastMessage.setText(tcpMessage.getTexte());
+                        int nombreNotif = Integer.parseInt(nbNotification.getText());
+                        nbNotification.setText(Integer.toString(nombreNotif+1));
+                        nbNotification.setVisible(true);
+                        circleNotif.setVisible(true);
                         break;
                     }
                 }
@@ -301,6 +311,9 @@ public class Loged implements Consumer<UserItem> {
                 HBox.setHgrow(messageReceive,Priority.NEVER);
 
                 vboxChat.getChildren().add(hbox);
+                scrollPaneMessage.applyCss();
+                scrollPaneMessage.layout();
+                scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
             }
         }catch (Exception e){e.printStackTrace();}
     }
