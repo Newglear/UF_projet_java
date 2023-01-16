@@ -99,8 +99,8 @@ public class ListeUser{
         return tabItems.size();
     }
 
-    public synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
-        if (myPseudo.equals(pseudo)) return false;
+    public synchronized boolean pseudoDisponible(String pseudo) throws SamePseudoAsOld{ // Return true si le pseudo n'est pas dans la HashMap, false sinon
+        if (myPseudo.equals(pseudo)) throw new SamePseudoAsOld();
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;
@@ -114,7 +114,7 @@ public class ListeUser{
         LOGGER.debug("id set à " + id);
     }
 
-    public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException {
+    public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException, SamePseudoAsOld {
         if (!pseudoDisponible(pseudo)){
             throw new AlreadyUsedPseudoException(pseudo);
         }

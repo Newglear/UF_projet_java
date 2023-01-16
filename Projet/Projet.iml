@@ -11,19 +11,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
-    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="library" name="Maven: com.mysql:mysql-connector-j:8.0.31" level="project" />
-    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.19.4" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:linux:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:linux:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:linux:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:19-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:linux:19-ea+7" level="project" />
   </component>
 </module>

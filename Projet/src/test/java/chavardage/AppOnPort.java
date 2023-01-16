@@ -8,6 +8,7 @@ import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,15 +36,6 @@ public class AppOnPort {
         } catch (IllegalConstructorException e) {
             e.printStackTrace();
         }
-    }
-
-    public void changePseudo(String pseudo){
-        try{
-            listeUser.setMyPseudo(pseudo);
-        } catch (AlreadyUsedPseudoException e) {
-            LOGGER.error(e.getMessage());
-        }
-        chavardageManager.notifyChangePseudo(listeUser.getMySelf());
     }
 
     public void clear(){

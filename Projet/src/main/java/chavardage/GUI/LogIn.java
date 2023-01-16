@@ -57,7 +57,6 @@ public class LogIn {
                     ListeUser listeUser = ListeUser.getInstance();
                     listeUser.setMyself(idUser,pseudo);
                     try{
-
                         chavardageManager.connectToApp(new UserItem(idUser,pseudo));
                         databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
                         m.loggedScene();

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.function.Consumer;
 
+// TODO les usurpateur font de la merde
 
 public class GestionUDPMessage implements Consumer<UDPMessage> {
 
@@ -85,10 +86,9 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                     case AckPseudoPasOK:
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         listeUser.addUser(udpMessage.getEnvoyeur());
-                        if (nbAcks == 0) {
-                            LOGGER.trace("premier ack reçu, je passe au chavardage manager");
-                            chavardageManager.accept(udpMessage);
-                        }
+                        LOGGER.trace("premier ack reçu, je passe au chavardage manager");
+                        chavardageManager.accept(udpMessage);
+
                         nbAcks++;
                         break;
                     case AlreadyConnected:
