@@ -6,26 +6,26 @@ import java.io.Serializable;
 
 public class UDPMessage implements Serializable {
 
-    private final UserItem user;
+    private final UserItem envoyeur;
 
-    private final UDPControlType controlType;
+    private final UDPType controlType;
 
-    public UDPMessage(UDPControlType controlType, UserItem user) {
+    public UDPMessage(UDPType controlType, UserItem envoyeur) {
         this.controlType=controlType;
-        this.user=user;
+        this.envoyeur = envoyeur;
     }
 
     public String toString(){
         return "UDPMessage {" +
                 "type='" + controlType + '\'' +
-                ", user=" + user +
+                ", user=" + envoyeur +
                 '}';
     }
 
-    public UserItem getUser(){
-        return this.user;
+    public UserItem getEnvoyeur(){
+        return this.envoyeur;
     }
 
-    public UDPControlType getControlType(){return this.controlType;}
+    public UDPType getControlType(){return this.controlType;}
 
 }

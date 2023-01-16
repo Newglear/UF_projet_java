@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -32,9 +31,35 @@ public class TCPServeur extends Thread {
         }
     }
 
+    /** serveur avec le consumer direct*/
+    public TCPServeur(Consumer<Socket> consumer){
+        setSubscriber(consumer);
+        try {
+            serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     /** crée le serveur sur le port donné*/
     public TCPServeur(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+            LOGGER.trace("création du serveur TCP");
+            start();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /** crée le serveur sur le port donné avec le subscriber*/
+    public TCPServeur(int port, Consumer<Socket> cons) {
+        setSubscriber(cons);
         try {
             serverSocket = new ServerSocket(port);
             LOGGER.trace("création du serveur TCP");

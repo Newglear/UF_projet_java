@@ -31,6 +31,32 @@ public class UDPServeur extends Thread{
         }
     }
 
+    /** serveur créé avec subscriber direct*/
+    public UDPServeur(Consumer<UDPMessage> consumer){
+        setSubscriber(consumer);
+        try {
+            receiveSocket = new DatagramSocket(DEFAULT_PORT_UDP);
+            LOGGER.trace("création du serveur UDP");
+            start();
+        } catch (SocketException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    /** serveur créé avec subscriber direct*/
+    public UDPServeur(int port, Consumer<UDPMessage> consumer){
+        setSubscriber(consumer);
+        try {
+            receiveSocket = new DatagramSocket(port);
+            LOGGER.trace("création du serveur UDP sur le port " + port);
+            start();
+        } catch (SocketException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     /** crée le serveur sur le port donné*/
     public UDPServeur(int port){
@@ -49,7 +75,7 @@ public class UDPServeur extends Thread{
         LOGGER.trace("le subscriber a été set à " + subscriber);
     }
 
-    public void run(){ // même si c'est tentant, pour une raison que j'ignore le run en synchronized il est pas fan fan
+    public void run(){
         if (this.subscriber==null){
             this.subscriber=(msg) -> LOGGER.trace("default subscriber : "+msg);
         }
@@ -62,7 +88,7 @@ public class UDPServeur extends Thread{
                 InetAddress clientAddress = incomingPacket.getAddress();
                 ObjectInputStream IStream = new ObjectInputStream(new ByteArrayInputStream(buffer));
                 UDPMessage mess = (UDPMessage) IStream.readObject();
-                mess.getUser().setAddress(clientAddress); // récupérer l'adresse de celui qui nous a envoyé le paquet pour la passer plus haut
+                mess.getEnvoyeur().setAddress(clientAddress); // récupérer l'adresse de celui qui nous a envoyé le paquet pour la passer plus haut
                 LOGGER.trace("paquet reçu : " + mess);
                 subscriber.accept(mess);
             }

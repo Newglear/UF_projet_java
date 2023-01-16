@@ -3,44 +3,39 @@ package chavardage.message;
 import chavardage.AssignationProblemException;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TCPMessage implements Serializable {
 
-    private final int destinataireId;
     private final int envoyeurId;
+    private final int destinataireId;
     private final TCPType type;
-    private final String data;
+    private final String texte;
+    private final Date date;
 
 
-    public TCPMessage(int destinataireId, TCPType type) throws WrongConstructorException {
-        if (type!=TCPType.FermetureSession) throw new WrongConstructorException();
-        this.destinataireId=destinataireId;
-        this.type=type;
-        this.envoyeurId=-1;
-        this.data="";
-    }
 
-    public TCPMessage(int destinataireId, TCPType type, int envoyeurId) throws WrongConstructorException {
-        if (type!=TCPType.OuvertureSession) throw new WrongConstructorException();
-        this.destinataireId=destinataireId;
+    /** creates a control TCP message (open or close conversation) without data*/
+    public TCPMessage(int destinataireId, int envoyeurId, TCPType type) {
+        this.destinataireId = destinataireId;
         this.type=type;
         this.envoyeurId=envoyeurId;
-        this.data="";
+        this.texte ="";
+        date = new Date();
     }
 
-    public TCPMessage(int destinataireId, String data){
-        this.destinataireId=destinataireId;
+    /** creates an user TCP message (type : UserData) with user text message*/
+    public TCPMessage(int destinataireId, int envoyeurId, String data){
+        this.destinataireId = destinataireId;
         this.type=TCPType.UserData;
-        this.envoyeurId=-1;
-        this.data=data;
+        this.envoyeurId=envoyeurId;
+        this.texte =data;
+        date = new Date();
     }
 
-    public int getDestinataireId(){
-        return this.destinataireId;
-    }
-
-    public String getData(){
-        return this.data;
+    public String getTexte(){
+        return this.texte;
     }
 
     public TCPType getType() {
@@ -48,7 +43,24 @@ public class TCPMessage implements Serializable {
     }
 
     public int getEnvoyeurId() throws AssignationProblemException {
-        if (this.envoyeurId==-1) throw new AssignationProblemException("TCPMessage", "envoyeurId");
         return envoyeurId;
+    }
+
+    public int getDestinataireId() {
+        return destinataireId;
+    }
+
+    public String getDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return formatter.format(this.date);
+    }
+
+    public String toString(){
+        return "TCPMessage {" +
+                "destinataireId='" + destinataireId + '\'' +
+                ", envoyeurId='" + envoyeurId + '\'' +
+                ", type='" + type + '\'' +
+                ", data='" + texte + '\'' +
+                '}';
     }
 }

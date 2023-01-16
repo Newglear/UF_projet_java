@@ -1,5 +1,6 @@
 package chavardage.networkManager;
 
+import chavardage.conversation.NetworkException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class TCPConnectTest {
 
 
     @Test
-    public void connectToTest() throws IOException {
+    public void connectToTest() throws IOException, NetworkException {
         TCPServeur serveur = new TCPServeur(8765);
         Socket socket = TCPConnect.connectTo(InetAddress.getLocalHost(),8765);
         socket.close();
