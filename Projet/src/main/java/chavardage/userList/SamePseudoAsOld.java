@@ -1,2 +1,5 @@
-package chavardage.userList;public class SamePseudoAsOld extends Exception {
+package chavardage.userList;
+
+
+public class SamePseudoAsOld extends Exception {
 }
