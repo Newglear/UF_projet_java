@@ -84,10 +84,12 @@ public class LogIn {
         catch (UsurpateurException e) {
             LOGGER.error("L'id est déjà utilisé sur le réseau");
             error.setText("Cet ID est déjà utilisé par un autre User connecté");
+            ListeUser.getInstance().clear();
         }
         catch (AlreadyUsedPseudoException e) {
             LOGGER.error("Le pseudo est déjà utilisé sur le réseau");
             error.setText("Ce pseudo est déjà utilisé par un autre User connecté");
+            ListeUser.getInstance().clear();
         }
     }
 
