@@ -3,6 +3,7 @@ package chavardage.conversation;
 import chavardage.AssignationProblemException;
 import chavardage.GUI.Loged;
 import chavardage.message.TCPMessage;
+import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class Conversation implements Consumer<TCPMessage> {
     public void accept(TCPMessage message) {
         switch (message.getType()) {
             case UserData:
-                Loged.getInstance().messageRecu(message);
+                Platform.runLater(() -> Loged.getInstance().messageRecu(message));
                 LOGGER.info("message : " + message.getTexte());
                 LOGGER.trace("message reçu : " + message + ", traitement du message en cours"); break;
             case OuvertureSession:

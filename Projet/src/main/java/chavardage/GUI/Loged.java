@@ -3,7 +3,6 @@ package chavardage.GUI;
 import chavardage.AssignationProblemException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.ChavardageManager;
-import chavardage.conversation.Conversation;
 import chavardage.conversation.ConversationAlreadyExists;
 import chavardage.conversation.ConversationManager;
 import chavardage.database.DatabaseManager;
@@ -28,11 +27,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -84,14 +79,14 @@ public class Loged implements Consumer<UserItem> {
 
     public Label getUsername(){return username;}
     public void addUserConnected(String Pseudo, int id) {
+        if (userControllerMap.containsKey(id)) return; // si l'user est déjà affiché, on fait rien
         try{
-
             FXMLLoader userLoader = new FXMLLoader(getClass().getResource("user.fxml"));
             User controllerUser = new User();
             userLoader.setController(controllerUser);
             Node userConnected = userLoader.load();
             controllerUser.getUsername().setText(Pseudo);
-            controllerUser.getId().setText("#" + Integer.toString(id));
+            controllerUser.getId().setText("#" + id);
             controllerUser.getLastMessage().setText(getLastMessage(id));
             synchronized (this){
                 userControllerMap.put(id,controllerUser);
@@ -101,8 +96,9 @@ public class Loged implements Consumer<UserItem> {
                 public void handle(MouseEvent mouseEvent) {
                     try {
                         ConversationManager.getInstance().openConversation(id);
-                    } catch (UserNotFoundException | AssignationProblemException | ConversationAlreadyExists ignored) {
-                        ignored.printStackTrace();
+                    } catch (UserNotFoundException | AssignationProblemException e) {
+                        e.printStackTrace();
+                    } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
                     }
                     try {
                         vboxChat.getChildren().clear();
@@ -137,13 +133,25 @@ public class Loged implements Consumer<UserItem> {
                 break;
             }
         }
+        vboxChat.getChildren().clear();
+        textSend.setDisable(true);
+        textSend.setVisible(false);
+        sendButton.setDisable(true);
+        sendButton.setVisible(false);
+        userDest.setText("");
         userControllerMap.remove(id);
+
     }
 
     public void changePseudoUser(int idUser, String newPseudo){
+        if(idUser == destinataireId){
+            userDest.setText(newPseudo);
+        }
+
         for (Node child : vboxConnect.getChildren()) {
-            Label pseudoUser = (Label)child.lookup("#id");
-            if (pseudoUser.getText().equals("#"+idUser )){
+            Label idUserConnected = (Label)child.lookup("#id");
+            if (idUserConnected.getText().equals("#"+idUser )){
+                Label pseudoUser = (Label) child.lookup("#username");
                 pseudoUser.setText(newPseudo);
                 break;
             }
@@ -153,6 +161,7 @@ public class Loged implements Consumer<UserItem> {
     public void disconnect(ActionEvent event) throws Exception {
         ConversationManager.getInstance().closeAll();
         ChavardageManager.getInstance().disconnect(listeUser.getMySelf());
+        userControllerMap.clear();
         Main m = new Main();
         m.loginScene();
 
@@ -260,28 +269,38 @@ public class Loged implements Consumer<UserItem> {
 
     public void messageRecu(TCPMessage tcpMessage){
         try{
-            if (tcpMessage.getEnvoyeurId()!=destinataireId) return;
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date date = new Date();
-            String message=tcpMessage.getTexte();
+            if (tcpMessage.getEnvoyeurId()!=destinataireId) {
+                for (Node child : vboxConnect.getChildren()) {
+                    Label idUser = (Label)child.lookup("#id");
+                    if (idUser.getText().equals("#"+tcpMessage.getEnvoyeurId())){
+                        Label lastMessage = (Label)child.lookup("#lastMessage");
+                        lastMessage.setText(tcpMessage.getTexte());
+                        break;
+                    }
+                }
+            }
+            else {
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Date date = new Date();
+                String message=tcpMessage.getTexte();
 
-            ReceiveMessage controllerMessage = new ReceiveMessage();
-            FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
-            loaderReceive.setController(controllerMessage);
+                ReceiveMessage controllerMessage = new ReceiveMessage();
+                FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
+                loaderReceive.setController(controllerMessage);
 
-            Node messageReceive = loaderReceive.load();
+                Node messageReceive = loaderReceive.load();
 
-            controllerMessage.getText().setText(message);
-            controllerMessage.getDate().setText(dateFormat.format(date));
+                controllerMessage.getText().setText(message);
+                controllerMessage.getDate().setText(dateFormat.format(date));
 
-            User userController = userControllerMap.get(destinataireId);
-            userController.getLastMessage().setText(message);
+                User userController = userControllerMap.get(destinataireId);
+                userController.getLastMessage().setText(message);
 
-            HBox hbox = new HBox(messageReceive);
-            HBox.setHgrow(messageReceive,Priority.NEVER);
+                HBox hbox = new HBox(messageReceive);
+                HBox.setHgrow(messageReceive,Priority.NEVER);
 
-            vboxChat.getChildren().add(hbox);
-
+                vboxChat.getChildren().add(hbox);
+            }
         }catch (Exception e){e.printStackTrace();}
     }
 
@@ -324,6 +343,7 @@ public class Loged implements Consumer<UserItem> {
             errorChangePseudo.setText("Ce pseudo est déjà utilisé");
         }
     }
+
     @Override
     public void accept(UserItem userItem) {
         LOGGER.trace("j'accepte " + userItem);
@@ -339,4 +359,6 @@ public class Loged implements Consumer<UserItem> {
                 break;
         }
     }
+
+
 }

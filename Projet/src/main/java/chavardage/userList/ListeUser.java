@@ -6,8 +6,10 @@ import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.chavardageManager.UsurpateurException;
+import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.pattern.PlainTextRenderer;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -62,7 +64,13 @@ public class ListeUser{
         if (!this.contains(userItem.getId())){
             userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
-            observer.accept(userItem);
+            LOGGER.trace("j'ajoute " + userItem);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    observer.accept(userItem);
+                }
+            });
         }
     }
 
@@ -71,13 +79,28 @@ public class ListeUser{
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         tabItems.get(id).setNotifyFront(NotifyFront.ChangePseudo);
         tabItems.get(id).setPseudo(newPseudo);
-        observer.accept(tabItems.get(id));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                observer.accept(tabItems.get(id));
+            }
+        });
+
     }
 
     public synchronized void removeUser(int id) {
-        tabItems.get(id).setNotifyFront(NotifyFront.DeleteUser);
+        UserItem deleteUser = tabItems.get(id);
+        deleteUser.setNotifyFront(NotifyFront.DeleteUser);
+        LOGGER.trace("j'enlève "+deleteUser);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                observer.accept(deleteUser);
+            }
+        });
         tabItems.remove(id);
-        observer.accept(tabItems.get(id));
+
+
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {
@@ -123,8 +146,8 @@ public class ListeUser{
         this.myPseudo=pseudo;
     }
 
-    public synchronized int getMyId()  {
-
+    public synchronized int getMyId() throws AssignationProblemException {
+        if (myId==-1) throw new AssignationProblemException("ListeUser","myId");
         return myId;
 
     }
