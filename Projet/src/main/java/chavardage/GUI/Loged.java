@@ -86,7 +86,7 @@ public class Loged implements Consumer<UserItem> {
             userLoader.setController(controllerUser);
             Node userConnected = userLoader.load();
             controllerUser.getUsername().setText(Pseudo);
-            controllerUser.getId().setText("#" + Integer.toString(id));
+            controllerUser.getId().setText("#" + id);
             controllerUser.getLastMessage().setText(getLastMessage(id));
             synchronized (this){
                 userControllerMap.put(id,controllerUser);
@@ -136,6 +136,10 @@ public class Loged implements Consumer<UserItem> {
     }
 
     public void changePseudoUser(int idUser, String newPseudo){
+        if(idUser == destinataireId){
+            userDest.setText(newPseudo);
+        }
+
         for (Node child : vboxConnect.getChildren()) {
             Label pseudoUser = (Label)child.lookup("#id");
             if (pseudoUser.getText().equals("#"+idUser )){
@@ -255,28 +259,38 @@ public class Loged implements Consumer<UserItem> {
 
     public void messageRecu(TCPMessage tcpMessage){
         try{
-            if (tcpMessage.getEnvoyeurId()!=destinataireId) return;
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date date = new Date();
-            String message=tcpMessage.getTexte();
+            if (tcpMessage.getEnvoyeurId()!=destinataireId) {
+                for (Node child : vboxConnect.getChildren()) {
+                    Label idUser = (Label)child.lookup("#id");
+                    if (idUser.getText().equals("#"+tcpMessage.getEnvoyeurId())){
+                        Label lastMessage = (Label)child.lookup("#lastMessage");
+                        lastMessage.setText(tcpMessage.getTexte());
+                        break;
+                    }
+                }
+            }
+            else {
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Date date = new Date();
+                String message=tcpMessage.getTexte();
 
-            ReceiveMessage controllerMessage = new ReceiveMessage();
-            FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
-            loaderReceive.setController(controllerMessage);
+                ReceiveMessage controllerMessage = new ReceiveMessage();
+                FXMLLoader loaderReceive = new FXMLLoader(getClass().getResource("receiveMessage.fxml"));
+                loaderReceive.setController(controllerMessage);
 
-            Node messageReceive = loaderReceive.load();
+                Node messageReceive = loaderReceive.load();
 
-            controllerMessage.getText().setText(message);
-            controllerMessage.getDate().setText(dateFormat.format(date));
+                controllerMessage.getText().setText(message);
+                controllerMessage.getDate().setText(dateFormat.format(date));
 
-            User userController = userControllerMap.get(destinataireId);
-            userController.getLastMessage().setText(message);
+                User userController = userControllerMap.get(destinataireId);
+                userController.getLastMessage().setText(message);
 
-            HBox hbox = new HBox(messageReceive);
-            HBox.setHgrow(messageReceive,Priority.NEVER);
+                HBox hbox = new HBox(messageReceive);
+                HBox.setHgrow(messageReceive,Priority.NEVER);
 
-            vboxChat.getChildren().add(hbox);
-
+                vboxChat.getChildren().add(hbox);
+            }
         }catch (Exception e){e.printStackTrace();}
     }
 
