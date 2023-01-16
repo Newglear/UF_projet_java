@@ -46,10 +46,6 @@ public class TCPMessage implements Serializable {
         return envoyeurId;
     }
 
-    public int getDestinataireId() {
-        return destinataireId;
-    }
-
     public String getDate(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return formatter.format(this.date);
