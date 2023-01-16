@@ -59,14 +59,15 @@ public class LogIn {
                     try{
 
                         chavardageManager.connectToApp(new UserItem(idUser,pseudo));
+                        databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
+                        m.loggedScene();
                     } catch (InterruptedException e) {
                     } catch (UsurpateurException e) {
                         error.setText("Cet ID est déjà utilisé par un autre User connecté");
                     } catch (AlreadyUsedPseudoException e) {
                         error.setText("Ce pseudo est déjà utilisé par un autre User connecté");
                     }
-                    databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
-                    m.loggedScene();
+
                 }
             }catch (NumberFormatException e){
                 error.setText("Veuillez saisir un nombre valide pour l'ID");
