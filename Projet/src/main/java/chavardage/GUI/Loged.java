@@ -133,7 +133,14 @@ public class Loged implements Consumer<UserItem> {
                 break;
             }
         }
+        vboxChat.getChildren().clear();
+        textSend.setDisable(true);
+        textSend.setVisible(false);
+        sendButton.setDisable(true);
+        sendButton.setVisible(false);
+        userDest.setText("");
         userControllerMap.remove(id);
+
     }
 
     public void changePseudoUser(int idUser, String newPseudo){
@@ -154,6 +161,7 @@ public class Loged implements Consumer<UserItem> {
     public void disconnect(ActionEvent event) throws Exception {
         ConversationManager.getInstance().closeAll();
         ChavardageManager.getInstance().disconnect(listeUser.getMySelf());
+        userControllerMap.clear();
         Main m = new Main();
         m.loginScene();
 
