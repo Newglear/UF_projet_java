@@ -42,7 +42,6 @@ public class AppOnPort {
             listeUser.setMyPseudo(pseudo);
         } catch (AlreadyUsedPseudoException e) {
             LOGGER.error(e.getMessage());
-            // TODO boucle avec interface
         }
         chavardageManager.notifyChangePseudo(listeUser.getMySelf());
     }
