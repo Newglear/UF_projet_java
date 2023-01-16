@@ -22,6 +22,7 @@ public class UDPServeur extends Thread{
     /** crée le serveur sur le port par défaut*/
     public UDPServeur() {
         try {
+            setDaemon(true);
             receiveSocket = new DatagramSocket(DEFAULT_PORT_UDP);
             LOGGER.trace("création du serveur UDP");
             start();
@@ -35,6 +36,7 @@ public class UDPServeur extends Thread{
     public UDPServeur(Consumer<UDPMessage> consumer){
         setSubscriber(consumer);
         try {
+            setDaemon(true);
             receiveSocket = new DatagramSocket(DEFAULT_PORT_UDP);
             LOGGER.trace("création du serveur UDP");
             start();
@@ -49,6 +51,7 @@ public class UDPServeur extends Thread{
     public UDPServeur(int port, Consumer<UDPMessage> consumer){
         setSubscriber(consumer);
         try {
+            setDaemon(true);
             receiveSocket = new DatagramSocket(port);
             LOGGER.trace("création du serveur UDP sur le port " + port);
             start();
@@ -61,6 +64,7 @@ public class UDPServeur extends Thread{
     /** crée le serveur sur le port donné*/
     public UDPServeur(int port){
         try {
+            setDaemon(true);
             receiveSocket = new DatagramSocket(port);
             LOGGER.trace("création du serveur UDP");
             start();

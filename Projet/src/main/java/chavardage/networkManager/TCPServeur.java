@@ -22,6 +22,7 @@ public class TCPServeur extends Thread {
     /** crée le serveur sur le port par défaut*/
     public TCPServeur() {
         try {
+            setDaemon(true);
             serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
             LOGGER.trace("création du serveur TCP");
             start();
@@ -35,6 +36,7 @@ public class TCPServeur extends Thread {
     public TCPServeur(Consumer<Socket> consumer){
         setSubscriber(consumer);
         try {
+            setDaemon(true);
             serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
             LOGGER.trace("création du serveur TCP");
             start();
@@ -48,6 +50,7 @@ public class TCPServeur extends Thread {
     /** crée le serveur sur le port donné*/
     public TCPServeur(int port) {
         try {
+            setDaemon(true);
             serverSocket = new ServerSocket(port);
             LOGGER.trace("création du serveur TCP");
             start();
@@ -61,6 +64,7 @@ public class TCPServeur extends Thread {
     public TCPServeur(int port, Consumer<Socket> cons) {
         setSubscriber(cons);
         try {
+            setDaemon(true);
             serverSocket = new ServerSocket(port);
             LOGGER.trace("création du serveur TCP");
             start();
