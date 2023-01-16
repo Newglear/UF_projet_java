@@ -2,6 +2,7 @@ package chavardage.GUI;
 
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
+import chavardage.conversation.Conversation;
 import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
@@ -68,6 +69,7 @@ public class Main extends Application {
     public void loginScene() throws Exception{
         ListeUser.getInstance().clear();
         ConversationManager.getInstance().clear();
+        ConversationManager.getInstance().setTestFalse();
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         LogIn loginController = LogIn.getInstance();
         loginLoader.setController(loginController);

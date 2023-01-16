@@ -23,6 +23,11 @@ public class ConversationManager implements Consumer<Socket> {
 
     private final ListeUser listeUser;
     private final int port ;
+    private boolean test = true;
+
+    public void setTestFalse(){
+        test=false;
+    }
 
     /**singleton*/
     private ConversationManager() {
@@ -68,7 +73,7 @@ public class ConversationManager implements Consumer<Socket> {
     /** créer une conversation quand une demande d'ouverture de session a été reçue*/
     protected void createConversation(Socket socket) throws ConversationAlreadyExists, ConversationException{
         LOGGER.trace("appel de createConversation");
-        Conversation conversation = new Conversation(this, true);
+        Conversation conversation = new Conversation(this, test);
         TCPReceiveData receiveData = new TCPReceiveData(socket, conversation);
         try {
             synchronized (conversation){ // je locke la conversation pour pouvoir l'attendre
@@ -108,7 +113,7 @@ public class ConversationManager implements Consumer<Socket> {
             }
         }
         try {
-            Conversation conversation = new Conversation(destinataireId, this, true); // TODO trouver le moyen de passer test à false en productiion
+            Conversation conversation = new Conversation(destinataireId, this, test);
             Socket socket = TCPConnect.connectTo(listeUser.getUser(destinataireId).getAddress(),port);
             TCPReceiveData tcpReceiveData = new TCPReceiveData(socket, conversation);
             TCPSendData tcpSendData = new TCPSendData(socket);
