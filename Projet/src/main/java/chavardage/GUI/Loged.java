@@ -25,6 +25,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -282,7 +284,11 @@ public class Loged implements Consumer<UserItem> {
                         Circle circleNotif = (Circle) child.lookup("#circleNotification");
                         lastMessage.setText(tcpMessage.getTexte());
                         int nombreNotif = Integer.parseInt(nbNotification.getText());
-                        nbNotification.setText(Integer.toString(nombreNotif+1));
+                        if(nombreNotif == 9){
+                            nbNotification.setText("9+");
+                        }else {
+                            nbNotification.setText(Integer.toString(nombreNotif+1));
+                        }
                         nbNotification.setVisible(true);
                         circleNotif.setVisible(true);
                         break;
@@ -314,7 +320,10 @@ public class Loged implements Consumer<UserItem> {
                 scrollPaneMessage.layout();
                 scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
             }
-        }catch (Exception e){e.printStackTrace();}
+        }catch (AssignationProblemException | IOException e){e.printStackTrace();}
+        catch (NumberFormatException e){
+            //ne rien faire car notif > 9
+        }
     }
 
     public void changePseudo(){
