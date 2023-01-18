@@ -343,10 +343,10 @@ public class Loged implements Consumer<UserItem> {
     }
 
     public void disconnect(ActionEvent event) throws Exception {
-        ConversationManager.getInstance().closeAll();
         ChavardageManager.getInstance().disconnect(listeUser.getMySelf());
         userControllerMap.clear();
         ConversationManager.getInstance().closeAll();
+        ConversationManager.getInstance().clear();
         Main m = new Main();
         m.loginScene();
 
