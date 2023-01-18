@@ -26,7 +26,7 @@ Cette application inclut notamment les fonctionnalités suivantes :
 
 ## Utilisation
 
-Il est nécessaire que votre machine possède `maven`. Cloner le projet sur votre machine et placez-vous dans ./Projet avant d'exécuter 
+Il est nécessaire que `maven` soit installé sur votre machine. Clonez le projet sur votre machine et placez-vous dans ./Projet avant d'exécuter : 
 ```sh
 # compiler le projet  
 mvn compile
@@ -34,7 +34,7 @@ mvn compile
 mvn test
 # démarrer l'application (linux)
 mvn exec:java -Dexec.mainClass="chavardage.GUI.Main" 
-# démarrer l'application (windows)
+# démarrer l'application (si le premier ne fonctionne pas)
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
 
