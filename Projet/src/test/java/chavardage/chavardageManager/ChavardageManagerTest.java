@@ -12,8 +12,8 @@ public class ChavardageManagerTest {
 
     @Test
     public void ConnectToAppTest() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
-        int port_local = 9473;
-        int port_distant= 9474;
+        int port_local = 6589;
+        int port_distant= 7458;
 
         // simulation appli 1
         UserItem userLocal = new UserItem(1,"Aude");

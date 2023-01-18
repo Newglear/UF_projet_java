@@ -1,15 +1,11 @@
 package chavardage.userList;
 
 import chavardage.AssignationProblemException;
-import chavardage.GUI.Loged;
 import chavardage.IllegalConstructorException;
 import chavardage.chavardageManager.AlreadyUsedPseudoException;
-import chavardage.chavardageManager.GestionUDPMessage;
-import chavardage.chavardageManager.UsurpateurException;
 import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.pattern.PlainTextRenderer;
 
 import java.net.InetAddress;
 import java.util.Collections;
@@ -21,6 +17,7 @@ public class ListeUser{
 
     private String myPseudo = "";
     private int myId = -1;
+    private boolean test = true; // si on est en test on ne notifie pas l'observer
 
 
     private Consumer<UserItem> observer = (user) -> LOGGER.trace("default subscriber : " + user);
@@ -30,15 +27,18 @@ public class ListeUser{
     public void setObserver(Consumer<UserItem> observer){
         LOGGER.trace("je set l'observer");
         this.observer=observer;
+        // on passe tous les éléments déjà dans la liste à l'observer au moment où on set l'observer
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             LOGGER.trace("je passe " + entry.getValue() + " à l'observer");
             observer.accept(entry.getValue());
         }
+        test=false;
     }
 
     // The ONLY instance of UserList
     private static final ListeUser instance = new ListeUser();
 
+    /** récupérer l'unique instance de ListeUser*/
     public static ListeUser getInstance() {
         return instance;
     }
@@ -53,6 +53,7 @@ public class ListeUser{
         }
     }
 
+    // hashmap synchronized
     protected Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
 
@@ -60,50 +61,37 @@ public class ListeUser{
         addUser(new UserItem(id,pseudo,address));
     }
 
+    /** rajoute un user dans la liste et notifie le front, ne fait rien si l'user était déjà dans la liste*/
     public synchronized void addUser(UserItem userItem){
         if (!this.contains(userItem.getId())){
             userItem.setNotifyFront(NotifyFront.AddUser);
             tabItems.put(userItem.getId(),userItem);
-            LOGGER.trace("j'ajoute " + userItem);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    observer.accept(userItem);
-                }
-            });
+            LOGGER.debug("j'ajoute " + userItem);
+            if (!test) Platform.runLater(() -> observer.accept(userItem));
         }
     }
 
-
+    /** change le pseudo d'un utilisateur dans la liste et notifie le front, lève une exception si l'user n'existe pas*/
     public synchronized void modifyUserPseudo(int id, String newPseudo) throws UserNotFoundException {
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         tabItems.get(id).setNotifyFront(NotifyFront.ChangePseudo);
         tabItems.get(id).setPseudo(newPseudo);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                observer.accept(tabItems.get(id));
-            }
-        });
-
+        if (!test) Platform.runLater(() -> observer.accept(tabItems.get(id)));
     }
 
-    public synchronized void removeUser(int id) {
+
+    /** enlève un user de la liste et notifie le front*/
+    public synchronized void removeUser(int id) throws UserNotFoundException{
+        if (!this.tabItems.containsKey(id)) throw new UserNotFoundException(id);
         UserItem deleteUser = tabItems.get(id);
         deleteUser.setNotifyFront(NotifyFront.DeleteUser);
-        LOGGER.trace("j'enlève "+deleteUser);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                observer.accept(deleteUser);
-            }
-        });
+        LOGGER.debug("j'enlève "+deleteUser);
+        if (!test) Platform.runLater(() -> observer.accept(deleteUser));
         tabItems.remove(id);
-
-
     }
 
     public synchronized UserItem getUser(int id) throws UserNotFoundException {
+        if (myId==id) return getMySelf();
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         return tabItems.get(id);
 
@@ -113,7 +101,8 @@ public class ListeUser{
         return tabItems.size();
     }
 
-    public synchronized boolean pseudoDisponible(String pseudo){ // Return true si le pseudo n'est pas dans la HashMap, false sinon
+    public synchronized boolean pseudoDisponible(String pseudo) { // Return true si le pseudo n'est pas dans la HashMap, false sinon
+        if (myPseudo.equals(pseudo)) return false;
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
                 return false;
@@ -127,7 +116,8 @@ public class ListeUser{
         LOGGER.debug("id set à " + id);
     }
 
-    public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException {
+    public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException, SamePseudoAsOld {
+        if (myPseudo.equals(pseudo)) throw new SamePseudoAsOld();
         if (!pseudoDisponible(pseudo)){
             throw new AlreadyUsedPseudoException(pseudo);
         }
@@ -177,8 +167,7 @@ public class ListeUser{
     }
 
 
-
     public synchronized boolean contains(int userId){
-        return tabItems.containsKey(userId);
+        return ((myId==userId) || (tabItems.containsKey(userId)));
     }
 }

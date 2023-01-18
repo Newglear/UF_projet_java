@@ -6,11 +6,13 @@ import chavardage.message.UDPMessage;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.UserNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.function.Consumer;
 
+// TODO les usurpateur font de la merde
 
 public class GestionUDPMessage implements Consumer<UDPMessage> {
 
@@ -47,9 +49,15 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
     @Override
     public void accept(UDPMessage udpMessage) {
         try {
-            if (udpMessage.getEnvoyeur().getId() != listeUser.getMyId()) { // pour pas traiter mes propres messages
+            boolean idEquals = udpMessage.getEnvoyeur().getId()==listeUser.getMyId();
+            boolean pseudoEquals = udpMessage.getEnvoyeur().getPseudo().equals(listeUser.getMyPseudo());
+            LOGGER.debug("idEquals : " + idEquals);
+            LOGGER.debug("pseudoEquals : "+pseudoEquals);
+            if (!idEquals||!pseudoEquals) { // pour pas traiter mes propres messages
+                LOGGER.debug("je suis dans le if ");
                 switch (udpMessage.getControlType()) {
                     case DemandeConnexion:
+                        LOGGER.debug("liste user contains : "+ listeUser.contains(udpMessage.getEnvoyeur().getId()));
                         if (listeUser.contains(udpMessage.getEnvoyeur().getId())) { // l'id est déjà dans la liste
                             if (listeUser.getUser(udpMessage.getEnvoyeur().getId()).getPseudo().equals(udpMessage.getEnvoyeur().getPseudo())) {
                                 // même id, même pseudo : already connected
@@ -79,10 +87,9 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                     case AckPseudoPasOK:
                         LOGGER.trace("ajout de " + udpMessage.getEnvoyeur() + " dans la liste");
                         listeUser.addUser(udpMessage.getEnvoyeur());
-                        if (nbAcks == 0) {
-                            LOGGER.trace("premier ack reçu, je passe au chavardage manager");
-                            chavardageManager.accept(udpMessage);
-                        }
+                        LOGGER.trace("premier ack reçu, je passe au chavardage manager");
+                        chavardageManager.accept(udpMessage);
+
                         nbAcks++;
                         break;
                     case AlreadyConnected:
@@ -104,7 +111,12 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
                         break;
                 }
             }
+
+        }catch (UserNotFoundException e){
+            LOGGER.error(e.getMessage());
+            // on a essayé de retirer de la liste un user qui n'y était plus, ya pas de problème
         }catch (AssignationProblemException e){ // ne pas traiter mon propre message de déconnexion
+            LOGGER.error(e.getMessage());
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();

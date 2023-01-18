@@ -8,6 +8,7 @@ import chavardage.conversation.ConversationManager;
 import chavardage.database.DatabaseManager;
 import chavardage.message.TCPMessage;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import javafx.event.ActionEvent;
@@ -363,6 +364,8 @@ public class Loged implements Consumer<UserItem> {
             validButton.setDisable(true);
         } catch (AlreadyUsedPseudoException e) {
             errorChangePseudo.setText("Ce pseudo est déjà utilisé");
+        } catch (SamePseudoAsOld samePseudoAsOld) {
+            errorChangePseudo.setText("veuillez entrer un autre pseudo que votre ancien");
         }
     }
 

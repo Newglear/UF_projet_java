@@ -37,7 +37,7 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         UDPSend.envoyerBroadcast(demandeConnexion,port);
         if (received==null){ // si le ack n'a pas encore été reçu
             synchronized (this) {
-                LogIn.getInstance().getAttente().setText("Connexion en cours veuillez patienter...");
+                // LogIn.getInstance().getAttente().setText("Connexion en cours veuillez patienter..."); TODO uncomment si on s'en sert
                 LOGGER.trace("j'attends");
                 wait(TIMEOUT);
             }
@@ -45,19 +45,30 @@ public class ChavardageManager implements Consumer<UDPMessage> {
         if (received!=null) { // on a bien reçu un ack
             switch (received){
                 case AckPseudoOk:
+                    synchronized (this){
+                        received=null;
+                    }
                     LOGGER.trace("mon pseudo est ok, j'envoie le NewUser");
                     UDPSend.envoyerBroadcast(new UDPMessage(UDPType.NewUser, mySelf),port);
                     LOGGER.info("connexion au réseau réussie");
                     break;
                 case AlreadyConnected:
+                    synchronized (this){
+                        received=null;
+                    }
                     LOGGER.trace("j'étais déjà connecté au réseau, tout va bien");
                     break;
                 case AckPseudoPasOK:
-                    /* regarder dans liste user les pseudos pour checker en local
+                    synchronized (this){
+                        received=null;
+                    }                    /* regarder dans liste user les pseudos pour checker en local
                     le nouveau pseudo et enoyer le new user ensuite*/
                     LOGGER.trace("échec de la connexion, le pseudo est déjà utilisé");
                     throw new AlreadyUsedPseudoException(mySelf.getPseudo());
                 case Usurpateur:
+                    synchronized (this){
+                        received=null;
+                    }
                     throw new UsurpateurException("vous ne pouvez pas utiliser l'id " + mySelf.getId());
             }
         } else { // bah on est seul sur le réseau

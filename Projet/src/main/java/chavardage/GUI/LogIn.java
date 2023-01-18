@@ -69,7 +69,7 @@ public class LogIn {
             ChavardageManager chavardageManager = ChavardageManager.getInstance();
             ListeUser listeUser = ListeUser.getInstance();
             listeUser.setMyself(idUser,pseudo);
-            refreshAffichage();//TODO gérer le problème
+            //refreshAffichage();//TODO gérer le problème
             LOGGER.trace("Je me connecte sur le réseau");
             chavardageManager.connectToApp(new UserItem(idUser,pseudo));
             databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
@@ -84,10 +84,12 @@ public class LogIn {
         catch (UsurpateurException e) {
             LOGGER.error("L'id est déjà utilisé sur le réseau");
             error.setText("Cet ID est déjà utilisé par un autre User connecté");
+            ListeUser.getInstance().clear();
         }
         catch (AlreadyUsedPseudoException e) {
             LOGGER.error("Le pseudo est déjà utilisé sur le réseau");
             error.setText("Ce pseudo est déjà utilisé par un autre User connecté");
+            ListeUser.getInstance().clear();
         }
     }
 

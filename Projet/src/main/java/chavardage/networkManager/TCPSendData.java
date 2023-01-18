@@ -5,9 +5,10 @@ import chavardage.message.TCPMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.util.function.Consumer;
 
 public class TCPSendData {
 
@@ -32,8 +33,8 @@ public class TCPSendData {
     public void envoyer(TCPMessage message) {
         try {
             out.writeObject(message);
-            LOGGER.trace(message + " envoyé à "+socket);
-        } catch (IOException e) {
+            LOGGER.debug(message + " envoyé à "+socket);
+        } catch (IOException e) { // on affiche l'exception, pas de traitement particulier
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }

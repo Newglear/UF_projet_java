@@ -15,18 +15,20 @@ public class Conversation implements Consumer<TCPMessage> {
     public static final int DEFAULT_DESTINATAIRE = 0;
     private int destinataireId;
     private boolean isOpen = false;
-
+    private boolean test; // paramètre pour ne pas exécuter les lignes liées au front pendant les tests
     private final ConversationManager conversationManager;
 
-    protected Conversation(int destinataireId, ConversationManager conversationManager) {
+    protected Conversation(int destinataireId, ConversationManager conversationManager, boolean test) {
         this.destinataireId = destinataireId;
         this.conversationManager = conversationManager;
+        this.test=test;
         LOGGER.trace("création d'une conversation avec " + destinataireId);
     }
 
-    protected Conversation(ConversationManager conversationManager){
+    protected Conversation(ConversationManager conversationManager, boolean test){
         this.destinataireId = DEFAULT_DESTINATAIRE;
         this.conversationManager = conversationManager;
+        this.test=test;
         LOGGER.trace("création d'une conversation avec un destinataire par défaut");
     }
 
@@ -35,15 +37,15 @@ public class Conversation implements Consumer<TCPMessage> {
     public void accept(TCPMessage message) {
         switch (message.getType()) {
             case UserData:
-                Platform.runLater(() -> Loged.getInstance().messageRecu(message));
+                if (!test) Platform.runLater(() -> Loged.getInstance().messageRecu(message));
                 LOGGER.info("message : " + message.getTexte());
-                LOGGER.trace("message reçu : " + message + ", traitement du message en cours"); break;
+                LOGGER.debug("message reçu : " + message + ", traitement du message en cours"); break;
             case OuvertureSession:
                 if (!isOpen){
                     this.isOpen=true;
                     try {
                         this.destinataireId=message.getEnvoyeurId();
-                        LOGGER.trace("le destinataireId a été set à " + this.destinataireId + ", je notifie");
+                        LOGGER.debug("le destinataireId a été set à " + this.destinataireId + ", je notifie");
                         synchronized (this){ // je locke pour pouvoir notifier
                             this.notify(); // c'est bon, le destinataire id a été set
                         }

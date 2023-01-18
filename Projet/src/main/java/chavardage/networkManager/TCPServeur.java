@@ -19,20 +19,7 @@ public class TCPServeur extends Thread {
 
     Consumer<Socket> subscriber;
 
-    /** crée le serveur sur le port par défaut*/
-    public TCPServeur() {
-        try {
-            setDaemon(true);
-            serverSocket = new ServerSocket(DEFAULT_PORT_TCP);
-            LOGGER.trace("création du serveur TCP");
-            start();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /** serveur avec le consumer direct*/
+    /** serveur avec le consumer sur le port par défaut*/
     public TCPServeur(Consumer<Socket> consumer){
         setSubscriber(consumer);
         try {
@@ -76,13 +63,13 @@ public class TCPServeur extends Thread {
 
     public synchronized void setSubscriber(Consumer<Socket> subscriber) {
         this.subscriber = subscriber;
-        LOGGER.trace("le subscriber a été set à " + subscriber);
+        LOGGER.debug("le subscriber a été set à " + subscriber);
     }
 
 
     public void run() {
         if (this.subscriber == null) {
-            this.subscriber = (sock) -> LOGGER.trace("default subscriber : " + sock.toString());
+            this.subscriber = (sock) -> LOGGER.debug("default subscriber : " + sock.toString());
         }
         try {
             LOGGER.info("démarrage du serveur TCP");
@@ -91,8 +78,9 @@ public class TCPServeur extends Thread {
                 LOGGER.trace("nouvelle connexion détectée envoyée sur " + connexion);
                 subscriber.accept(connexion);
             }
-        } catch (SocketException e){
-            LOGGER.trace("une exception s'est levée et j'ai décidé de l'ignorer dans ma grande sagesse");
+        } catch (SocketException e){ // quand on interromp le thread le socket ne se ferme pas de suite, pas très grave
+            LOGGER.trace("fermeture du serveur TCP");
+            this.interrupt();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -101,16 +89,5 @@ public class TCPServeur extends Thread {
 
 
 
-    @Override
-    public void interrupt() { // https://codeahoy.com/java/How-To-Stop-Threads-Safely/
-        try {
-            serverSocket.close();
-            LOGGER.info("fermeture du serveur TCP");
-        } catch (IOException e) {
-            LOGGER.error(" l'exception que je vais ignorer : " + e.getMessage());
-        } finally {
-            super.interrupt();
-        }
-    }
 
 }

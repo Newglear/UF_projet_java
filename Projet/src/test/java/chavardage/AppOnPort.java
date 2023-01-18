@@ -8,6 +8,7 @@ import chavardage.conversation.ConversationManager;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +28,7 @@ public class AppOnPort {
         try{
             listeUser=new ListeUser(true);
             listeUser.setMyself(myself);
-            conversationManager=new ConversationManager(true,listeUser,tcpPortDistant);
+            conversationManager=new ConversationManager(listeUser,tcpPortDistant);
             chavardageManager=new ChavardageManager(udpPortDistant);
             gestionUDPMessage=new GestionUDPMessage(listeUser,udpPortDistant,chavardageManager);
             udpServeur = new UDPServeur(udpPort,gestionUDPMessage);
@@ -35,16 +36,6 @@ public class AppOnPort {
         } catch (IllegalConstructorException e) {
             e.printStackTrace();
         }
-    }
-
-    public void changePseudo(String pseudo){
-        try{
-            listeUser.setMyPseudo(pseudo);
-        } catch (AlreadyUsedPseudoException e) {
-            LOGGER.error(e.getMessage());
-            // TODO boucle avec interface
-        }
-        chavardageManager.notifyChangePseudo(listeUser.getMySelf());
     }
 
     public void clear(){

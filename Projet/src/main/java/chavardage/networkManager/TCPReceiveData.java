@@ -21,19 +21,20 @@ public class TCPReceiveData extends Thread {
 
     public void setSubscriber(Consumer<TCPMessage> subscriber){
         this.subscriber = subscriber;
-        LOGGER.trace("le subscriber a été set à " + subscriber);
+        LOGGER.debug("le subscriber a été set à " + subscriber);
     }
 
-
+    /** thread de réception sur un socket*/
     public TCPReceiveData(Socket socket) {
         this.socket = socket;
         LOGGER.trace("création d'un thread de réception sur le socket " + socket.toString());
         start();
     }
 
+    /** constructeur qui initialise le subscriber*/
     public TCPReceiveData(Socket socket, Consumer<TCPMessage> subscriber){
         this.subscriber=subscriber;
-        LOGGER.trace("le subscriber a été set à " + subscriber);
+        LOGGER.debug("le subscriber a été set à " + subscriber);
         this.socket=socket;
         LOGGER.trace("création d'un thread de réception sur le socket " + socket.toString());
         start();
@@ -42,7 +43,7 @@ public class TCPReceiveData extends Thread {
     @Override
     public void run() {
         if (this.subscriber==null){
-            this.subscriber=(mess) -> LOGGER.trace("default subscriber : " + mess.toString());
+            this.subscriber=(mess) -> LOGGER.debug("default subscriber : " + mess.toString());
         }
         try {
             InputStream input = socket.getInputStream();
@@ -50,14 +51,13 @@ public class TCPReceiveData extends Thread {
             while (!isInterrupted()) {
                 try {
                     TCPMessage message = (TCPMessage) in.readObject();
-                    LOGGER.trace("passage du message au subscriber");
+                    LOGGER.debug("passage du message au subscriber");
                     subscriber.accept(message);
                 }catch (SocketException e){
                     // quand on interromp le thread le socket se ferme pas de suite, c'est pas très grave
                 } catch (EOFException e){
                     LOGGER.error(e.getMessage());
-                    e.printStackTrace();
-                    this.interrupt();
+                    this.interrupt(); // si le read object nous lance une EOFException, il n'y a plus personne en face : on arrête le thread
                 } catch (ClassNotFoundException e) {
                     LOGGER.error(e.getMessage());
                     e.printStackTrace();

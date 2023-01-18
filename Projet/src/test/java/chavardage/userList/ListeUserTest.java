@@ -111,7 +111,7 @@ public class ListeUserTest{
     }
 
     @Test
-    public void getPseudoTest() throws AssignationProblemException, AlreadyUsedPseudoException {
+    public void getPseudoTest() throws AssignationProblemException, AlreadyUsedPseudoException, SamePseudoAsOld {
         ListeUser listeUser = ListeUser.getInstance();
         listeUser.setMyPseudo("moi");
         String id = listeUser.getMyPseudo();
@@ -119,7 +119,7 @@ public class ListeUserTest{
     }
 
     @Test
-    public void pseudoDisponibleTest(){
+    public void pseudoDisponibleTest() throws SamePseudoAsOld {
         ListeUser listeUser = ListeUser.getInstance();
         assertTrue(listeUser.pseudoDisponible("blabla"));
         assertFalse(listeUser.pseudoDisponible("romain"));
