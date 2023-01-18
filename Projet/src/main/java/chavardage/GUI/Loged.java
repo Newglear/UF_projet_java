@@ -12,6 +12,7 @@ import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +66,8 @@ public class Loged implements Consumer<UserItem> {
     @FXML
     private ScrollPane scrollPaneMessage;
     private Map<Integer,User> userControllerMap = Collections.synchronizedMap(new HashMap<>());
+    private Map<Integer,EventHandler> eventHandlerMap = Collections.synchronizedMap(new HashMap<>());
+
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
     private Loged(){
@@ -78,7 +81,6 @@ public class Loged implements Consumer<UserItem> {
     private ListeUser listeUser = ListeUser.getInstance();
 
     private int destinataireId;
-
 
     public Label getUsername(){return username;}
     public void addUserConnected(String Pseudo, int id) {
@@ -94,33 +96,32 @@ public class Loged implements Consumer<UserItem> {
             synchronized (this){
                 userControllerMap.put(id,controllerUser);
             }
-            userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if(destinataireId != id){
-                        try {
-                            ConversationManager.getInstance().openConversation(id);
-                        } catch (UserNotFoundException | AssignationProblemException e) {
-                            e.printStackTrace();
-                        } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
-                        }
-                        try {
-                            vboxChat.getChildren().clear();
-                            afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
-                            textSend.setVisible(true);
-                            textSend.setDisable(false);
-                            sendButton.setVisible(true);
-                            sendButton.setDisable(false);
-                            textSendActive = true;
-                            userDest.setText(Pseudo);
-                            destinataireId = id;
-                            controllerUser.getCircleNotification().setVisible(false);
-                            controllerUser.getNbNotification().setText("0");
-                            controllerUser.getNbNotification().setVisible(false);
-                        }catch (Exception e){e.printStackTrace();}
+            EventHandler handlerConnected = event -> {
+                if(destinataireId != id){
+                    try {
+                        ConversationManager.getInstance().openConversation(id);
+                    } catch (UserNotFoundException | AssignationProblemException e) {
+                        e.printStackTrace();
+                    } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
                     }
+                    try {
+                        vboxChat.getChildren().clear();
+                        afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
+                        textSend.setVisible(true);
+                        textSend.setDisable(false);
+                        sendButton.setVisible(true);
+                        sendButton.setDisable(false);
+                        textSendActive = true;
+                        userDest.setText(Pseudo);
+                        destinataireId = id;
+                        controllerUser.getCircleNotification().setVisible(false);
+                        controllerUser.getNbNotification().setText("0");
+                        controllerUser.getNbNotification().setVisible(false);
+                    }catch (Exception e){e.printStackTrace();}
                 }
-            });
+            };
+            userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED,handlerConnected);
+            eventHandlerMap.put(id,handlerConnected);
             vboxConnect.getChildren().add(userConnected);
         }catch (Exception e){e.printStackTrace();}
     }
@@ -135,20 +136,19 @@ public class Loged implements Consumer<UserItem> {
             controllerUser.getConnexionState().setFill(Color.rgb(89,89,89));
             controllerUser.getLastMessage().setText(getLastMessage(id));
             userControllerMap.put(id,controllerUser);
-            userDisconnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    try {
-                        vboxChat.getChildren().clear();
-                        afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
-                        userDest.setText(pseudo);
-                        destinataireId = id;
-                        controllerUser.getCircleNotification().setVisible(false);
-                        controllerUser.getNbNotification().setText("0");
-                        controllerUser.getNbNotification().setVisible(false);
-                    }catch (Exception e){e.printStackTrace();}
-                }
-            });
+            EventHandler handlerDisconnected = event -> {
+                try {
+                    vboxChat.getChildren().clear();
+                    afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
+                    userDest.setText(pseudo);
+                    destinataireId = id;
+                    controllerUser.getCircleNotification().setVisible(false);
+                    controllerUser.getNbNotification().setText("0");
+                    controllerUser.getNbNotification().setVisible(false);
+                }catch (Exception e){e.printStackTrace();}
+            };
+            userDisconnected.addEventFilter(MouseEvent.MOUSE_CLICKED,handlerDisconnected);
+            eventHandlerMap.put(id,handlerDisconnected);
             vboxConnect.getChildren().add(userDisconnected);
         }catch (Exception e){e.printStackTrace();}
     }
@@ -172,7 +172,7 @@ public class Loged implements Consumer<UserItem> {
 
             while(leftUsers.next()){
                 LOGGER.debug("Je suis dans l'affichage du leftUser");
-                addUserDisconnected(leftUsers.getString("string"),leftUsers.getInt("userId1"));
+                addUserDisconnected(leftUsers.getString("pseudo"),leftUsers.getInt("userId1"));
             }
             while(rightUsers.next()){
                 LOGGER.debug("Je suis dans l'affichage du RightUser");
@@ -195,9 +195,10 @@ public class Loged implements Consumer<UserItem> {
         controllerUser.getConnexionState().setFill(Color.rgb(46,166,22));
         controllerUser.getUsername().setText(pseudo);
         textSendActive = true;
-        child.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        child.removeEventFilter(MouseEvent.MOUSE_CLICKED,eventHandlerMap.get(id));
+        EventHandler handlerConnected = new EventHandler() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
+            public void handle(Event event) {
                 if (destinataireId != id) {
                     try {
                         ConversationManager.getInstance().openConversation(id);
@@ -224,7 +225,9 @@ public class Loged implements Consumer<UserItem> {
                     }
                 }
             }
-        });
+        };
+        child.addEventFilter(MouseEvent.MOUSE_CLICKED, handlerConnected);
+        eventHandlerMap.replace(id,handlerConnected);
     }
 
     public void switchToDisconnected(int id, String pseudo){
@@ -241,9 +244,9 @@ public class Loged implements Consumer<UserItem> {
         for (Node child : vboxConnect.getChildren()) {
             Label label = (Label)child.lookup("#id");
             if(label.getText().equals("#"+ id)) {
-                child.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                EventHandler handlerDisconnected = new EventHandler() {
                     @Override
-                    public void handle(MouseEvent mouseEvent) {
+                    public void handle(Event event) {
                         if(destinataireId != id){
                             try {
                                 vboxChat.getChildren().clear();
@@ -256,7 +259,10 @@ public class Loged implements Consumer<UserItem> {
                             }catch (Exception e){e.printStackTrace();}
                         }
                     }
-                });
+                };
+                child.removeEventFilter(MouseEvent.MOUSE_CLICKED,eventHandlerMap.get(id));
+                child.addEventFilter(MouseEvent.MOUSE_CLICKED, handlerDisconnected);
+                eventHandlerMap.replace(id,handlerDisconnected);
                 break;
             }
         }
