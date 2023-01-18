@@ -74,7 +74,7 @@ public class Loged implements Consumer<UserItem> {
     }
 
     private static Loged instance = new Loged();
-    public static Loged getInstance(){
+    public static Loged  getInstance(){
         return instance;
     }
     public static boolean textSendActive = false;
@@ -211,7 +211,7 @@ public class Loged implements Consumer<UserItem> {
     public void switchToConnected(int id, String pseudo, Node child){
         if(destinataireId==id){
             try{
-                ConversationManager.getInstance().openConversation(id);
+                //ConversationManager.getInstance().openConversation(id);
                 textSend.setVisible(true);
                 textSend.setDisable(false);
                 sendButton.setVisible(true);
