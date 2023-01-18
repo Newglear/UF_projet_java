@@ -347,6 +347,7 @@ public class Loged implements Consumer<UserItem> {
         userControllerMap.clear();
         ConversationManager.getInstance().closeAll();
         ConversationManager.getInstance().clear();
+        destinataireId = -1;
         Main m = new Main();
         m.loginScene();
 
