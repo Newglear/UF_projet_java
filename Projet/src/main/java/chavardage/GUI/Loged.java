@@ -167,16 +167,43 @@ public class Loged implements Consumer<UserItem> {
     public void afficherDisconnectedUser(){
         try{
             LOGGER.debug("Je suis dans l'affichage du disconnect");
+            Boolean found = false;
             ResultSet leftUsers = databaseManager.getOldConvLeftUser(listeUser.getMyId());
             ResultSet rightUsers = databaseManager.getOldConvRightUser(listeUser.getMyId());
 
             while(leftUsers.next()){
                 LOGGER.debug("Je suis dans l'affichage du leftUser");
-                addUserDisconnected(leftUsers.getString("pseudo"),leftUsers.getInt("userId1"));
+                int idUser = leftUsers.getInt("userId1");
+                String pseudoUser = leftUsers.getString("pseudo");
+                for (Node child : vboxConnect.getChildren()) {
+                    Label label = (Label)child.lookup("#id");
+                    if(label.getText().equals("#" + idUser)){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    addUserDisconnected(pseudoUser,idUser);
+                }
             }
+
+            found = false;
+
             while(rightUsers.next()){
                 LOGGER.debug("Je suis dans l'affichage du RightUser");
-                addUserDisconnected(rightUsers.getString("pseudo"),rightUsers.getInt("userId2"));
+                int idUser = rightUsers.getInt("userId2");
+                String pseudoUser = rightUsers.getString("pseudo");
+                addUserDisconnected(pseudoUser,idUser);
+                for (Node child : vboxConnect.getChildren()) {
+                    Label label = (Label)child.lookup("#id");
+                    if(label.getText().equals("#" + idUser)){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    addUserDisconnected(pseudoUser,idUser);
+                }
             }
         }catch (Exception e){e.printStackTrace();}
     }
