@@ -7,19 +7,19 @@
 
 <AnchorPane fx:id="background" accessibleRole="BUTTON" onMouseEntered="#hover" onMouseExited="#mouseExited" prefHeight="100.0" prefWidth="330.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="username" layoutX="14.0" layoutY="14.0" prefHeight="23.0" prefWidth="254.0" text="Connected User" textFill="WHITE">
+      <Label fx:id="username" layoutX="47.0" layoutY="14.0" prefHeight="23.0" prefWidth="254.0" text="Username Dest" textFill="WHITE">
          <font>
             <Font name="Broadway" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="id" layoutX="14.0" layoutY="35.0" prefHeight="30.0" prefWidth="68.0" text="#ID" textFill="#b7b7b7">
+      <Label fx:id="id" layoutX="47.0" layoutY="35.0" prefHeight="30.0" prefWidth="68.0" text="#ID" textFill="#b7b7b7">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lastMessage" layoutX="11.0" layoutY="56.0" prefHeight="30.0" prefWidth="308.0" textFill="WHITE">
+      <Label fx:id="lastMessage" layoutX="11.0" layoutY="71.0" prefHeight="30.0" prefWidth="308.0" textFill="WHITE">
          <font>
-            <Font name="System Italic" size="12.0" />
+            <Font name="System Italic" size="15.0" />
          </font>
       </Label>
       <Circle fx:id="circleNotification" fill="#d12020" layoutX="286.0" layoutY="53.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
@@ -28,5 +28,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <Circle fx:id="connexionState" fill="#2ea616" layoutX="22.0" layoutY="41.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

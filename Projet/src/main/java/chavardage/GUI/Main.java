@@ -61,6 +61,8 @@ public class Main extends Application {
             }
         });
         logedController.unFocusTextArea();
+        logedController.afficherDisconnectedUser();
+        LOGGER.trace("j'ajoute les anciennes conversations");
         stg.setScene(newScene);
         stg.setTitle("Chavardage");
         stg.show();

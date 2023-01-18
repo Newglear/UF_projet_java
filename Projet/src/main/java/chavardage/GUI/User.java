@@ -21,14 +21,12 @@ public class User {
     private Label nbNotification;
     @FXML
     private Circle circleNotification;
+    @FXML
+    private Circle connexionState;
 
     public Label getUsername(){return username;}
 
     public Label getId(){return id;}
-
-    public void onClick(ActionEvent event){
-
-    }
 
     public void hover(MouseEvent event){
         background.setStyle("-fx-background-color:#555555");
@@ -45,5 +43,9 @@ public class User {
 
     public Label getNbNotification() {
         return nbNotification;
+    }
+
+    public Circle getConnexionState() {
+        return connexionState;
     }
 }

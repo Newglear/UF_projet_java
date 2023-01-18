@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,21 +97,51 @@ public class Loged implements Consumer<UserItem> {
             userConnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    try {
-                        ConversationManager.getInstance().openConversation(id);
-                    } catch (UserNotFoundException | AssignationProblemException e) {
-                        e.printStackTrace();
-                    } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
+                    if(destinataireId != id){
+                        try {
+                            ConversationManager.getInstance().openConversation(id);
+                        } catch (UserNotFoundException | AssignationProblemException e) {
+                            e.printStackTrace();
+                        } catch (ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
+                        }
+                        try {
+                            vboxChat.getChildren().clear();
+                            afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
+                            textSend.setVisible(true);
+                            textSend.setDisable(false);
+                            sendButton.setVisible(true);
+                            sendButton.setDisable(false);
+                            textSendActive = true;
+                            userDest.setText(Pseudo);
+                            destinataireId = id;
+                            controllerUser.getCircleNotification().setVisible(false);
+                            controllerUser.getNbNotification().setText("0");
+                            controllerUser.getNbNotification().setVisible(false);
+                        }catch (Exception e){e.printStackTrace();}
                     }
+                }
+            });
+            vboxConnect.getChildren().add(userConnected);
+        }catch (Exception e){e.printStackTrace();}
+    }
+    public void addUserDisconnected(String pseudo, int id){
+        try {
+            FXMLLoader userLoader = new FXMLLoader(getClass().getResource("user.fxml"));
+            User controllerUser = new User();
+            userLoader.setController(controllerUser);
+            Node userDisconnected = userLoader.load();
+            controllerUser.getUsername().setText(pseudo);
+            controllerUser.getId().setText("#" + id);
+            controllerUser.getConnexionState().setFill(Color.rgb(89,89,89));
+            controllerUser.getLastMessage().setText(getLastMessage(id));
+            userControllerMap.put(id,controllerUser);
+            userDisconnected.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     try {
                         vboxChat.getChildren().clear();
                         afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
-                        textSend.setVisible(true);
-                        textSend.setDisable(false);
-                        sendButton.setVisible(true);
-                        sendButton.setDisable(false);
-                        textSendActive = true;
-                        userDest.setText(Pseudo);
+                        userDest.setText(pseudo);
                         destinataireId = id;
                         controllerUser.getCircleNotification().setVisible(false);
                         controllerUser.getNbNotification().setText("0");
@@ -118,8 +149,117 @@ public class Loged implements Consumer<UserItem> {
                     }catch (Exception e){e.printStackTrace();}
                 }
             });
-            vboxConnect.getChildren().add(userConnected);
+            vboxConnect.getChildren().add(userDisconnected);
         }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void newUserConnected(int id,String pseudo){
+        for (Node child : vboxConnect.getChildren()) {
+            Label label = (Label)child.lookup("#id");
+            if(label.getText().equals("#" + id)){
+                switchToConnected(id,pseudo,child);
+                return;
+            }
+        }
+        addUserConnected(pseudo,id);
+    }
+
+    public void afficherDisconnectedUser(){
+        try{
+            LOGGER.debug("Je suis dans l'affichage du disconnect");
+            ResultSet leftUsers = databaseManager.getOldConvLeftUser(listeUser.getMyId());
+            ResultSet rightUsers = databaseManager.getOldConvRightUser(listeUser.getMyId());
+
+            while(leftUsers.next()){
+                LOGGER.debug("Je suis dans l'affichage du leftUser");
+                addUserDisconnected(leftUsers.getString("string"),leftUsers.getInt("userId1"));
+            }
+            while(rightUsers.next()){
+                LOGGER.debug("Je suis dans l'affichage du RightUser");
+                addUserDisconnected(rightUsers.getString("pseudo"),rightUsers.getInt("userId2"));
+            }
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void switchToConnected(int id, String pseudo, Node child){
+        if(destinataireId==id){
+            try{
+                ConversationManager.getInstance().openConversation(id);
+                textSend.setVisible(true);
+                textSend.setDisable(false);
+                sendButton.setVisible(true);
+                sendButton.setDisable(false);
+            }catch (Exception e){e.printStackTrace();}
+        }
+        User controllerUser = userControllerMap.get(id);
+        controllerUser.getConnexionState().setFill(Color.rgb(46,166,22));
+        controllerUser.getUsername().setText(pseudo);
+        textSendActive = true;
+        child.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (destinataireId != id) {
+                    try {
+                        ConversationManager.getInstance().openConversation(id);
+                    } catch (UserNotFoundException | AssignationProblemException e) {
+                        e.printStackTrace();
+                    } catch (
+                            ConversationAlreadyExists ignored) { // si l'autre en face avait ouvert la conversation déjà
+                    }
+                    try {
+                        vboxChat.getChildren().clear();
+                        afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(), id));
+                        textSend.setVisible(true);
+                        textSend.setDisable(false);
+                        sendButton.setVisible(true);
+                        sendButton.setDisable(false);
+                        textSendActive = true;
+                        userDest.setText(pseudo);
+                        destinataireId = id;
+                        controllerUser.getCircleNotification().setVisible(false);
+                        controllerUser.getNbNotification().setText("0");
+                        controllerUser.getNbNotification().setVisible(false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public void switchToDisconnected(int id, String pseudo){
+        if (destinataireId == id){
+            textSend.setVisible(false);
+            textSend.setDisable(true);
+            sendButton.setVisible(false);
+            sendButton.setDisable(true);
+        }
+        User controllerUser = userControllerMap.get(id);
+        controllerUser.getConnexionState().setFill(Color.rgb(89,89,89));
+        textSendActive = false;
+
+        for (Node child : vboxConnect.getChildren()) {
+            Label label = (Label)child.lookup("#id");
+            if(label.getText().equals("#"+ id)) {
+                child.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if(destinataireId != id){
+                            try {
+                                vboxChat.getChildren().clear();
+                                afficherAncienMessages(databaseManager.getMessages(listeUser.getMyId(),id));
+                                userDest.setText(pseudo);
+                                destinataireId = id;
+                                controllerUser.getCircleNotification().setVisible(false);
+                                controllerUser.getNbNotification().setText("0");
+                                controllerUser.getNbNotification().setVisible(false);
+                            }catch (Exception e){e.printStackTrace();}
+                        }
+                    }
+                });
+                break;
+            }
+        }
     }
 
     public void unFocusTextArea(){
@@ -129,7 +269,13 @@ public class Loged implements Consumer<UserItem> {
             }
         });
     }
-    public void deleteUserConnected(int id){
+    public void deleteUserConnected(int id, String pseudo){
+        try{
+            if(databaseManager.convExists(listeUser.getMyId(),id)){
+                switchToDisconnected(id,pseudo);
+                return;
+            }
+        }catch (Exception e){e.printStackTrace();}
 
         for (Node child : vboxConnect.getChildren()) {
             Label label = (Label)child.lookup("#id");
@@ -351,6 +497,7 @@ public class Loged implements Consumer<UserItem> {
         }
         try{
             listeUser.setMyPseudo(newPseudo);
+            databaseManager.modifyPseudo(listeUser.getMyId(),listeUser.getMyPseudo());
             username.setText(newPseudo);
             ChavardageManager.getInstance().notifyChangePseudo(listeUser.getMySelf());
             errorChangePseudo.setText("");
@@ -366,7 +513,7 @@ public class Loged implements Consumer<UserItem> {
             errorChangePseudo.setText("Ce pseudo est déjà utilisé");
         } catch (SamePseudoAsOld samePseudoAsOld) {
             errorChangePseudo.setText("veuillez entrer un autre pseudo que votre ancien");
-        }
+        } catch (Exception e) { e.printStackTrace();}
     }
 
     @Override
@@ -374,10 +521,10 @@ public class Loged implements Consumer<UserItem> {
         LOGGER.trace("j'accepte " + userItem);
         switch (userItem.getNotifyFront()){
             case AddUser:
-                addUserConnected(userItem.getPseudo(),userItem.getId());
+                newUserConnected(userItem.getId(),userItem.getPseudo());
                 break;
             case DeleteUser:
-                deleteUserConnected(userItem.getId());
+                deleteUserConnected(userItem.getId(),userItem.getPseudo());
                 break;
             case ChangePseudo:
                 changePseudoUser(userItem.getId(),userItem.getPseudo());
