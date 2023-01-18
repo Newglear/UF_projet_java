@@ -1,10 +1,10 @@
-<mxfile host="app.diagrams.net" modified="2023-01-18T16:05:19.386Z" agent="5.0 (Windows)" etag="P7UONBQe6c9NNvKVf-vN" version="20.8.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-01-18T16:15:27.800Z" agent="5.0 (Windows)" etag="hNXfp_N8W4eRW_YDGUb5" version="20.8.5" type="github">
   <diagram id="kgpKYQtTHZ0yAKxKKP6v" name="Page-1">
-    <mxGraphModel dx="993" dy="493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1764" dy="876" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="3nuBFxr9cyL0pnOWT2aG-1" value=":GUI" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-1" value=":GUI" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="120" y="80" width="100" height="980" as="geometry" />
         </mxCell>
         <mxCell id="3nuBFxr9cyL0pnOWT2aG-3" value="pseudo et ID" style="verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;shadow=0;strokeWidth=1;" parent="3nuBFxr9cyL0pnOWT2aG-1" edge="1">
@@ -13,7 +13,7 @@
             <mxPoint x="45" y="70" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3nuBFxr9cyL0pnOWT2aG-5" value=":ChavardageManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-5" value=":ChavardageManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="300" y="80" width="130" height="920" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-7" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="3nuBFxr9cyL0pnOWT2aG-5" source="_ekJZS-tAGv-sMIYdDXW-2">
@@ -34,10 +34,10 @@
             <mxPoint x="370" y="180" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-2" value=":UDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-2" value=":UDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="490" y="200" width="130" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-4" value="&lt;div&gt;UDPType : DemandeConnexion&lt;/div&gt;&lt;div&gt;Envoyeur : id, pseudo&lt;br&gt;&lt;/div&gt;" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="_ekJZS-tAGv-sMIYdDXW-2">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-4" value="&lt;div&gt;UDPType : DemandeConnexion&lt;/div&gt;&lt;div&gt;Envoyeur : id, pseudo&lt;br&gt;&lt;/div&gt;" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="_ekJZS-tAGv-sMIYdDXW-2">
           <mxGeometry x="60" y="40" width="10" height="80" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-3" value="création" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="3nuBFxr9cyL0pnOWT2aG-5">
@@ -46,7 +46,7 @@
             <mxPoint x="490" y="219" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-5" value=":UDPSend" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-5" value=":UDPSend" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="620" y="80" width="130" height="480" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-11" value="Application distante" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;" vertex="1" parent="1">
@@ -64,13 +64,13 @@
             <mxPoint x="900" y="490" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-16" value=":UDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-16" value=":UDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="1090" y="500" width="130" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-17" value="&lt;div&gt;UDPType : AckPseudoOk&lt;/div&gt;&lt;div&gt;Envoyeur : application distante&lt;br&gt;&lt;/div&gt;" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="_ekJZS-tAGv-sMIYdDXW-16">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-17" value="&lt;div&gt;UDPType : AckPseudoOk&lt;/div&gt;&lt;div&gt;Envoyeur : application distante&lt;br&gt;&lt;/div&gt;" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="_ekJZS-tAGv-sMIYdDXW-16">
           <mxGeometry x="60" y="40" width="10" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-18" value=":UDPServeur" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-18" value=":UDPServeur" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="1200" y="80" width="130" height="670" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-20" value="creátion" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;entryX=1.018;entryY=0.078;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="_ekJZS-tAGv-sMIYdDXW-18" target="_ekJZS-tAGv-sMIYdDXW-16">
@@ -85,7 +85,7 @@
             <mxPoint x="700" y="500" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-22" value=":GestionUDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-22" value=":GestionUDPMessage" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="980" y="80" width="130" height="730" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-25" value="traitement" style="html=1;points=[];perimeter=orthogonalPerimeter;" vertex="1" parent="_ekJZS-tAGv-sMIYdDXW-22">
@@ -97,7 +97,7 @@
             <mxPoint x="990" y="570" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="_ekJZS-tAGv-sMIYdDXW-24" value=":ListeUser" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="_ekJZS-tAGv-sMIYdDXW-24" value=":ListeUser" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="810" y="80" width="130" height="760" as="geometry" />
         </mxCell>
         <mxCell id="_ekJZS-tAGv-sMIYdDXW-26" value="ajouter utilisateur application distante" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;exitX=0.49;exitY=0.901;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="_ekJZS-tAGv-sMIYdDXW-22" target="_ekJZS-tAGv-sMIYdDXW-24">
