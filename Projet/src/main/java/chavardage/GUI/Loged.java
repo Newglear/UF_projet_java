@@ -496,6 +496,10 @@ public class Loged implements Consumer<UserItem> {
             return;
         }
         try{
+            if(databaseManager.pseudoAlreadyInDB(newPseudo)){
+                errorChangePseudo.setText("Ce pseudo est le dernier pseudo d'un autre user");
+                return;
+            }
             listeUser.setMyPseudo(newPseudo);
             databaseManager.modifyPseudo(listeUser.getMyId(),listeUser.getMyPseudo());
             username.setText(newPseudo);
@@ -531,6 +535,4 @@ public class Loged implements Consumer<UserItem> {
                 break;
         }
     }
-
-
 }

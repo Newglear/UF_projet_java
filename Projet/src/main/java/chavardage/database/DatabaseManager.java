@@ -1,6 +1,5 @@
 package chavardage.database;
 
-import chavardage.networkManager.TCPSendData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -163,6 +162,12 @@ public class DatabaseManager {
         return (result.next());
     }
 
+    public synchronized boolean pseudoAlreadyInDB(String pseudo) throws SQLException{
+        String sql = "SELECT pseudo FROM user WHERE pseudo=?;";
+        PreparedStatement pst = database.prepareStatement(sql);
+        pst.setString(1,pseudo);
+        return(pst.executeQuery().next());
+    }
     public synchronized void clearDatabase() {
         try{
             statement.execute("DELETE FROM message");
