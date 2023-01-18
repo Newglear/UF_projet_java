@@ -37,6 +37,8 @@ mvn exec:java -Dexec.mainClass="chavardage.GUI.Main"
 # démarrer l'application (si le premier ne fonctionne pas)
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
+### remarque 
+Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs. Le projet n'est donc malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
 
 ### Quelques liens 
   - [Notre code](./Projet/src/main/java/chavardage)
