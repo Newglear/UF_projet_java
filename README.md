@@ -32,7 +32,7 @@ Il est nécessaire que `maven` soit installé sur votre machine. Clonez le proje
 mvn compile
 # exécuter les tests 
 mvn test
-# démarrer l'application (linux)
+# démarrer l'application 
 mvn exec:java -Dexec.mainClass="chavardage.GUI.Main" 
 # démarrer l'application (si le premier ne fonctionne pas)
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
