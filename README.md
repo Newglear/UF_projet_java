@@ -38,7 +38,7 @@ mvn exec:java -Dexec.mainClass="chavardage.GUI.Main"
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
 ### remarque 
-Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs. Le projet n'est donc malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
+Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
 
 ### Quelques liens 
   - [Notre code](./Projet/src/main/java/chavardage)
