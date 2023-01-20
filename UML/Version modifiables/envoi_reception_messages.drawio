@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net" modified="2023-01-18T17:06:27.504Z" agent="5.0 (Windows)" version="20.8.5" etag="nXO9JBpYjz8OQW7Lh7HB" type="github">
+  <diagram id="PeKNQcxxsQN9YZh8EmBP" name="Página-1">
+    <mxGraphModel dx="2591" dy="876" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-1" value=":ConversationManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="110" y="50" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-3" value=":TCPSendData" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="342" y="49" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-5" value="envoyer(message)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="184.5" y="155" as="sourcePoint" />
+            <mxPoint x="420" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-6" value="application distante" style="shape=umlLifeline;participant=umlActor;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;spacingTop=36;outlineConnect=0;size=50;" vertex="1" parent="1">
+          <mxGeometry x="990" y="40" width="20" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-7" value="message" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="420" y="181" as="sourcePoint" />
+            <mxPoint x="999.5" y="181" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-8" value=":TCPReceiveData" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="760" y="50" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-9" value="nouveau message" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="16ut8N1Heg0-D1GM9Q2u-6">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="560" y="220" as="sourcePoint" />
+            <mxPoint x="840" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-10" value=":GUI" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="-354" y="49" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-12" value="envoyer message" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="16ut8N1Heg0-D1GM9Q2u-10">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint y="61" as="sourcePoint" />
+            <mxPoint x="80" y="61" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-11" value=":DatabaseManager" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="-138" y="49" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-15" value="envoyer(message, destinataireId)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="16ut8N1Heg0-D1GM9Q2u-11">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-142" y="94" as="sourcePoint" />
+            <mxPoint x="322.5" y="94" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-13" value="store message" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-280" y="124" as="sourcePoint" />
+            <mxPoint x="-63.5" y="124" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-16" value=":Conversation" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="550" y="50" width="150" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-17" value="accept(nouveau message)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="834.5" y="228" as="sourcePoint" />
+            <mxPoint x="624.9117647058822" y="228" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16ut8N1Heg0-D1GM9Q2u-18" value="afficher nouveau message" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="624.5" y="237.0000000000001" as="sourcePoint" />
+            <mxPoint x="-280.16666666666674" y="237.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
