@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -34,6 +35,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         stg = stage;
         stage.setResizable(false);
+        stage.getIcons().add(new Image(getClass().getResource("CatLogo.jpg").toString()));
         loginScene();
         stage.setOnCloseRequest(windowEvent -> {
             ConversationManager conversationManager = ConversationManager.getInstance();
@@ -61,6 +63,8 @@ public class Main extends Application {
             }
         });
         logedController.unFocusTextArea();
+        logedController.afficherDisconnectedUser();
+        LOGGER.trace("j'ajoute les anciennes conversations");
         stg.setScene(newScene);
         stg.setTitle("Chavardage");
         stg.show();
@@ -86,7 +90,7 @@ public class Main extends Application {
         stg.show();
     }
     public static void main(String[] args) {
-        //Configurator.setRootLevel(Level.INFO);
+        Configurator.setRootLevel(Level.INFO);
 
 
         UDPServeur udpServeur = new UDPServeur(GestionUDPMessage.getInstance());

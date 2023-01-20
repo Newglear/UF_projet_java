@@ -116,7 +116,6 @@ public class GestionUDPMessage implements Consumer<UDPMessage> {
             LOGGER.error(e.getMessage());
             // on a essayé de retirer de la liste un user qui n'y était plus, ya pas de problème
         }catch (AssignationProblemException e){ // ne pas traiter mon propre message de déconnexion
-            LOGGER.error(e.getMessage());
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             e.printStackTrace();
