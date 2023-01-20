@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.PlainTextRenderer;
@@ -22,7 +24,6 @@ public class LogIn {
 
     @FXML
     private Label error;
-
     @FXML
     private Label attente;
 
@@ -32,6 +33,7 @@ public class LogIn {
     private TextField username;
     @FXML
     private TextField id;
+
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
@@ -108,4 +110,5 @@ public class LogIn {
     public Label getAttente() {
         return attente;
     }
+
 }

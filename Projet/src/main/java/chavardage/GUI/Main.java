@@ -34,7 +34,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stg = stage;
-        stage.setResizable(false);
+        //stage.setResizable(false);
         stage.getIcons().add(new Image(getClass().getResource("CatLogo.jpg").toString()));
         loginScene();
         stage.setOnCloseRequest(windowEvent -> {
