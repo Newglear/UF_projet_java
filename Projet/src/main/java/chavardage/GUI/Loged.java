@@ -354,6 +354,11 @@ public class Loged implements Consumer<UserItem> {
         ConversationManager.getInstance().closeAll();
         ConversationManager.getInstance().clear();
         destinataireId = -1;
+        eventHandlerMap.clear();
+        userControllerMap.clear();
+        textSendActive = false;
+        vboxConnect.getChildren().clear();
+        vboxChat.getChildren().clear();
         Main m = new Main();
         m.loginScene();
 
