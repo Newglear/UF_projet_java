@@ -25,6 +25,12 @@ public class AppTest {
         app1.start();
         app2.start();
         app1.conversationManager.openConversation(2);
+        try{
+            app2.conversationManager.openConversation(1); // au cas où le premier ne marcherait pas
+        } catch (ConversationAlreadyExists conversationAlreadyExists) {
+            conversationAlreadyExists.printStackTrace();
+        }
+
         app1.conversationManager.getSendData(2).envoyer(new TCPMessage(2,1,"yo"));
         app2.conversationManager.getSendData(1).envoyer(new TCPMessage(1,2,"coucouuuuuuuuu"));
         app1.closeApp();
