@@ -18,8 +18,8 @@ Cette application inclut notamment les fonctionnalités suivantes :
 - **organisation du code**: l'organisation de notre code limite les dépendances entre les packages. Par exemple, le network manager et la liste des utilisateurs n'ont aucune interaction 
 - **thread safety**: l'accès aux ressources partagées est protégé grâce au mot-clef synchronized de Java 
 - **tests**: nous avons implémenté des [tests unitaires](./Projet/src/test/java/chavardage) avec Junit
-- **observer design pattern**: implémenté notamment sur les serveurs [TCPServeur](.Projet/src/main/java/chavardage/networkManager/TCPServeur.java) et [UDPServeur](.Projet/src/main/java/chavardage/networkManager/UDPServeur.java)
-- **singleton design pattern**: implémenté notamment sur la [liste des utilisateurs connectés](.Projet/src/main/java/chavardage/userList/ListeUser.java) pour s'assurer qu'il n'en existe qu'une seule instance 
+- **observer design pattern**: implémenté notamment sur les serveurs [TCPServeur](./Projet/src/main/java/chavardage/networkManager/TCPServeur.java) et [UDPServeur](.Projet/src/main/java/chavardage/networkManager/UDPServeur.java)
+- **singleton design pattern**: implémenté notamment sur la [liste des utilisateurs connectés](./Projet/src/main/java/chavardage/userList/ListeUser.java) pour s'assurer qu'il n'en existe qu'une seule instance 
 - **logging**: nous avons utilisé la librairie log4j 
 - **intégration continue**: implémentée sur github avec une exécution des tests à chaque push, voir le [fichier de configuration](./.github/workflows/integration.yaml)
 
@@ -38,7 +38,7 @@ mvn exec:java -Dexec.mainClass="chavardage.GUI.Main"
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
 ### Remarque 
-Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
+Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database. Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
 
 ### Crédits 
 <a href="https://www.freepik.com/free-vector/cute-cat-working-laptop-cartoon-vector-icon-illustration-animal-technology-icon-concept-isolated_28565598.htm#query=cat%20computer&position=2&from_view=keyword">Image by catalyststuff</a> on Freepik
