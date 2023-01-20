@@ -253,6 +253,9 @@ public class Loged implements Consumer<UserItem> {
                         controllerUser.getCircleNotification().setVisible(false);
                         controllerUser.getNbNotification().setText("0");
                         controllerUser.getNbNotification().setVisible(false);
+                        scrollPaneMessage.applyCss();
+                        scrollPaneMessage.layout();
+                        scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -289,6 +292,9 @@ public class Loged implements Consumer<UserItem> {
                                 controllerUser.getCircleNotification().setVisible(false);
                                 controllerUser.getNbNotification().setText("0");
                                 controllerUser.getNbNotification().setVisible(false);
+                                scrollPaneMessage.applyCss();
+                                scrollPaneMessage.layout();
+                                scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
                             }catch (Exception e){e.printStackTrace();}
                         }
                     }
