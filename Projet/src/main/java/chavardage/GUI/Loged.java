@@ -222,6 +222,7 @@ public class Loged implements Consumer<UserItem> {
                 textSend.setDisable(false);
                 sendButton.setVisible(true);
                 sendButton.setDisable(false);
+                userDest.setText(pseudo);
                 textSendActive = true;
             }catch (Exception e){e.printStackTrace();}
         }
