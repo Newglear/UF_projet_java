@@ -222,6 +222,7 @@ public class Loged implements Consumer<UserItem> {
                 textSend.setDisable(false);
                 sendButton.setVisible(true);
                 sendButton.setDisable(false);
+                textSendActive = true;
             }catch (Exception e){e.printStackTrace();}
         }
         User controllerUser = userControllerMap.get(id);
@@ -272,6 +273,7 @@ public class Loged implements Consumer<UserItem> {
             textSend.setDisable(true);
             sendButton.setVisible(false);
             sendButton.setDisable(true);
+            textSendActive= false;
         }
         User controllerUser = userControllerMap.get(id);
         controllerUser.getConnexionState().setFill(Color.rgb(89,89,89));
@@ -292,6 +294,7 @@ public class Loged implements Consumer<UserItem> {
                                 controllerUser.getCircleNotification().setVisible(false);
                                 controllerUser.getNbNotification().setText("0");
                                 controllerUser.getNbNotification().setVisible(false);
+                                textSendActive = false;
                                 scrollPaneMessage.applyCss();
                                 scrollPaneMessage.layout();
                                 scrollPaneMessage.setVvalue(scrollPaneMessage.getVmax());
