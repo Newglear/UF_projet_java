@@ -26,7 +26,7 @@ public class AppTest {
         app2.start();
         app1.conversationManager.openConversation(2);
         try{
-            app2.conversationManager.openConversation(1); // au cas où le premier ne marcherait pas
+            app2.conversationManager.openConversation(1); // au cas où il tenterait d'exécuter la suite alors que la conv n'est pas créée sur app2
         } catch (ConversationAlreadyExists conversationAlreadyExists) {
             conversationAlreadyExists.printStackTrace();
         }
