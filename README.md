@@ -37,8 +37,11 @@ mvn exec:java -Dexec.mainClass="chavardage.GUI.Main"
 # démarrer l'application (si le premier ne fonctionne pas)
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
-### remarque 
+### Remarque 
 Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
+
+### Crédits 
+<a href="https://www.freepik.com/free-vector/cute-cat-working-laptop-cartoon-vector-icon-illustration-animal-technology-icon-concept-isolated_28565598.htm#query=cat%20computer&position=2&from_view=keyword">Image by catalyststuff</a> on Freepik
 
 ### Quelques liens 
   - [Notre code](./Projet/src/main/java/chavardage)
