@@ -63,7 +63,18 @@ public class LogIn {
             return;
         }
         try {
+
             int idUser = Integer.parseInt(id.getText());
+            if(idUser<1){
+                LOGGER.error("L'id rentrée est négatif");
+                error.setText("Veuillez saisir un id positif");
+                return;
+            }
+            if(databaseManager.pseudoAlreadyInDB(username.getText(),idUser)){
+                LOGGER.error("Le pseudo appartient à un auter user");
+                error.setText("Le pseudo appartient à un auter user");
+                return;
+            }
             LOGGER.debug("Le format des infos rentrées sont valide");
             String pseudo = username.getText();
             ChavardageManager chavardageManager = ChavardageManager.getInstance();

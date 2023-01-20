@@ -537,7 +537,7 @@ public class Loged implements Consumer<UserItem> {
             return;
         }
         try{
-            if(databaseManager.pseudoAlreadyInDB(newPseudo)){
+            if(databaseManager.pseudoAlreadyInDB(newPseudo,listeUser.getMyId())){
                 errorChangePseudo.setText("Ce pseudo est le dernier pseudo d'un autre user");
                 return;
             }

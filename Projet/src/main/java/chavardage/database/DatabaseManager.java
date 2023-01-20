@@ -162,10 +162,11 @@ public class DatabaseManager {
         return (result.next());
     }
 
-    public synchronized boolean pseudoAlreadyInDB(String pseudo) throws SQLException{
-        String sql = "SELECT pseudo FROM user WHERE pseudo=?;";
+    public synchronized boolean pseudoAlreadyInDB(String pseudo,int idUser) throws SQLException{
+        String sql = "SELECT pseudo FROM user WHERE pseudo=? AND idUser!=?;";
         PreparedStatement pst = database.prepareStatement(sql);
         pst.setString(1,pseudo);
+        pst.setInt(2,idUser);
         return(pst.executeQuery().next());
     }
     public synchronized void clearDatabase() {
