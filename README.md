@@ -6,11 +6,14 @@ Romain Moulin et Aude Jean-Baptiste, 4IR-SC, 2022-2023
 Nous avons développé une application de chat en Java permettant de communiquer sur un réseau local. 
 Cette application inclut notamment les fonctionnalités suivantes : 
 
-- une **phase de découverte** des autres utilisateurs sur le réseau 
+- une **phase de découverte** des autres utilisateurs sur le réseau (les utilisateurs actuellement connectés sont repérés par une pastille verte) 
 - la possibilité de **changer son pseudonyme** après s'être connecté
 - l'ouverture d'une conversation avec un autre utilisateur
 - les messages échangés sont conservés sur une **base de données centralisée** 
 - chaque utilisateur de notre application possède un **id unique** qui lui permet de récupérer ses anciennes conversations et de se connecter sur n'importe quel poste où l'application est installée 
+- il est possible de consulter les messages déjà échangés avec des utilisateurs actuellement non connectés, mais pas de leur envoyer de nouveaux messages 
+
+### NB : La database contient déjà des messages échangés entre les users 1, 2 et 3
 
 ## Aspects techniques
 
@@ -45,11 +48,12 @@ mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database. Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
 
 ### Crédits 
+Logo de l'application : 
 <a href="https://www.freepik.com/free-vector/cute-cat-working-laptop-cartoon-vector-icon-illustration-animal-technology-icon-concept-isolated_28565598.htm#query=cat%20computer&position=2&from_view=keyword">Image by catalyststuff</a> on Freepik
 
 ### Quelques liens 
   - [Notre code](./Projet/src/main/java/chavardage)
-  - [Rapport sur la conception du projet](./rapport_conception.docx)
+  - [Rapport sur la conception du projet](./Rapport_Projet_Java.pdf)
   - [Diagrammes UML de spécification](./UML/Images)  
 
 ### UF "Conception et Programmation avancées" de 4ème année INSA 
