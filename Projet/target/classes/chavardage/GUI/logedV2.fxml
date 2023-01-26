@@ -5,26 +5,26 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1300.0" style="-fx-background-color: #03224C;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="700.0" prefWidth="311.0" style="-fx-background-color: #333333;">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="97.0" prefWidth="301.0">
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="162.0" text="Username" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="66.0" prefWidth="293.0" text="Username" textFill="WHITE">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
                         <TextField />
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </children>
@@ -47,44 +47,56 @@
             </VBox>
             <VBox prefHeight="551.0" prefWidth="298.0" style="-fx-background-color: #333333;">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="537.0" prefWidth="298.0" style="-fx-background-color: #333333;">
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="537.0" prefWidth="298.0" style="-fx-background-color: #333333;" VBox.vgrow="ALWAYS">
                      <content>
-                        <VBox prefHeight="487.0" prefWidth="299.0" style="-fx-background-color: #333333;" />
+                        <VBox prefHeight="499.0" prefWidth="298.0" style="-fx-background-color: #333333;" />
                      </content>
                   </ScrollPane>
                </children>
             </VBox>
          </children>
       </VBox>
-      <VBox prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #03224C;">
+      <VBox prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #03224C;" HBox.hgrow="ALWAYS">
          <children>
             <HBox prefHeight="146.0" prefWidth="1002.0">
                <children>
-                  <Label prefHeight="62.0" prefWidth="319.0" text="Label" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="83.0" prefWidth="847.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                        <Label prefHeight="62.0" prefWidth="845.0" text="Username Destination" textFill="WHITE">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="604.0" prefWidth="1002.0">
                <children>
-                  <VBox prefHeight="542.0" prefWidth="108.0" />
-                  <VBox prefHeight="542.0" prefWidth="853.0" style="-fx-background-color: #333333; -fx-background-radius: 10px;">
+                  <VBox prefHeight="542.0" prefWidth="108.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="542.0" prefWidth="853.0" style="-fx-background-color: #333333; -fx-background-radius: 10px;" HBox.hgrow="ALWAYS">
                      <children>
-                        <ScrollPane prefHeight="558.0" prefWidth="831.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
+                        <ScrollPane prefHeight="558.0" prefWidth="831.0" style="-fx-background-color: #333333;">
+                           <content>
+                              <VBox prefHeight="539.0" prefWidth="829.0" style="-fx-background-color: #333333;" />
+                           </content>
                         </ScrollPane>
                      </children>
                   </VBox>
-                  <VBox prefHeight="542.0" prefWidth="108.0" />
+                  <VBox prefHeight="542.0" prefWidth="108.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="139.0" prefWidth="1002.0">
                <children>
-                  <VBox prefHeight="77.0" prefWidth="87.0" />
+                  <VBox prefHeight="77.0" prefWidth="87.0" HBox.hgrow="ALWAYS" />
                   <VBox prefHeight="77.0" prefWidth="837.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0" />
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
                               <Label alignment="TOP_LEFT" text="Label" textFill="RED" />
                            </children>
@@ -98,15 +110,15 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="38.0" prefWidth="767.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="83.0" text="Button" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="85.0" text="Button" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="77.0" prefWidth="91.0" />
+                  <VBox prefHeight="77.0" prefWidth="91.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
