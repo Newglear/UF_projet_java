@@ -16,18 +16,22 @@ Cette application inclut notamment les fonctionnalités suivantes :
 
 - **configuration**: ce projet est un projet maven qui peut être importé et exécuté en se basant sur le [pom.xml](./Projet/pom.xml)
 - **organisation du code**: l'organisation de notre code limite les dépendances entre les packages. Par exemple, le network manager et la liste des utilisateurs n'ont aucune interaction 
+- **interface graphique**: nous avons choisi d'utiliser JavaFX  
 - **thread safety**: l'accès aux ressources partagées est protégé grâce au mot-clef synchronized de Java 
 - **tests**: nous avons implémenté des [tests unitaires](./Projet/src/test/java/chavardage) avec Junit
-- **observer design pattern**: implémenté notamment sur les serveurs [TCPServeur](.Projet/src/main/java/chavardage/networkManager/TCPServeur.java) et [UDPServeur](.Projet/src/main/java/chavardage/networkManager/UDPServeur.java)
-- **singleton design pattern**: implémenté notamment sur la [liste des utilisateurs connectés](.Projet/src/main/java/chavardage/userList/ListeUser.java) pour s'assurer qu'il n'en existe qu'une seule instance 
-- **logging**: nous avons utilisé la librairie log4j 
+- **observer design pattern**: implémenté notamment sur les serveurs [TCPServeur](./Projet/src/main/java/chavardage/networkManager/TCPServeur.java) et [UDPServeur](.Projet/src/main/java/chavardage/networkManager/UDPServeur.java)
+- **singleton design pattern**: implémenté notamment sur la [liste des utilisateurs connectés](./Projet/src/main/java/chavardage/userList/ListeUser.java) pour s'assurer qu'il n'en existe qu'une seule instance 
+- **logging**: nous avons utilisé la librairie log4j pour doter notre code de logs clairs et simples à utiliser 
 - **intégration continue**: implémentée sur github avec une exécution des tests à chaque push, voir le [fichier de configuration](./.github/workflows/integration.yaml)
 
 
 ## Utilisation
 
-Il est nécessaire que `maven` soit installé sur votre machine. Clonez le projet sur votre machine et placez-vous dans ./Projet avant d'exécuter : 
+Il est nécessaire que `maven` et `git` soient installés sur votre machine. Clonez le projet sur votre machine et placez-vous dans ./Projet avant d'exécuter : 
 ```sh
+# cloner le projet 
+git clone https://github.com/Aude510/UF_projet_java
+cd UF_projet_java/Projet
 # compiler le projet  
 mvn compile
 # exécuter les tests 
@@ -37,8 +41,11 @@ mvn exec:java -Dexec.mainClass="chavardage.GUI.Main"
 # démarrer l'application (si le premier ne fonctionne pas)
 mvn exec:java -D"exec.mainClass"="chavardage.GUI.Main"
 ```
-### remarque 
-Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
+### Remarque 
+Notre Database centralisée est située sur un serveur de l'INSA qui nous a été fourni par nos professeurs `mysql://srv-bdens.insa-toulouse.fr:3306`. Vous pouvez nous contacter si vous désirez avoir le login et le mdp pour administrer cette database. Le projet n'est malheureusement pas utilisable dans un environnement où ce serveur n'est pas accessible. Une version de l'application sans database, qui serait exécutable dans tout type d'environnement, est en cours de développement. 
+
+### Crédits 
+<a href="https://www.freepik.com/free-vector/cute-cat-working-laptop-cartoon-vector-icon-illustration-animal-technology-icon-concept-isolated_28565598.htm#query=cat%20computer&position=2&from_view=keyword">Image by catalyststuff</a> on Freepik
 
 ### Quelques liens 
   - [Notre code](./Projet/src/main/java/chavardage)

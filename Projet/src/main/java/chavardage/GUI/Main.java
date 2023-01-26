@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -34,7 +35,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stg = stage;
-        stage.setResizable(false);
+        stage.getIcons().add(new Image(getClass().getResource("CatLogo.jpg").toString()));
         loginScene();
         stage.setOnCloseRequest(windowEvent -> {
             ConversationManager conversationManager = ConversationManager.getInstance();
@@ -54,6 +55,7 @@ public class Main extends Application {
     }
 
     public void loggedScene() throws Exception{
+        stg.setMaximized(false);
         FXMLLoader loggedLoader = new FXMLLoader(getClass().getResource("loged.fxml"));
         Loged logedController = Loged.getInstance();
         loggedLoader.setController(logedController);
@@ -66,6 +68,9 @@ public class Main extends Application {
             }
         });
         logedController.unFocusTextArea();
+        logedController.afficherDisconnectedUser();
+        LOGGER.trace("j'ajoute les anciennes conversations");
+        stg.setResizable(false);
         stg.setScene(newScene);
         stg.setTitle("Chavardage");
         stg.show();
@@ -86,20 +91,20 @@ public class Main extends Application {
                 }catch (Exception e){e.printStackTrace();}
             }
         });
+        stg.setMinWidth(680);
+        stg.setMinHeight(400);
+        stg.setResizable(true);
         stg.setScene(newScene);
         stg.setTitle("Chavardage");
         stg.show();
     }
     public static void main(String[] args) {
-        //Configurator.setRootLevel(Level.INFO);
-
+        Configurator.setRootLevel(Level.INFO);
 
         UDPServeur udpServeur = new UDPServeur(GestionUDPMessage.getInstance());
         TCPServeur tcpServeur = new TCPServeur(ConversationManager.getInstance());
 
         launch();
-
-
 
     }
 }

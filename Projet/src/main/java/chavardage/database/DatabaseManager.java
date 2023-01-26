@@ -1,6 +1,5 @@
 package chavardage.database;
 
-import chavardage.networkManager.TCPSendData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,15 +53,32 @@ public class DatabaseManager {
     }
 
     /** appelée quand nouvel utilisateur se connecte (insère dans la database l'userId s'il n'existe pas déjà)*/
-    public synchronized  void insertNewUser(int idUser){
+    public synchronized  void insertNewUser(int idUser, String pseudo){
         try {
-            statement.execute("INSERT INTO user SELECT " + idUser + " WHERE NOT EXISTS(SELECT * FROM user where idUser=" + idUser +");");
+            statement.execute("INSERT INTO user SELECT " + idUser + ",null WHERE NOT EXISTS(SELECT * FROM user where idUser=" + idUser +");");
+            String sql = "UPDATE user SET pseudo = ? WHERE (idUser=?);";
+            PreparedStatement pst = database.prepareStatement(sql);
+            pst.setString(1,pseudo);
+            pst.setInt(2,idUser);
+            pst.execute();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }
 
+    public synchronized void modifyPseudo(int idUser, String pseudo){
+        try {
+            String sql = "UPDATE user SET pseudo = ? WHERE (idUser=?)";
+            PreparedStatement pst = database.prepareStatement(sql);
+            pst.setString(1,pseudo);
+            pst.setInt(2,idUser);
+            pst.execute();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+    }
     /** Permet d'insérer un message dans la database, elle crée aussi la conversation si elle n'existe pas déjà*/
     public synchronized  void insertMessage(int idUserLocal, int idUserDistant, String message, int sentBy){
         try{
@@ -103,6 +119,24 @@ public class DatabaseManager {
 
     }
 
+    /** Cette fonction permet de retrouver le pseudo et l'id de toutes les personnes (stocké à droite dans la database)
+     avec qui l'id fournit a des conversations ouvertes **/
+    public synchronized  ResultSet getOldConvRightUser(int userId) throws  SQLException{
+        String sql = "SELECT userId2,pseudo FROM conversation as c JOIN user as u ON c.userId2=u.idUser WHERE c.userId1=?;";
+        PreparedStatement pst = database.prepareStatement(sql);
+        pst.setInt(1,userId);
+        return pst.executeQuery();
+    }
+
+    /** Cette fonction permet de retrouver le pseudo et l'id de toutes les personnes (stocké à gauche dans la database)
+     avec qui l'id fournit a des conversations ouvertes **/
+    public synchronized ResultSet getOldConvLeftUser(int userId) throws SQLException{
+        String sql = "SELECT userId1,pseudo FROM conversation as c JOIN user as u ON c.userId1=u.idUser WHERE c.userId2=?;";
+        PreparedStatement pst = database.prepareStatement(sql);
+        pst.setInt(1,userId);
+        return pst.executeQuery();
+    }
+
     public synchronized boolean isInDatabase(int userId) {
         try {
             ResultSet resultat = statement.executeQuery("SELECT idUser FROM user WHERE idUser=" + userId + ";");
@@ -120,6 +154,21 @@ public class DatabaseManager {
         return false;
     }
 
+    public synchronized boolean convExists(int idLocal, int idDistant) throws SQLException{
+        int minId = Math.min(idLocal,idDistant);
+        int maxId = Math.max(idLocal,idDistant);
+        ResultSet result;
+        result = statement.executeQuery("SELECT idConversation FROM conversation WHERE userId1=" + minId + " AND userId2=" + maxId + ";");
+        return (result.next());
+    }
+
+    public synchronized boolean pseudoAlreadyInDB(String pseudo,int idUser) throws SQLException{
+        String sql = "SELECT pseudo FROM user WHERE pseudo=? AND idUser!=?;";
+        PreparedStatement pst = database.prepareStatement(sql);
+        pst.setString(1,pseudo);
+        pst.setInt(2,idUser);
+        return(pst.executeQuery().next());
+    }
     public synchronized void clearDatabase() {
         try{
             statement.execute("DELETE FROM message");

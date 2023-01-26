@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.pattern.PlainTextRenderer;
@@ -22,7 +24,6 @@ public class LogIn {
 
     @FXML
     private Label error;
-
     @FXML
     private Label attente;
 
@@ -32,6 +33,7 @@ public class LogIn {
     private TextField username;
     @FXML
     private TextField id;
+
 
     private DatabaseManager databaseManager = DatabaseManager.getInstance();
 
@@ -63,7 +65,18 @@ public class LogIn {
             return;
         }
         try {
+
             int idUser = Integer.parseInt(id.getText());
+            if(idUser<1){
+                LOGGER.error("L'id rentrée est négatif");
+                error.setText("Veuillez saisir un id positif");
+                return;
+            }
+            if(databaseManager.pseudoAlreadyInDB(username.getText(),idUser)){
+                LOGGER.error("Le pseudo appartient à un auter user");
+                error.setText("Le pseudo appartient à un auter user");
+                return;
+            }
             LOGGER.debug("Le format des infos rentrées sont valide");
             String pseudo = username.getText();
             ChavardageManager chavardageManager = ChavardageManager.getInstance();
@@ -72,10 +85,11 @@ public class LogIn {
             //refreshAffichage();//TODO gérer le problème
             LOGGER.trace("Je me connecte sur le réseau");
             chavardageManager.connectToApp(new UserItem(idUser,pseudo));
-            databaseManager.insertNewUser(idUser); // insère dans DB si existe pas déjà
+            databaseManager.insertNewUser(idUser,pseudo); // insère dans DB si existe pas déjà
             LOGGER.trace("Je suis connecté");
             Main m = new Main();
             m.loggedScene();
+
         } catch (NumberFormatException e){
             LOGGER.error("L'id n'est pas un nombre");
             error.setText("Veuillez saisir un nombre valide pour l'ID");
@@ -96,4 +110,5 @@ public class LogIn {
     public Label getAttente() {
         return attente;
     }
+
 }
