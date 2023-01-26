@@ -13,7 +13,8 @@ Cette application inclut notamment les fonctionnalités suivantes :
 - chaque utilisateur de notre application possède un **id unique** qui lui permet de récupérer ses anciennes conversations et de se connecter sur n'importe quel poste où l'application est installée 
 - il est possible de consulter les messages déjà échangés avec des utilisateurs actuellement non connectés, mais pas de leur envoyer de nouveaux messages 
 
-### NB : La database contient déjà des messages échangés entre les users 1, 2 et 3
+### NB 
+La database contient déjà des messages échangés entre les users 1, 2 et 3
 
 ## Aspects techniques
 
