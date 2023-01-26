@@ -57,9 +57,7 @@ public class ListeUser{
     protected Map<Integer, UserItem> tabItems = Collections.synchronizedMap(new HashMap<>());
 
 
-    public synchronized void addUser(int id, String pseudo, InetAddress address){
-        addUser(new UserItem(id,pseudo,address));
-    }
+
 
     /** rajoute un user dans la liste et notifie le front, ne fait rien si l'user était déjà dans la liste*/
     public synchronized void addUser(UserItem userItem){
@@ -69,6 +67,10 @@ public class ListeUser{
             LOGGER.debug("j'ajoute " + userItem);
             if (!test) Platform.runLater(() -> observer.accept(userItem));
         }
+    }
+
+    public void addUser(int id, String pseudo, InetAddress address){
+        addUser(new UserItem(id,pseudo,address));
     }
 
     /** change le pseudo d'un utilisateur dans la liste et notifie le front, lève une exception si l'user n'existe pas*/
@@ -90,18 +92,20 @@ public class ListeUser{
         tabItems.remove(id);
     }
 
-    public synchronized UserItem getUser(int id) throws UserNotFoundException {
+
+    /** récupère un user dans la liste à partir de son id, lève une exception si l'user n'y est pas*/
+    public synchronized UserItem getUser(int id) throws UserNotFoundException, AssignationProblemException {
         if (myId==id) return getMySelf();
         if (tabItems.get(id)==null) throw new UserNotFoundException(id);
         return tabItems.get(id);
-
     }
 
     public synchronized int getTailleListe(){
         return tabItems.size();
     }
 
-    public synchronized boolean pseudoDisponible(String pseudo) { // Return true si le pseudo n'est pas dans la HashMap, false sinon
+    /** Return true si le pseudo n'est pas le mien ni dans la liste, false sinon*/
+    public synchronized boolean pseudoDisponible(String pseudo) {
         if (myPseudo.equals(pseudo)) return false;
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){
             if (entry.getValue().getPseudo().equals(pseudo)){
@@ -116,6 +120,7 @@ public class ListeUser{
         LOGGER.debug("id set à " + id);
     }
 
+    /** change le pseudo de l'utilisateur de l'application, lève une exception si un autre user l'utilise ou si c'est le même que l'ancien*/
     public synchronized void setMyPseudo(String pseudo) throws AlreadyUsedPseudoException, SamePseudoAsOld {
         if (myPseudo.equals(pseudo)) throw new SamePseudoAsOld();
         if (!pseudoDisponible(pseudo)){
@@ -124,29 +129,34 @@ public class ListeUser{
         myPseudo=pseudo;
     }
 
-    public synchronized void setMyself(UserItem user){
-        this.myId = user.getId();
-        LOGGER.debug("id set à " + user.getId());
-        this.myPseudo=user.getPseudo();
+    public void setMyself(UserItem user) throws AlreadyUsedPseudoException, SamePseudoAsOld {
+        this.setMyId(user.getId());
+        this.setMyPseudo(user.getPseudo());
     }
 
-    public synchronized void setMyself(int id, String pseudo){
-        this.myId = id;
-        LOGGER.debug("id set à " + id);
-        this.myPseudo=pseudo;
+    public void setMyself(int id, String pseudo) throws AlreadyUsedPseudoException, SamePseudoAsOld {
+        this.setMyId(id);
+        this.setMyPseudo(pseudo);
     }
 
+    /** récupère l'id de l'utilisateur de l'application, lève une exception si l'id n'a pas encore été assignée*/
     public synchronized int getMyId() throws AssignationProblemException {
         if (myId==-1) throw new AssignationProblemException("ListeUser","myId");
         return myId;
-
     }
 
+
+    /** idem que pour getMyId() avec le pseudo*/
     public synchronized String getMyPseudo() throws AssignationProblemException {
         if (myPseudo.equals("")){
             throw new AssignationProblemException("ListeUser", "myPseudo");
         }
         return myPseudo;
+    }
+
+
+    public UserItem getMySelf() throws AssignationProblemException {
+        return new UserItem(this.getMyId(),this.getMyPseudo());
     }
 
     public synchronized void clear(){
@@ -156,9 +166,6 @@ public class ListeUser{
         this.tabItems.clear();
     }
 
-    public synchronized UserItem getMySelf() {
-        return new UserItem(myId,myPseudo);
-    }
 
     public synchronized void affiche(){
         for (Map.Entry<Integer,UserItem> entry : tabItems.entrySet()){

@@ -6,6 +6,7 @@ import chavardage.message.UDPType;
 import chavardage.networkManager.UDPSend;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class GestionUDPMessageTest {
 
 
     @Test
-    public void gestionTest() throws IllegalConstructorException {
+    public void gestionTest() throws IllegalConstructorException, AlreadyUsedPseudoException, SamePseudoAsOld {
         int port = 6896;
         ListeUser listeUser = new ListeUser(true);
         listeUser.setMyself(1,"Aude");

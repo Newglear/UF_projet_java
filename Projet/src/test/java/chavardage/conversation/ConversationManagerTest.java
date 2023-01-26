@@ -2,9 +2,11 @@ package chavardage.conversation;
 
 import chavardage.AssignationProblemException;
 import chavardage.IllegalConstructorException;
+import chavardage.chavardageManager.AlreadyUsedPseudoException;
 import chavardage.message.TCPMessage;
 import chavardage.networkManager.TCPSendData;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class ConversationManagerTest {
     }
 
     @Test
-    public void openConversationTest() throws IOException, IllegalConstructorException, UserNotFoundException, AssignationProblemException, ConversationAlreadyExists, ConversationDoesNotExist {
+    public void openConversationTest() throws IOException, IllegalConstructorException, UserNotFoundException, AssignationProblemException, ConversationAlreadyExists, ConversationDoesNotExist, AlreadyUsedPseudoException, SamePseudoAsOld {
         int port = 5784;
         ListeUser liste = new ListeUser(true);
         ConversationManager conversationManager = new ConversationManager(liste,port);

@@ -11,6 +11,7 @@ import chavardage.message.TCPMessage;
 import chavardage.networkManager.TCPServeur;
 import chavardage.networkManager.UDPServeur;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import chavardage.userList.UserNotFoundException;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException {
+    public void localTest() throws IllegalConstructorException, InterruptedException, UserNotFoundException, AssignationProblemException, ConversationDoesNotExist, ConversationAlreadyExists, UsurpateurException, AlreadyUsedPseudoException, SamePseudoAsOld {
         // Configurator.setRootLevel(Level.INFO);
         int port_local_udp = 4589;
         int port_local_tcp = 2164;
@@ -59,7 +60,7 @@ public class LocalAppTest {
 
 
     @Test
-    public void localTestAppSeule() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
+    public void localTestAppSeule() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException, SamePseudoAsOld {
         int port_local_udp = 9477;
         int port_distant_udp = 9478;
         UserItem userLocal = new UserItem(1,"Aude");

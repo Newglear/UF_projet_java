@@ -80,7 +80,7 @@ public class LogIn {
             LOGGER.error("L'id n'est pas un nombre");
             error.setText("Veuillez saisir un nombre valide pour l'ID");
         }
-        catch (InterruptedException e) {}
+        catch (InterruptedException ignored) {}
         catch (UsurpateurException e) {
             LOGGER.error("L'id est déjà utilisé sur le réseau");
             error.setText("Cet ID est déjà utilisé par un autre User connecté");

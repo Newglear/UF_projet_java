@@ -357,6 +357,8 @@ public class Loged implements Consumer<UserItem> {
             errorChangePseudo.setText("Ce pseudo est déjà utilisé");
         } catch (SamePseudoAsOld samePseudoAsOld) {
             errorChangePseudo.setText("veuillez entrer un autre pseudo que votre ancien");
+        } catch (AssignationProblemException e) {
+            e.printStackTrace();
         }
     }
 

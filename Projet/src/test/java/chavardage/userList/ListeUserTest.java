@@ -24,7 +24,7 @@ public class ListeUserTest{
     }
 
     @Test
-    public void getUserTest() throws UserNotFoundException {
+    public void getUserTest() throws UserNotFoundException, AssignationProblemException {
         ListeUser listeUser = ListeUser.getInstance();
         assertEquals("romain",listeUser.getUser(2345).getPseudo());
         assertEquals("aude",listeUser.getUser(4567).getPseudo());

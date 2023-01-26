@@ -33,7 +33,8 @@ public class AppOnPort {
             gestionUDPMessage=new GestionUDPMessage(listeUser,udpPortDistant,chavardageManager);
             udpServeur = new UDPServeur(udpPort,gestionUDPMessage);
             tcpServeur = new TCPServeur(tcpPort,conversationManager);
-        } catch (IllegalConstructorException e) {
+        } catch (IllegalConstructorException | AlreadyUsedPseudoException | SamePseudoAsOld e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -45,7 +46,12 @@ public class AppOnPort {
 
     public void closeApp(){
         conversationManager.closeAll();
-        chavardageManager.disconnect(listeUser.getMySelf());
+        try {
+            chavardageManager.disconnect(listeUser.getMySelf());
+        } catch (AssignationProblemException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
         udpServeur.interrupt();
         tcpServeur.interrupt();
     }
@@ -55,11 +61,9 @@ public class AppOnPort {
         LOGGER.info("démarrage de l'application");
         try {
             chavardageManager.connectToApp(listeUser.getMySelf());
-        } catch (InterruptedException | UsurpateurException | AlreadyUsedPseudoException e) {
+        } catch (InterruptedException | UsurpateurException | AlreadyUsedPseudoException | AssignationProblemException e) {
             e.printStackTrace();
         }
-
-
 
 
     }

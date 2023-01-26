@@ -3,6 +3,7 @@ package chavardage.chavardageManager;
 import chavardage.networkManager.UDPServeur;
 import chavardage.IllegalConstructorException;
 import chavardage.userList.ListeUser;
+import chavardage.userList.SamePseudoAsOld;
 import chavardage.userList.UserItem;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class ChavardageManagerTest {
 
 
     @Test
-    public void ConnectToAppTest() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException {
+    public void ConnectToAppTest() throws IllegalConstructorException, InterruptedException, UsurpateurException, AlreadyUsedPseudoException, SamePseudoAsOld {
         int port_local = 6589;
         int port_distant= 7458;
 

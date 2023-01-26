@@ -1,5 +1,6 @@
 package chavardage.GUI;
 
+import chavardage.AssignationProblemException;
 import chavardage.chavardageManager.ChavardageManager;
 import chavardage.chavardageManager.GestionUDPMessage;
 import chavardage.conversation.Conversation;
@@ -41,7 +42,11 @@ public class Main extends Application {
             ChavardageManager chavardageManager = ChavardageManager.getInstance();
 
             conversationManager.closeAll();
-            chavardageManager.disconnect(listeUser.getMySelf());
+            try {
+                chavardageManager.disconnect(listeUser.getMySelf());
+            } catch (AssignationProblemException e) {
+                e.printStackTrace();
+            }
             listeUser.clear();
             conversationManager.clear();
             Platform.exit();
