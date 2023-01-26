@@ -1,16 +1,3 @@
 ### artefacts de compilation java### 
 *.class
-
-
-
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-!**/classes/chavardage/GUI
-
-### IntelliJ IDEA ###
-.idea/
-*.iws
-*.iml
-*.ipr
+.idea
