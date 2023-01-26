@@ -13,7 +13,7 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Polygon fill="#10ac68" layoutY="60.79999923706055" points="44.20001220703125, -33.600006103515625, 73.0, -20.800006866455078, 73.00001525878906, -33.59999465942383" stroke="#ffffff00" strokeType="INSIDE" AnchorPane.bottomAnchor="-12.0" AnchorPane.rightAnchor="-11.0" />
+      <Polygon fill="#10ac68" layoutY="60.79999923706055" points="44.20001220703125, -33.600006103515625, 73.0, -20.800006866455078, 73.00001525878906, -33.59999465942383" stroke="#ffffff00" strokeType="INSIDE" AnchorPane.bottomAnchor="-12.0" AnchorPane.rightAnchor="-10.0" />
       <Label fx:id="sentDate" layoutX="-3.0" layoutY="35.0" textFill="#b5b5b5" AnchorPane.bottomAnchor="-20.0" AnchorPane.leftAnchor="-15.0" />
    </children>
    <padding>
