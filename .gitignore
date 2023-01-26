@@ -1,3 +1,5 @@
 ### artefacts de compilation java### 
 *.class
+
+### intelliJ IDE ### 
 .idea
