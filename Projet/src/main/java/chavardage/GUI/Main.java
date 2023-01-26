@@ -45,8 +45,7 @@ public class Main extends Application {
             conversationManager.closeAll();
             try {
                 chavardageManager.disconnect(listeUser.getMySelf());
-            } catch (AssignationProblemException e) {
-                e.printStackTrace();
+            } catch (AssignationProblemException e) { // le getMyself nous donne une erreur que l'on ignore
             }
             listeUser.clear();
             conversationManager.clear();
